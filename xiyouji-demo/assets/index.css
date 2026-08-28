@@ -21,6 +21,7 @@
     .view { display: none; min-height: calc(100vh - 98px); }
     .view.active { display: grid; }
     .layout { grid-template-columns: 260px minmax(0,1fr) 340px; }
+    #facts.layout { grid-template-columns: 260px minmax(0,1fr); }
     #reader { transition: grid-template-columns .24s ease; }
     #reader.reader-left-collapsed { grid-template-columns: 0 minmax(0,1fr) 340px; }
     #reader.reader-right-collapsed { grid-template-columns: 260px minmax(0,1fr) 0; }
@@ -262,6 +263,7 @@
       main { height: auto; overflow: visible; }
       .view.active { display: block; }
       .side, .info, .content { max-height: none; border: 0; }
+      #facts .side { position: static; height: auto; max-height: 40vh; top: auto; }
       #reader.view.active { display: block; }
       #reader .side,
       #reader .info {
