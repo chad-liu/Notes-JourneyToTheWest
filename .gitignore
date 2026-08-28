@@ -1,0 +1,9 @@
+# 建置中間產物
+build/tmp/
+build/__pycache__/
+__pycache__/
+*.pyc
+
+# 原文電子書不隨版本控制發布（好讀書櫃典藏版）
+# 重建資料需自備，置於 data/西遊記.epub
+data/*.epub

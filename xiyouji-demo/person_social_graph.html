@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>《西遊記》人物關係互動圖</title>
+  <script src="vendor/d3.v7.min.js"></script>
+  <script src="data/person_social_network.json.js"></script>
+  <script src="data/person_relationships.json.js"></script>
+  <link rel="stylesheet" href="assets/person-social-graph.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>《西遊記》人物關係互動圖 <span class="small">D3.js 力導向圖：共現 + 師徒 / 收服 / 結拜 / 親屬等語義關係</span></h1>
+    <button class="panel-toggle" id="panelToggle" type="button" aria-expanded="false" aria-controls="graphControls">控制</button>
+  </header>
+  <aside id="graphControls">
+    <div class="toolbar">
+      <div class="card">
+        <h3>搜尋人物</h3>
+        <input id="search" placeholder="輸入姓名（例：孫悟空 / 觀音）">
+        <div class="graph-action-row">
+          <button class="btn" id="btnFocus">聚焦</button>
+          <button class="btn" id="btnClear">清除</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>陣營（人物節點填色）</h3>
+        <div class="legend" id="groupLegend"></div>
+      </div>
+
+      <div class="card">
+        <h3>陣營節點（實線連結）</h3>
+        <div class="legend" id="familyLegend"></div>
+      </div>
+
+      <div class="card">
+        <h3>關係類型</h3>
+        <label><input type="checkbox" class="edgeType" value="master_disciple" checked><span class="line-sample rel-master_disciple"></span> 師徒</label>
+        <label><input type="checkbox" class="edgeType" value="subdue" checked><span class="line-sample rel-subdue"></span> 收服/降伏</label>
+        <label><input type="checkbox" class="edgeType" value="sworn" checked><span class="line-sample rel-sworn"></span> 結拜/同門</label>
+        <label><input type="checkbox" class="edgeType" value="kin" checked><span class="line-sample rel-kin"></span> 親屬</label>
+        <label><input type="checkbox" class="edgeType" value="marriage" checked><span class="line-sample rel-marriage"></span> 婚姻</label>
+        <label><input type="checkbox" class="edgeType" value="ally" checked><span class="line-sample rel-ally"></span> 協助/同盟</label>
+        <label><input type="checkbox" class="edgeType" value="conflict" checked><span class="line-sample rel-conflict"></span> 敵對</label>
+      </div>
+
+      <div class="card">
+        <h3>邊來源</h3>
+        <label><span class="line-sample rel-family"></span> 人物-陣營</label>
+        <label><input type="checkbox" class="edgeSource" value="co_occurrence" checked> 同段共現</label>
+        <label><input type="checkbox" class="edgeSource" value="semantic" checked> 人物語義關係</label>
+      </div>
+
+      <div class="card">
+        <h3>篩選</h3>
+        <label>最低共現權重 <input id="minWeight" type="number" min="1" value="5"></label>
+        <label>節點數 <select id="nodeLimit"><option>20</option><option selected>40</option><option>60</option><option>87</option></select></label>
+      </div>
+
+      <div class="card">
+        <h3>物理參數</h3>
+        <div class="param-row"><span>斥力</span><input id="charge" type="range" min="120" max="1200" step="20" value="420"><span class="param-value" id="chargeValue">420</span></div>
+        <div class="param-row"><span>線距</span><input id="linkDist" type="range" min="20" max="300" step="10" value="120"><span class="param-value" id="linkDistValue">120</span></div>
+        <div class="param-row"><span>碰撞</span><input id="collisionPadding" type="range" min="4" max="32" step="2" value="8"><span class="param-value" id="collisionValue">8</span></div>
+        <div class="graph-rebuild-row"><button class="btn" id="btnRebuild">重新佈局</button></div>
+      </div>
+    </div>
+  </aside>
+  <button class="panel-backdrop" id="panelBackdrop" type="button" aria-label="關閉控制面板"></button>
+  <main>
+    <svg id="graph"></svg>
+    <div class="tooltip is-hidden" id="tooltip"></div>
+    <div class="watermark">西遊記人物關係 · co-occurrence + semantic relationship</div>
+  </main>
+</div>
+
+<script>
+const controlPanelToggle = document.getElementById("panelToggle");
+const controlPanelBackdrop = document.getElementById("panelBackdrop");
+function setControlPanelOpen(open) {
+  document.body.classList.toggle("panel-open", open);
+  controlPanelToggle?.setAttribute("aria-expanded", String(open));
+}
+controlPanelToggle?.addEventListener("click", () => {
+  setControlPanelOpen(!document.body.classList.contains("panel-open"));
+});
+controlPanelBackdrop?.addEventListener("click", () => setControlPanelOpen(false));
+
+const groupColors = {
+  pilgrims: "#ff6b6b",
+  buddhist: "#ffd36b",
+  heaven: "#64d5ff",
+  dragon: "#4fd1c5",
+  underworld: "#a8b3cf",
+  demon: "#c084fc",
+  mortal: "#8ee6a2",
+  other: "#c7a6ff"
+};
+const groupNames = {
+  pilgrims: "取經團隊",
+  buddhist: "西天佛界",
+  heaven: "天庭道教",
+  dragon: "龍宮",
+  underworld: "地府",
+  demon: "妖魔",
+  mortal: "凡人王侯",
+  other: "其他"
+};
+const relationNames = {
+  co_occurrence: "同段共現",
+  family: "人物-陣營",
+  master_disciple: "師徒",
+  subdue: "收服/降伏",
+  sworn: "結拜/同門",
+  kin: "親屬",
+  marriage: "婚姻",
+  ally: "協助/同盟",
+  conflict: "敵對"
+};
+const familyColors = {
+  pilgrims: "#ff6b6b",
+  buddhist: "#ffd36b",
+  heaven: "#64d5ff",
+  dragon: "#4fd1c5",
+  underworld: "#a8b3cf",
+  demon: "#c084fc",
+  mortal: "#8ee6a2",
+  other: "#c7a6ff"
+};
+const familyNames = {
+  pilgrims: "取經團隊",
+  buddhist: "西天佛界",
+  heaven: "天庭道教",
+  dragon: "龍宮",
+  underworld: "地府",
+  demon: "妖魔",
+  mortal: "凡人王侯",
+  other: "其他"
+};
+
+let baseData;
+let graphData;
+let simulation;
+let linkSel;
+let nodeSel;
+let focusedId = null;
+
+const svg = d3.select("#graph");
+const g = svg.append("g");
+const linkLayer = g.append("g");
+const nodeLayer = g.append("g");
+const tooltip = d3.select("#tooltip");
+const groupState = new Map();
+const familyState = new Map();
+const zoom = d3.zoom().scaleExtent([.25, 4]).on("zoom", e => g.attr("transform", e.transform));
+svg.call(zoom);
+
+async function loadJson(path) {
+  if (window.DEMO_JSON && window.DEMO_JSON[path]) return window.DEMO_JSON[path];
+  const r = await fetch(path);
+  return r.json();
+}
+
+Promise.all([
+  loadJson("data/person_social_network.json"),
+  loadJson("data/person_relationships.json")
+]).then(([network, rels]) => {
+  baseData = mergeData(network, rels.relationships || []);
+  initLegend();
+  initFamilyLegend();
+  buildGraph();
+});
+
+function mergeData(network, relationships) {
+  const nodes = network.nodes.map(n => ({ ...n, family: n.faction || "other" }));
+  const nodeIds = new Set(nodes.map(n => n.id));
+  const familyIds = [...new Set(nodes.map(n => n.family || "other"))];
+  const familyNodes = familyIds.map(family => ({
+    id: `family_${family}`,
+    name: familyNames[family] || family,
+    type: "FAMILY",
+    subtype: "family",
+    family,
+    frequency: 0,
+    chapter_count: null,
+    paragraph_count: null,
+    degree: 0,
+    weighted_degree: 0
+  }));
+  const familyLinks = nodes.map(n => ({
+    id: `family:${n.id}:${n.family || "other"}`,
+    source: n.id,
+    target: `family_${n.family || "other"}`,
+    source_name: n.name,
+    target_name: familyNames[n.family || "other"] || n.family || "其他",
+    edge_source: "family",
+    relation_type: "family",
+    relation_label: "所屬家族/陣營",
+    weight: 90,
+    confidence: null
+  }));
+  const coLinks = network.links.map(l => ({
+    ...l,
+    id: `co:${l.source}:${l.target}`,
+    edge_source: "co_occurrence",
+    relation_type: "co_occurrence",
+    relation_label: "同段共現",
+    confidence: null
+  }));
+  const semanticLinks = relationships
+    .filter(l => nodeIds.has(l.source) && nodeIds.has(l.target))
+    .map(l => ({
+      ...l,
+      id: `semantic:${l.relation_id}`,
+      edge_source: "semantic",
+      weight: Math.max(35, Math.round(Number(l.confidence || 0.5) * 90)),
+      shared_paragraph_count: null,
+      chapter_count: null
+    }));
+  return { nodes: [...nodes, ...familyNodes], links: [...familyLinks, ...coLinks, ...semanticLinks] };
+}
+
+function initLegend() {
+  const groups = [...new Set(baseData.nodes.filter(n => n.type !== "FAMILY").map(n => n.subtype || "other"))].sort();
+  const box = d3.select("#groupLegend");
+  box.selectAll("*").remove();
+  groupState.clear();
+  groups.forEach(group => {
+    groupState.set(group, true);
+    const item = box.append("div").attr("class", "badge");
+    item.append("div").attr("class", "dot").style("background", groupColors[group] || "#8aa0d6");
+    item.append("span").text(groupNames[group] || group);
+    item.on("click", () => {
+      const cur = groupState.get(group);
+      groupState.set(group, !cur);
+      item.style("opacity", cur ? .35 : 1);
+      updateVisibility();
+    });
+  });
+}
+
+function initFamilyLegend() {
+  const order = Object.keys(familyNames);
+  const families = [...new Set(baseData.nodes.filter(n => n.type !== "FAMILY").map(n => n.family || "other"))]
+    .sort((a, b) => order.indexOf(a) - order.indexOf(b));
+  const box = d3.select("#familyLegend");
+  box.selectAll("*").remove();
+  familyState.clear();
+  families.forEach(family => {
+    familyState.set(family, true);
+    const item = box.append("div").attr("class", "badge");
+    item.append("div").attr("class", "dot family-dot").style("background", familyColors[family] || familyColors.other);
+    item.append("span").text(familyNames[family] || family);
+    item.on("click", () => {
+      const cur = familyState.get(family);
+      familyState.set(family, !cur);
+      item.style("opacity", cur ? .35 : 1);
+      updateVisibility();
+    });
+  });
+}
+
+function checkedValues(selector) {
+  return new Set([...document.querySelectorAll(selector)]
+    .filter(el => el.checked)
+    .map(el => el.value));
+}
+
+function filteredData() {
+  const limit = Number(document.getElementById("nodeLimit").value);
+  const minW = Number(document.getElementById("minWeight").value);
+  const edgeSources = checkedValues(".edgeSource");
+  const edgeTypes = checkedValues(".edgeType");
+  const topIds = new Set(baseData.nodes
+    .filter(n => n.type !== "FAMILY")
+    .slice()
+    .sort((a, b) => b.weighted_degree - a.weighted_degree)
+    .slice(0, limit)
+    .map(n => n.id));
+  const semanticNodeIds = new Set();
+  baseData.links.forEach(l => {
+    if (l.edge_source === "semantic" && edgeSources.has("semantic") && edgeTypes.has(l.relation_type)) {
+      semanticNodeIds.add(l.source);
+      semanticNodeIds.add(l.target);
+    }
+  });
+  const familyIds = new Set(baseData.nodes
+    .filter(n => n.type !== "FAMILY" && (topIds.has(n.id) || semanticNodeIds.has(n.id)))
+    .map(n => `family_${n.family || "other"}`));
+  const ids = new Set([...topIds, ...semanticNodeIds, ...familyIds]);
+  const nodes = baseData.nodes.filter(n => ids.has(n.id)).map(n => ({ ...n }));
+  const links = baseData.links
+    .filter(l => ids.has(l.source) && ids.has(l.target))
+    .filter(l => l.edge_source === "family" || edgeSources.has(l.edge_source))
+    .filter(l => l.edge_source !== "co_occurrence" || l.weight >= minW)
+    .filter(l => l.edge_source !== "semantic" || edgeTypes.has(l.relation_type))
+    .map(l => ({ ...l }));
+  return { nodes, links };
+}
+
+function buildGraph() {
+  updatePhysicsLabels();
+  graphData = filteredData();
+  clearFocus();
+  if (simulation) simulation.stop();
+  const width = svg.node().clientWidth;
+  const height = svg.node().clientHeight;
+
+  simulation = d3.forceSimulation(graphData.nodes)
+    .force("link", d3.forceLink(graphData.links)
+      .id(d => d.id)
+      .distance(d => d.edge_source === "family" ? 72 : d.edge_source === "semantic" ? Number(document.getElementById("linkDist").value) * .75 : Number(document.getElementById("linkDist").value))
+      .strength(d => d.edge_source === "family" ? .38 : d.edge_source === "semantic" ? .48 : Math.min(.55, .06 + d.weight / 650)))
+    .force("charge", d3.forceManyBody().strength(-Number(document.getElementById("charge").value)))
+    .force("center", d3.forceCenter(width / 2, height / 2))
+    .force("collide", d3.forceCollide().radius(d => nodeRadius(d) + Number(document.getElementById("collisionPadding").value)));
+
+  linkSel = linkLayer.selectAll("line")
+    .data(graphData.links, d => d.id)
+    .join("line")
+    .attr("class", d => `link source-${d.edge_source} rel-${d.relation_type}`)
+    .attr("stroke", d => d.edge_source === "family" ? familyColors[familyKeyFromLink(d)] || familyColors.other : null)
+    .attr("stroke-width", d => d.edge_source === "family" ? .8 : d.edge_source === "semantic" ? 1 : Math.max(.55, Math.sqrt(d.weight) / 4.4));
+
+  nodeSel = nodeLayer.selectAll("g")
+    .data(graphData.nodes, d => d.id)
+    .join(enter => {
+      const n = enter.append("g").attr("class", d => `node ${d.type === "FAMILY" ? "family-node" : "person-node"}`).call(drag(simulation));
+      n.append("circle")
+        .attr("r", nodeRadius)
+        .attr("display", d => d.type === "FAMILY" ? "none" : null)
+        .attr("fill", d => d.type === "FAMILY" ? familyColors[d.family] || familyColors.other : groupColors[d.subtype] || "#8aa0d6")
+        .attr("stroke", d => d.type === "FAMILY" ? "#f8fafc" : "#0b1020");
+      n.append("rect")
+        .attr("display", d => d.type === "FAMILY" ? null : "none")
+        .attr("x", d => -nodeRadius(d))
+        .attr("y", d => -nodeRadius(d))
+        .attr("width", d => nodeRadius(d) * 2)
+        .attr("height", d => nodeRadius(d) * 2)
+        .attr("fill", d => familyColors[d.family] || familyColors.other);
+      n.append("text").attr("x", d => nodeRadius(d) + 4).attr("y", 4).text(d => d.name);
+      n.on("mouseenter", (e, d) => showTooltip(e, d))
+        .on("mouseleave", hideTooltip)
+        .on("click", (e, d) => focusNode(d, true));
+      return n;
+    });
+
+  simulation.on("tick", () => {
+    linkSel
+      .attr("x1", d => d.source.x)
+      .attr("y1", d => d.source.y)
+      .attr("x2", d => d.target.x)
+      .attr("y2", d => d.target.y);
+    nodeSel.attr("transform", d => `translate(${d.x},${d.y})`);
+  });
+  updateVisibility();
+}
+
+function nodeRadius(d) {
+  if (d.type === "FAMILY") return 12;
+  return (7 + Math.sqrt(d.frequency || 1) / 8) * .8;
+}
+
+function familyKeyFromLink(d) {
+  const source = nodeId(d.source);
+  const target = nodeId(d.target);
+  const familyId = source.startsWith("family_") ? source : target;
+  return familyId.replace(/^family_/, "");
+}
+
+function drag(sim) {
+  return d3.drag()
+    .on("start", (e, d) => {
+      if (!e.active) sim.alphaTarget(.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    })
+    .on("drag", (e, d) => {
+      d.fx = e.x;
+      d.fy = e.y;
+    })
+    .on("end", (e, d) => {
+      if (!e.active) sim.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    });
+}
+
+function nodeId(endpoint) {
+  return typeof endpoint === "string" ? endpoint : endpoint.id;
+}
+
+function nodeName(endpoint) {
+  return typeof endpoint === "string" ? endpoint : endpoint.name;
+}
+
+function nodeLinks(id) {
+  return graphData.links
+    .filter(l => nodeId(l.source) === id || nodeId(l.target) === id)
+    .sort((a, b) => {
+      if (a.edge_source !== b.edge_source) return a.edge_source === "semantic" ? -1 : 1;
+      return Number(b.weight || 0) - Number(a.weight || 0);
+    });
+}
+
+function showTooltip(event, d) {
+  const links = nodeLinks(d.id).slice(0, 10).map(l => {
+    const other = nodeId(l.source) === d.id ? nodeName(l.target) : nodeName(l.source);
+    const label = relationNames[l.relation_type] || l.relation_type;
+    const detail = l.edge_source === "family" ? "人物-家族" : l.edge_source === "co_occurrence" ? `共現 ${l.weight}` : `${l.relation_label} / 信度 ${l.confidence}`;
+    return `${other}：${label}（${detail}）`;
+  }).join("<br>");
+  tooltip
+    .style("display", "block")
+    .html(d.type === "FAMILY"
+      ? `<b>${d.name}</b><br>類型：家族/陣營<hr class="tooltip-separator">${links}`
+      : `<b>${d.name}</b><br>家族/陣營：${familyNames[d.family] || d.family}<br>類型：${groupNames[d.subtype] || d.subtype}<br>出現：${d.frequency} 次<br>段落：${d.paragraph_count}<br>加權度：${d.weighted_degree}<hr class="tooltip-separator">${links}`)
+    .style("left", `${event.pageX + 10}px`)
+    .style("top", `${event.pageY + 10}px`);
+}
+
+function hideTooltip() {
+  tooltip.style("display", "none");
+}
+
+function updateVisibility() {
+  if (!nodeSel || !linkSel) return;
+  nodeSel.attr("display", d => d.type === "FAMILY" ? familyState.get(d.family) !== false ? null : "none" : groupState.get(d.subtype) !== false && familyState.get(d.family) !== false ? null : "none");
+  const visible = new Set(nodeSel
+    .filter(function() { return this.getAttribute("display") !== "none"; })
+    .data()
+    .map(d => d.id));
+  linkSel.attr("display", d => visible.has(nodeId(d.source)) && visible.has(nodeId(d.target)) ? null : "none");
+}
+
+function focusNode(n, zoomTo) {
+  focusedId = n.id;
+  document.getElementById("search").value = n.name || n.id;
+  const neigh = new Set([n.id]);
+  nodeLinks(n.id).forEach(l => {
+    neigh.add(nodeId(l.source));
+    neigh.add(nodeId(l.target));
+  });
+  nodeSel.classed("dim", d => !neigh.has(d.id));
+  linkSel
+    .classed("dim", d => !(nodeId(d.source) === n.id || nodeId(d.target) === n.id))
+    .classed("hover", d => nodeId(d.source) === n.id || nodeId(d.target) === n.id);
+  if (zoomTo) {
+    const width = svg.node().clientWidth;
+    const height = svg.node().clientHeight;
+    const k = 1.6;
+    svg.transition().duration(600).call(
+      zoom.transform,
+      d3.zoomIdentity.translate(width / 2, height / 2).scale(k).translate(-n.x, -n.y)
+    );
+  }
+}
+
+function clearFocus() {
+  focusedId = null;
+  if (!nodeSel || !linkSel) return;
+  nodeSel.classed("dim", false);
+  linkSel.classed("dim", false).classed("hover", false);
+}
+
+function findNode(term) {
+  const q = term.trim();
+  if (!q || !graphData) return null;
+  return graphData.nodes.find(n => n.name.includes(q) || n.id.includes(q));
+}
+
+function updatePhysicsLabels() {
+  document.getElementById("chargeValue").textContent = document.getElementById("charge").value;
+  document.getElementById("linkDistValue").textContent = document.getElementById("linkDist").value;
+  document.getElementById("collisionValue").textContent = document.getElementById("collisionPadding").value;
+}
+
+document.getElementById("btnFocus").onclick = () => {
+  const q = document.getElementById("search").value.trim();
+  if (!q) return alert("請先輸入查詢詞");
+  const n = findNode(q);
+  if (!n) return alert("找不到此人物");
+  focusNode(n, true);
+};
+document.getElementById("btnClear").onclick = () => {
+  document.getElementById("search").value = "";
+  buildGraph();
+};
+document.getElementById("search").addEventListener("keydown", e => {
+  if (e.key === "Enter") document.getElementById("btnFocus").click();
+});
+["minWeight", "nodeLimit", "linkDist", "charge", "collisionPadding"].forEach(id => {
+  document.getElementById(id).addEventListener("input", buildGraph);
+});
+document.querySelectorAll(".edgeSource,.edgeType").forEach(el => {
+  el.addEventListener("change", buildGraph);
+});
+document.getElementById("btnRebuild").onclick = buildGraph;
+window.addEventListener("resize", () => buildGraph());
+</script>
+</body>
+</html>

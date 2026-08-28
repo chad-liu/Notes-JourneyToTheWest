@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>《西遊記》實體共現圖</title>
+  <script src="vendor/d3.v7.min.js"></script>
+  <script src="data/ebook.json.js"></script>
+  <link rel="stylesheet" href="assets/cooccurrence-graph.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>實體共現圖</h1>
+    <button class="panel-toggle" id="panelToggle" type="button" aria-expanded="false" aria-controls="graphControls">控制</button>
+    <div class="small">依段落共現建立人物、地點、法寶的關聯。邊權重為共同出現的段落數。</div>
+  </header>
+  <aside id="graphControls">
+    <div class="toolbar">
+      <div class="card">
+        <h3>查詢</h3>
+        <input id="entitySearch" placeholder="輸入實體，例如 孫悟空、火焰山、金箍棒">
+        <div class="graph-action-row">
+          <button class="btn" id="btnFocus">聚焦</button>
+          <button class="btn" id="btnClear">清除</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>章回</h3>
+        <select id="chapterSelect"><option value="">全書</option></select>
+      </div>
+      <div class="card">
+        <h3>圖例</h3>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="card">
+        <h3>節點類型</h3>
+        <label><input type="checkbox" value="PERSON" checked> 人物</label>
+        <label><input type="checkbox" value="PLACE" checked> 地點</label>
+        <label><input type="checkbox" value="ARTIFACT" checked> 法寶</label>
+      </div>
+      <div class="card">
+        <h3>圖面設定</h3>
+        <label>節點數 <select id="nodeLimit"><option>40</option><option>80</option><option selected>120</option><option>180</option><option value="all">全部</option></select></label>
+        <label>最小共現 <select id="minWeight"><option>1</option><option>2</option><option selected>4</option><option>10</option><option>20</option></select></label>
+        <button class="btn" id="resetGraph">重新布局</button>
+      </div>
+      <div class="card">
+        <h3>物理參數</h3>
+        <div class="param-row"><span>斥力</span><input id="chargeStrength" type="range" min="120" max="720" step="20" value="360"><span class="param-value" id="chargeValue">360</span></div>
+        <div class="param-row"><span>線距</span><input id="linkDistance" type="range" min="120" max="320" step="10" value="230"><span class="param-value" id="distanceValue">230</span></div>
+        <div class="param-row"><span>碰撞</span><input id="collisionPadding" type="range" min="4" max="32" step="2" value="18"><span class="param-value" id="collisionValue">18</span></div>
+      </div>
+    </div>
+  </aside>
+  <button class="panel-backdrop" id="panelBackdrop" type="button" aria-label="關閉控制面板"></button>
+  <main>
+    <svg id="graph"></svg>
+    <div class="info" id="info"><h2>共現圖</h2><div class="small">點選節點查看共現對象。搜尋可聚焦單一實體與其鄰近節點。</div></div>
+  </main>
+</div>
+<script>
+const typeMeta = {
+  PERSON: {label: '人物', color: '#facc15'},
+  PLACE: {label: '地點', color: '#a78bfa'},
+  ARTIFACT: {label: '法寶', color: '#34d399'}
+};
+const $ = s => document.querySelector(s);
+const controlPanelToggle = document.getElementById('panelToggle');
+const controlPanelBackdrop = document.getElementById('panelBackdrop');
+function setControlPanelOpen(open) {
+  document.body.classList.toggle('panel-open', open);
+  controlPanelToggle?.setAttribute('aria-expanded', String(open));
+}
+controlPanelToggle?.addEventListener('click', () => {
+  setControlPanelOpen(!document.body.classList.contains('panel-open'));
+});
+controlPanelBackdrop?.addEventListener('click', () => setControlPanelOpen(false));
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function loadJson(path) {
+  if (window.DEMO_JSON && window.DEMO_JSON[path]) return window.DEMO_JSON[path];
+  const r = await fetch(path);
+  return r.json();
+}
+function normalizedType(type) {
+  return type;
+}
+
+let ebook, base, simulation, graphData = {nodes: [], links: []}, selectedId = '';
+const svg = d3.select('#graph');
+const g = svg.append('g');
+const linkLayer = g.append('g');
+const nodeLayer = g.append('g');
+svg.call(d3.zoom().scaleExtent([0.25, 4]).on('zoom', e => g.attr('transform', e.transform)));
+
+loadJson('data/ebook.json').then(data => {
+  ebook = data;
+  initControls();
+  base = buildBaseGraph();
+  updateGraph();
+});
+
+function initControls() {
+  $('#chapterSelect').insertAdjacentHTML('beforeend', ebook.chapters.map(ch => `<option value="${ch.id}">第 ${ch.n} 回 ${esc(ch.title)}</option>`).join(''));
+  $('#legend').innerHTML = Object.entries(typeMeta).map(([type, meta]) => `<span class="badge"><span class="dot" style="background:${meta.color}"></span>${meta.label}</span>`).join('');
+  updatePhysicsLabels();
+  document.querySelectorAll('input:not(#entitySearch), select').forEach(el => el.addEventListener('input', updateGraph));
+  $('#entitySearch').addEventListener('keydown', event => { if (event.key === 'Enter') focusFromSearch(); });
+  $('#btnFocus').addEventListener('click', focusFromSearch);
+  $('#btnClear').addEventListener('click', () => { $('#entitySearch').value = ''; updateGraph(); });
+  $('#resetGraph').addEventListener('click', updateGraph);
+  window.addEventListener('resize', () => render(graphData));
+}
+
+function physicsParams() {
+  return {
+    charge: Number($('#chargeStrength').value),
+    distance: Number($('#linkDistance').value),
+    collision: Number($('#collisionPadding').value)
+  };
+}
+
+function updatePhysicsLabels() {
+  $('#chargeValue').textContent = $('#chargeStrength').value;
+  $('#distanceValue').textContent = $('#linkDistance').value;
+  $('#collisionValue').textContent = $('#collisionPadding').value;
+}
+
+function buildBaseGraph() {
+  const nodes = new Map();
+  const links = new Map();
+  for (const ch of ebook.chapters) {
+    for (const p of ch.paragraphs) {
+      const seen = new Map();
+      for (const ent of p.entities || []) {
+        const type = normalizedType(ent.type);
+        if (!typeMeta[type]) continue;
+        if (!seen.has(ent.key)) seen.set(ent.key, {id: ent.key, label: ent.label || ent.text || ent.key, type});
+        const n = nodes.get(ent.key) || {id: ent.key, label: ent.label || ent.text || ent.key, type, frequency: 0, surfaces: new Set(), paragraphs: new Set(), chapters: new Set()};
+        n.frequency += 1;
+        n.surfaces.add(ent.text || ent.label || ent.key);
+        aliasesForEntity(n.label, type).forEach(alias => n.surfaces.add(alias));
+        n.paragraphs.add(p.id);
+        n.chapters.add(ch.id);
+        nodes.set(ent.key, n);
+      }
+      const uniq = [...seen.values()].sort((a, b) => a.id.localeCompare(b.id));
+      for (let i = 0; i < uniq.length; i += 1) {
+        for (let j = i + 1; j < uniq.length; j += 1) {
+          const key = `${uniq[i].id}||${uniq[j].id}`;
+          const current = links.get(key) || {id: key, source: uniq[i].id, target: uniq[j].id, sourceLabel: uniq[i].label, targetLabel: uniq[j].label, weight: 0, paragraphs: new Set(), chapters: new Set()};
+          current.weight += 1;
+          current.paragraphs.add(p.id);
+          current.chapters.add(ch.id);
+          links.set(key, current);
+        }
+      }
+    }
+  }
+  return {nodes: [...nodes.values()], links: [...links.values()]};
+}
+
+function selectedTypes() {
+  return new Set([...document.querySelectorAll('input[type="checkbox"]:checked')].map(x => x.value));
+}
+
+function updateGraph() {
+  updatePhysicsLabels();
+  const types = selectedTypes();
+  const chapterId = $('#chapterSelect').value;
+  const q = $('#entitySearch').value.trim();
+  const minWeight = Number($('#minWeight').value);
+  const limitValue = $('#nodeLimit').value;
+  const limit = limitValue === 'all' ? Infinity : Number(limitValue);
+  let nodes = base.nodes.filter(n => types.has(n.type) && (!chapterId || n.chapters.has(chapterId)));
+  let links = base.links.filter(l => l.weight >= minWeight && (!chapterId || l.chapters.has(chapterId)));
+  const ids = new Set(nodes.map(n => n.id));
+  links = links.filter(l => ids.has(l.source) && ids.has(l.target));
+  if (q) {
+    const matched = nodes.find(n => n.label.includes(q) || n.id.includes(q) || [...n.surfaces].some(surface => surface.includes(q)));
+    if (!matched) {
+      selectedId = '';
+      graphData = {nodes: [], links: []};
+      render(graphData, `找不到「${q}」`);
+      return;
+    }
+    const keep = new Set([matched.id]);
+    links.filter(l => linkSourceId(l) === matched.id || linkTargetId(l) === matched.id).forEach(l => { keep.add(linkSourceId(l)); keep.add(linkTargetId(l)); });
+    nodes = nodes.filter(n => keep.has(n.id));
+    links = links.filter(l => keep.has(linkSourceId(l)) && keep.has(linkTargetId(l)));
+    selectedId = matched.id;
+  } else {
+    selectedId = '';
+  }
+  const degree = new Map();
+  links.forEach(l => {
+    degree.set(l.source, (degree.get(l.source) || 0) + l.weight);
+    degree.set(l.target, (degree.get(l.target) || 0) + l.weight);
+  });
+  const top = new Set(nodes.sort((a, b) => (degree.get(b.id) || 0) - (degree.get(a.id) || 0) || b.frequency - a.frequency).slice(0, limit).map(n => n.id));
+  if (selectedId) top.add(selectedId);
+  nodes = nodes.filter(n => top.has(n.id)).map(n => ({...n, paragraph_count: n.paragraphs.size, chapter_count: n.chapters.size, degree: degree.get(n.id) || 0}));
+  links = links.filter(l => top.has(l.source) && top.has(l.target)).map(l => ({...l, paragraph_count: l.paragraphs.size}));
+  graphData = {nodes, links};
+  render(graphData);
+}
+
+function focusFromSearch() {
+  const q = $('#entitySearch').value.trim();
+  if (!q) {
+    selectedId = '';
+    graphData = {nodes: [], links: []};
+    render(graphData, '請先輸入查詢詞');
+    return;
+  }
+  updateGraph();
+}
+
+function render(data, message = '') {
+  const el = $('#graph');
+  const width = el.clientWidth || 900;
+  const height = el.clientHeight || 650;
+  svg.attr('viewBox', [0, 0, width, height]);
+  if (simulation) simulation.stop();
+  seedNodePositions(data.nodes, width, height);
+  const physics = physicsParams();
+  simulation = d3.forceSimulation(data.nodes)
+    .force('link', d3.forceLink(data.links).id(d => d.id).distance(d => Math.max(90, physics.distance - d.weight * 2)).strength(.26))
+    .force('charge', d3.forceManyBody().strength(-physics.charge))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('x', d3.forceX(width / 2).strength(.025))
+    .force('y', d3.forceY(height / 2).strength(.025))
+    .force('collision', d3.forceCollide().radius(d => nodeRadius(d) + physics.collision));
+  const links = linkLayer.selectAll('line').data(data.links, d => d.id).join('line').attr('class', 'link').attr('stroke-width', d => Math.max(.8, Math.min(5, Math.sqrt(d.weight) / 2)));
+  const nodes = nodeLayer.selectAll('g').data(data.nodes, d => d.id).join(enter => {
+    const n = enter.append('g').attr('class', 'node').call(drag(simulation)).on('click', (event, d) => {
+      event.stopPropagation();
+      focusEntityNode(d);
+    });
+    n.append('circle');
+    n.append('text').attr('x', 10).attr('y', 4);
+    return n;
+  });
+  nodes.classed('selected', d => d.id === selectedId);
+  nodes.select('circle').attr('r', nodeRadius).attr('fill', d => typeMeta[d.type].color);
+  nodes.select('text').text(d => d.label);
+  simulation.on('tick', () => {
+    links.attr('x1', d => d.source.x).attr('y1', d => d.source.y).attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    nodes.attr('transform', d => `translate(${d.x},${d.y})`);
+  });
+  if (message) {
+    $('#info').innerHTML = `<h2>查無結果</h2><div class="small">${esc(message)}。請確認是否為已標註實體，或改用正式名稱/別名。</div>`;
+  } else if (selectedId) {
+    const n = data.nodes.find(x => x.id === selectedId);
+    if (n) showNode(n);
+  } else {
+    $('#info').innerHTML = `<h2>共現圖</h2><div class="small">目前顯示 ${data.nodes.length} 個節點、${data.links.length} 條共現邊。</div>`;
+  }
+}
+
+function nodeRadius(d) {
+  return Math.min(17, 4 + Math.sqrt(d.frequency) * .32);
+}
+
+function seedNodePositions(nodes, width, height) {
+  if (!nodes.length) return;
+  const cols = Math.ceil(Math.sqrt(nodes.length * width / Math.max(height, 1)));
+  const rows = Math.ceil(nodes.length / cols);
+  const padX = Math.min(96, width * .12);
+  const padY = Math.min(84, height * .14);
+  const innerW = Math.max(1, width - padX * 2);
+  const innerH = Math.max(1, height - padY * 2);
+  nodes.forEach((n, i) => {
+    if (Number.isFinite(n.x) && Number.isFinite(n.y)) return;
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const x = padX + (cols === 1 ? innerW / 2 : col * innerW / (cols - 1));
+    const y = padY + (rows === 1 ? innerH / 2 : row * innerH / (rows - 1));
+    n.x = x + ((i * 37) % 23) - 11;
+    n.y = y + ((i * 53) % 23) - 11;
+  });
+}
+
+function aliasesForEntity(label, type) {
+  return new Set();
+}
+
+function showNode(d) {
+  selectedId = d.id;
+  const neighbors = graphData.links
+    .filter(l => linkSourceId(l) === d.id || linkTargetId(l) === d.id)
+    .sort((a, b) => b.weight - a.weight)
+    .slice(0, 16);
+  nodeLayer.selectAll('.node').classed('selected', n => n.id === d.id);
+  $('#info').innerHTML = `<h2>${esc(d.label)}</h2><div class="small">${typeMeta[d.type].label}｜出現 ${d.frequency} 次｜段落 ${d.paragraph_count} 段｜章回 ${d.chapter_count} 回</div><ol>${neighbors.map(l => {
+    const other = linkSourceId(l) === d.id ? l.target : l.source;
+    return `<li>${esc(other.label)}：共現 ${l.weight} 段</li>`;
+  }).join('')}</ol>`;
+}
+
+function focusEntityNode(d) {
+  $('#entitySearch').value = d.label;
+  selectedId = d.id;
+  updateGraph();
+}
+
+function linkSourceId(link) {
+  return typeof link.source === 'object' ? link.source.id : link.source;
+}
+
+function linkTargetId(link) {
+  return typeof link.target === 'object' ? link.target.id : link.target;
+}
+
+function drag(sim) {
+  return d3.drag()
+    .on('start', (event, d) => { if (!event.active) sim.alphaTarget(.3).restart(); d.fx = d.x; d.fy = d.y; })
+    .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
+    .on('end', (event, d) => { if (!event.active) sim.alphaTarget(0); d.fx = null; d.fy = null; });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+/* Entity co-occurrence graph layout and component styles. */
+:root {
+      --bg: #0b1020;
+      --panel: #121830;
+      --ink: #d7e2ff;
+      --muted: #8aa0d6;
+      --line: #2a3a6b;
+    }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--bg); color: var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", sans-serif; }
+    .app { display: grid; grid-template-columns: 340px 1fr; grid-template-rows: auto minmax(0, 1fr); width: 100%; height: 100vh; overflow: hidden; background: var(--bg); }
+    header { grid-column: 1 / 3; padding: 10px 16px; background: linear-gradient(90deg, #0e1530, #0b1020 50%); border-bottom: 1px solid #1f2a50; }
+    h1 { margin: 0; font-size: 18px; }
+    .small { color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .panel-toggle, .panel-backdrop { display: none; }
+    .panel-toggle { cursor: pointer; align-items: center; justify-content: center; padding: 8px 11px; border-radius: 10px; border: 1px solid var(--line); background: #0d1633; color: #cfe2ff; font-size: 13px; }
+    aside { min-height: 0; background: var(--panel); padding: 12px 12px 16px; border-right: 1px solid #1f2a50; overflow: auto; overscroll-behavior: contain; }
+    main { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: var(--bg); }
+    #graph { width: 100%; height: 100%; display: block; }
+    .toolbar { display: grid; gap: 10px; }
+    .card { background: #0f1733; border: 1px solid #22305b; border-radius: 12px; padding: 10px; }
+    .card h3 { margin: 0 0 8px; font-size: 14px; color: #bcd0ff; }
+    label { display: flex; align-items: center; gap: 8px; margin: 7px 0; }
+    input, select { width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); background: #0c1430; color: var(--ink); }
+    input[type="checkbox"] { width: auto; accent-color: #5fbfff; }
+    select { width: 110px; }
+    #chapterSelect { width: 100%; }
+    .param-row { display: grid; grid-template-columns: 88px minmax(0, 1fr) 44px; align-items: center; gap: 8px; margin: 8px 0; color: var(--ink); font-size: 13px; }
+    .param-row input[type="range"] { padding: 0; }
+    .param-value { color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+    .graph-action-row { margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn { cursor: pointer; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); background: #0d1633; color: #cfe2ff; }
+    .btn:hover { border-color: #4164d6; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px; }
+    .badge { display: inline-flex; gap: 6px; align-items: center; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--line); background: #111a3a; font-size: 12px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .link { fill: none; stroke: #6f7fae; stroke-opacity: .22; stroke-linecap: round; }
+    .link.dim { opacity: .05; }
+    .node circle { stroke: #0b1020; stroke-width: 2; }
+    .node text { fill: #d7e2ff; font-size: 12px; paint-order: stroke; stroke: #0b1020; stroke-width: 3px; stroke-linejoin: round; pointer-events: none; }
+    .node.dim { opacity: .18; }
+    .node.selected circle { stroke: #fff; stroke-width: 2.8; }
+    .info { position: absolute; right: 12px; top: 12px; width: min(340px, calc(100% - 24px)); background: rgba(14, 21, 48, .92); border: 1px solid #2a3a6b; border-radius: 14px; padding: 12px; pointer-events: none; }
+    .info h2 { margin: 0 0 6px; font-size: 18px; }
+    .info ol { margin: 8px 0 0; padding-left: 20px; }
+    @media (max-width: 860px) {
+      .app { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); }
+      header { grid-column: 1; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; }
+      header .small { grid-column: 1 / -1; }
+      h1 { min-width: 0; font-size: 16px; line-height: 1.35; }
+      .panel-toggle { display: inline-flex; position: relative; z-index: 25; }
+      aside { position: fixed; z-index: 20; left: 0; top: 0; bottom: 0; width: min(86vw, 340px); box-sizing: border-box; transform: translateX(-105%); transition: transform .22s ease; box-shadow: 20px 0 48px rgba(0,0,0,.34); }
+      body.panel-open aside { transform: translateX(0); }
+      .panel-backdrop { position: fixed; inset: 0; z-index: 15; border: 0; background: rgba(3, 7, 18, .48); }
+      body.panel-open .panel-backdrop { display: block; }
+      main { grid-column: 1; grid-row: 2; }
+      .info { display: none; }
+    }
