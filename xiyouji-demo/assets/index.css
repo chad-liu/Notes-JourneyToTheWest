@@ -263,7 +263,8 @@
       main { height: auto; overflow: visible; }
       .view.active { display: block; }
       .side, .info, .content { max-height: none; border: 0; }
-      #facts .side { position: static; height: auto; max-height: 40vh; top: auto; }
+      #facts.view.active { display: grid; grid-template-columns: 200px minmax(0,1fr); }
+      #facts .side { max-height: none; }
       #reader.view.active { display: block; }
       #reader .side,
       #reader .info {
@@ -323,6 +324,9 @@
       .bar-value { text-align: left; }
       .pie-chart { max-width: 260px; }
       .stats-mini-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+      /* 200px 側欄在手機寬度會過窄，改回上下堆疊並限制清單高度 */
+      #facts.view.active { display: block; }
+      #facts .side { position: static; height: auto; max-height: 40vh; }
     }
 
     /* 人物事蹟視圖 */
