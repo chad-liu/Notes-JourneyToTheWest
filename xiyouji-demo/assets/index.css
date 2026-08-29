@@ -16,7 +16,6 @@
     nav button { border: 0; background: transparent; padding: 7px 10px; border-radius: 6px; cursor: pointer; font-size: 15px; }
     nav button.active { background: #fee4e2; color: #912018; }
     .nav-menu { position: relative; }
-    .nav-menu-toggle::after { content: '▾'; margin-left: 4px; font-size: 11px; opacity: .6; }
     .nav-menu-list { display: none; position: absolute; top: calc(100% + 4px); left: 0; min-width: 160px; flex-direction: column; gap: 2px; padding: 6px; background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 12px 24px rgba(15, 23, 42, .12); z-index: 20; }
     .nav-menu.open .nav-menu-list { display: flex; }
     .nav-menu-item { border: 0; background: transparent; padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 14px; text-align: left; white-space: nowrap; }
