@@ -7,3 +7,6 @@ __pycache__/
 # 原文電子書不隨版本控制發布（好讀書櫃典藏版）
 # 重建資料需自備，置於 data/西遊記.epub
 data/*.epub
+
+# 已複製一份到 xiyouji-demo/charts/（實際服務用的版本），來源資料夾不重複入庫
+data/Html&Graph/

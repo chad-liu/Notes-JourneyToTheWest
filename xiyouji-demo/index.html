@@ -24,6 +24,10 @@
     <button data-view="network">人物關係圖</button>
     <button data-view="coGraph">共現圖</button>
     <button data-view="facts">人物事蹟</button>
+    <div class="nav-menu" id="chartsMenu">
+      <button type="button" data-view="charts" class="nav-menu-toggle" aria-haspopup="true" aria-expanded="false">圖表資料</button>
+      <div class="nav-menu-list" id="chartsMenuList"></div>
+    </div>
     <button data-view="stats">統計</button>
   </nav>
   <button id="mobileMenuToggle" class="mobile-menu-toggle" type="button" title="展開選單" aria-label="展開選單" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
@@ -107,6 +111,10 @@
     </aside>
     <article class="content" id="factTimeline"></article>
   </section>
+
+  <section id="charts" class="view">
+    <iframe class="chart-frame" id="chartsFrame" title="圖表資料"></iframe>
+  </section>
 </main>
 <footer class="site-footer">本站為實驗性網站，使用 Codex 協作完成。</footer>
 
@@ -155,12 +163,14 @@ async function init() {
   initReaderPanels();
   initTagToggles();
   initSearch();
+  initChartsMenu();
 }
 
 function initNav() {
   document.querySelectorAll('header nav button').forEach(btn => btn.addEventListener('click', () => {
     switchView(btn.dataset.view).catch(showLoadError);
-    closeMobileMenu();
+    // 「圖表資料」按鈕點擊後要留在展開狀態，讓行動版選單露出次選單可供點選
+    if (btn.dataset.view !== 'charts') closeMobileMenu();
   }));
   $('#mobileMenuToggle').addEventListener('click', () => {
     const open = document.querySelector('header').classList.toggle('nav-open');
@@ -176,6 +186,7 @@ async function switchView(viewId) {
   if (viewId === 'search') await ensureSearch();
   if (viewId === 'stats') await ensureStats();
   if (viewId === 'facts') await ensureFacts();
+  if (viewId === 'charts') ensureCharts();
   document.querySelectorAll('header nav button').forEach(b => b.classList.toggle('active', b.dataset.view === viewId));
   document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === viewId));
   document.body.classList.toggle('reader-view', viewId === 'reader');
@@ -220,6 +231,47 @@ async function ensureFacts() {
   state.facts = await loadJson('data/character_facts.json');
   initFacts();
   state.factsReady = true;
+}
+
+const chartFiles = [
+  {file: '佛道世界觀.html', label: '佛道世界觀'},
+  {file: '問答整理.html', label: '問答整理'},
+  {file: '妖怪資料表.html', label: '妖怪資料表'},
+  {file: '妖怪關係圖.png', label: '妖怪關係圖'}
+];
+
+function initChartsMenu() {
+  $('#chartsMenu .nav-menu-toggle').addEventListener('click', e => {
+    e.stopPropagation();
+    document.getElementById('chartsMenu').classList.toggle('open');
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#chartsMenu')) closeChartsMenu();
+  });
+}
+
+function ensureCharts() {
+  if (state.chartsReady) return;
+  $('#chartsMenuList').innerHTML = chartFiles.map((c, i) =>
+    `<button type="button" class="nav-menu-item${i === 0 ? ' active' : ''}" data-chart-file="${esc(c.file)}">${esc(c.label)}</button>`
+  ).join('');
+  $('#chartsMenuList').addEventListener('click', e => {
+    const btn = e.target.closest('.nav-menu-item'); if (!btn) return;
+    loadChart(btn.dataset.chartFile);
+    closeChartsMenu();
+    closeMobileMenu();
+  });
+  loadChart(chartFiles[0].file);
+  state.chartsReady = true;
+}
+
+function loadChart(file) {
+  $('#chartsFrame').src = `charts/${encodeURIComponent(file)}`;
+  document.querySelectorAll('#chartsMenuList .nav-menu-item').forEach(b => b.classList.toggle('active', b.dataset.chartFile === file));
+}
+
+function closeChartsMenu() {
+  document.getElementById('chartsMenu')?.classList.remove('open');
 }
 
 function initFacts() {

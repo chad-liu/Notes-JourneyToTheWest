@@ -4,7 +4,7 @@
 
 本專案是 [cclintw/red-chamber-dream](https://github.com/cclintw/red-chamber-dream)（紅樓夢知識圖譜，GPL-3.0）的**衍生作品**，沿用其前端架構並改以《西遊記》為題材。依 GPL-3.0 規定，本專案同樣以 GPL-3.0 釋出，授權全文見專案根目錄的 `LICENSE`。
 
-## 六個視圖
+## 七個視圖
 
 | 視圖 | 內容 |
 |---|---|
@@ -13,9 +13,10 @@
 | 人物關係圖 | 87 位角色的力導向圖：同段共現 ＋ 118 條人工撰寫的師徒／收服／結拜／親屬等語義關係 |
 | 共現圖 | 人物、地點、法寶三類實體的共現網絡 |
 | **人物事蹟** | 87 位角色、4253 條逐回事實描述的時間軸，可點擊跳回原文對應段落 |
+| **圖表資料** | 帶次選單的靜態文件檢視器，收錄《佛道世界觀》《問答整理》《妖怪資料表》《妖怪關係圖》等獨立撰寫的圖表／表格頁面（`xiyouji-demo/charts/`） |
 | 統計 | 人物出現次數、實體標註分布、法寶統計、章回篇幅趨勢 |
 
-「人物事蹟」是本站相對參考站多出的視圖，資料來自 [pondahai/xiyouji-wiki](https://github.com/pondahai/xiyouji-wiki) 的逐回事實抽取。
+「人物事蹟」與「圖表資料」是本站相對參考站多出的視圖。「人物事蹟」資料來自 [pondahai/xiyouji-wiki](https://github.com/pondahai/xiyouji-wiki) 的逐回事實抽取；「圖表資料」的檔案為獨立撰寫的靜態頁面，以 iframe 嵌入顯示，新增檔案只需放進 `xiyouji-demo/charts/`，並在 `index.html` 的 `chartFiles` 陣列中登記檔名與顯示標籤。
 
 ## 使用方式
 
