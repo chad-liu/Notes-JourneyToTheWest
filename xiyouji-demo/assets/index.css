@@ -32,8 +32,7 @@
         --accent: #ff7a6e;
         --accent-ink: #ffd6d1;
         --accent-bg: #3a1f2e;
-        --mark-bg: #4a3d12;
-        --shadow-1: rgba(0, 0, 0, .45);
+          --shadow-1: rgba(0, 0, 0, .45);
         --shadow-2: rgba(0, 0, 0, .55);
         --stat-1-bg: #14224a; --stat-1-ink: #a9c6ff;
         --stat-2-bg: #113322; --stat-2-ink: #8fe3ae;
@@ -53,7 +52,6 @@
       --accent: #ff7a6e;
       --accent-ink: #ffd6d1;
       --accent-bg: #3a1f2e;
-      --mark-bg: #4a3d12;
       --shadow-1: rgba(0, 0, 0, .45);
       --shadow-2: rgba(0, 0, 0, .55);
       --stat-1-bg: #14224a; --stat-1-ink: #a9c6ff;
@@ -62,6 +60,9 @@
       --stat-4-bg: #3a2a0c; --stat-4-ink: #ffcb80;
     }
     * { box-sizing: border-box; }
+    /* <button> 在部分瀏覽器不會自動繼承父層文字色（UA 預設色），淺色模式恰好與預設黑字一致才沒被發現；
+       深色模式下就會變成黑字疊在深色底上看不見。統一重置為繼承，各按鈕自訂的 color 仍會照常覆蓋。 */
+    button { color: inherit; }
     html { scroll-behavior: smooth; }
     body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", sans-serif; color: var(--ink); background: var(--bg); overflow-x: hidden; }
     header { position: sticky; top: 0; z-index: 5; background: var(--panel); border-bottom: 1px solid var(--border); padding: 10px 18px; display: grid; grid-template-columns: 34px auto 1fr auto 34px 34px; align-items: center; gap: 12px; }
@@ -203,7 +204,7 @@
     .co-tags button:hover { border-color: var(--border); color: var(--ink-soft); }
     .co-group { margin: 0 0 14px; }
     .co-group h4 { margin: 0 0 8px; color: var(--ink-soft); font-size: 13px; font-weight: 600; }
-    input, select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 15px; background: var(--panel); }
+    input, select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 15px; background: var(--panel); color: var(--ink); }
     .row { display: block; margin-bottom: 8px; }
     .search-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: stretch; margin-bottom: 8px; }
     .search-input-wrap { position: relative; min-width: 0; }
@@ -258,7 +259,7 @@
     .pager button { border: 1px solid var(--border); background: var(--panel); border-radius: 999px; color: var(--muted); cursor: pointer; padding: 4px 10px; font-size: 13px; }
     .pager button:disabled { opacity: .45; cursor: default; }
     .pager button:not(:disabled):hover { border-color: var(--muted); color: var(--ink-soft); }
-    mark { background: var(--mark-bg); padding: 0 1px; }
+    mark { background: var(--mark-bg); color: #1f2328; padding: 0 1px; }
     table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--panel); }
     th, td { border-bottom: 1px solid var(--border-soft); padding: 7px 8px; text-align: left; vertical-align: top; }
     th { position: sticky; top: 0; background: var(--panel-2); z-index: 1; }
