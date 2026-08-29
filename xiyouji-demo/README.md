@@ -18,6 +18,12 @@
 
 「人物事蹟」與「圖表資料」是本站相對參考站多出的視圖。「人物事蹟」資料來自 [pondahai/xiyouji-wiki](https://github.com/pondahai/xiyouji-wiki) 的逐回事實抽取；「圖表資料」的檔案為獨立撰寫的靜態頁面，以 iframe 嵌入顯示，新增檔案只需放進 `xiyouji-demo/charts/`，並在 `index.html` 的 `chartFiles` 陣列中登記檔名與顯示標籤。
 
+## 深色／淺色模式
+
+點擊頁首右上角的太陽／月亮圖示即可切換，選擇會存進瀏覽器 `localStorage`（`xiyouji-theme`），下次造訪自動套用；未曾手動切換過的訪客則依系統的 `prefers-color-scheme` 自動決定。
+
+切換範圍是主站（`index.html` + `assets/index.css`）。兩個 D3 力導向圖頁（人物關係圖、共現圖）維持固定深色，這是它們原本的設計，不受此開關影響；「圖表資料」次選單裡的四份靜態文件是獨立撰寫的內容，同樣維持原有配色。
+
 ## 使用方式
 
 直接雙擊 `index.html` 即可離線使用。

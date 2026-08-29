@@ -3,6 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    // 在樣式套用前就先定案主題，避免翻回上次選擇時畫面閃一下錯誤配色
+    try {
+      var t = localStorage.getItem('xiyouji-theme');
+      if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
   <title>西遊記知識圖譜</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%90%92%3C/text%3E%3C/svg%3E">
   <meta name="description" content="一個結合全文閱讀、檢索、命名實體、人物關係、共現分析、人物事蹟與統計視覺化的《西遊記》數位研究平台。">
@@ -37,6 +44,7 @@
     <button type="button" class="legend-badge" data-tag="artifact" data-tag-state="background"><span class="swatch tag-artifact"></span>法寶</button>
   </div>
   <button id="toggleReaderRight" class="reader-toggle" title="展開/收合詞頻資訊" aria-label="展開/收合詞頻資訊"></button>
+  <button id="themeToggle" class="reader-toggle" type="button" title="切換深色/淺色模式" aria-label="切換深色/淺色模式"></button>
 </header>
 <main>
   <section id="reader" class="view layout reader-left-collapsed reader-right-collapsed">
@@ -129,6 +137,10 @@ const readerIcons = {
   rightExpand: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-layout-sidebar-right-expand"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12" /><path d="M15 4v16" /><path d="M10 10l-2 2l2 2" /></svg>',
   rightCollapse: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-layout-sidebar-right-collapse"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12" /><path d="M15 4v16" /><path d="M9 10l2 2l-2 2" /></svg>'
 };
+const themeIcons = {
+  sun: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" /></svg>',
+  moon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg>'
+};
 async function loadJson(path) {
   if (window.DEMO_JSON && window.DEMO_JSON[path]) return window.DEMO_JSON[path];
   if (state.dataPromises[path]) return state.dataPromises[path];
@@ -164,6 +176,26 @@ async function init() {
   initTagToggles();
   initSearch();
   initChartsMenu();
+  initTheme();
+}
+
+function currentTheme() {
+  const explicit = document.documentElement.getAttribute('data-theme');
+  if (explicit === 'dark' || explicit === 'light') return explicit;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  try { localStorage.setItem('xiyouji-theme', theme); } catch (e) {}
+  $('#themeToggle').innerHTML = theme === 'dark' ? themeIcons.sun : themeIcons.moon;
+  $('#themeToggle').title = theme === 'dark' ? '切換為淺色模式' : '切換為深色模式';
+  $('#themeToggle').setAttribute('aria-label', $('#themeToggle').title);
+}
+
+function initTheme() {
+  applyTheme(currentTheme());
+  $('#themeToggle').addEventListener('click', () => applyTheme(currentTheme() === 'dark' ? 'light' : 'dark'));
 }
 
 function initNav() {
