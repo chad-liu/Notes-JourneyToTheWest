@@ -10,3 +10,6 @@ data/*.epub
 
 # 已複製一份到 xiyouji-demo/charts/（實際服務用的版本），來源資料夾不重複入庫
 data/Html&Graph/
+
+# 本機工具產生的暫存檔
+.claude/
