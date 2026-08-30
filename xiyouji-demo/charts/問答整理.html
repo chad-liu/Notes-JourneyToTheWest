@@ -133,18 +133,20 @@
             font-weight: bold;
         }
 
-        /* ASCII 示意圖區塊 */
-        .pre-box {
-            background-color: #2b2320;
-            color: #f3ece1;
-            padding: 14px 16px;
-            border-radius: 4px;
-            font-family: "Courier New", Courier, monospace;
-            white-space: pre;
+        /* 示意圖區塊（SVG） */
+        .diagram-box {
+            margin: 16px 0;
+            padding: 12px;
+            background-color: #fdfaf6;
+            border: 1px solid #e8e2d8;
+            border-radius: 6px;
             overflow-x: auto;
-            margin: 14px 0;
-            font-size: 9pt;
-            line-height: 1.35;
+        }
+        .diagram-box svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            min-width: 480px;
         }
 
         /* Footer */
@@ -159,6 +161,14 @@
     </style>
 </head>
 <body>
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#8c2a2a"/>
+            </marker>
+        </defs>
+    </svg>
 
     <div class="header-banner">
         <h1>佛學信仰與《西遊記》名著對照問答全集</h1>
@@ -550,25 +560,30 @@
 
             <p><b>3. 取經團隊：微縮的組織管理與權力制衡</b></p>
             <p>取經四人一馬的組合，巧妙展示了一套極具東方智慧的政治架構與人權制衡：</p>
-            <div class="pre-box">
-                ┌───────────────┐
-                │  唐僧 (領導者) │
-                │ (無能但有合法性)│
-                └───────┬───────┘
-                        │
-                        │ 緊箍咒 (政治控制機制)
-                        ▼
-                ┌───────────────┐
-                │ 孫悟空 (實幹者)│
-                │ (才能高、威脅大)│
-                └───────┬───────┘
-                        │
-       ┌────────────────┴────────────────┐
-       ▼                                 ▼
-┌──────────────┐                 ┌──────────────┐
-│ 豬八戒 (平衡者)│                 │ 沙悟淨 (忠誠者)│
-│(諂媚、提供情緒)│                 │(默從、邊緣化) │
-└──────────────┘                 └──────────────┘
+            <div class="diagram-box">
+                <svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">
+                    <rect x="190" y="8" width="220" height="52" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="300" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c1d1d">唐僧（領導者）</text>
+                    <text x="300" y="48" text-anchor="middle" font-size="11" fill="#555">（無能但有合法性）</text>
+
+                    <path d="M300,60 V90" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <text x="308" y="78" font-size="11" fill="#5c1d1d">緊箍咒（政治控制機制）</text>
+
+                    <rect x="190" y="94" width="220" height="52" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="300" y="116" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c1d1d">孫悟空（實幹者）</text>
+                    <text x="300" y="134" text-anchor="middle" font-size="11" fill="#555">（才能高、威脅大）</text>
+
+                    <path d="M300,146 V166 H140 V186" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M300,166 H460 V186" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <rect x="20" y="188" width="240" height="52" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="140" y="210" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c1d1d">豬八戒（平衡者）</text>
+                    <text x="140" y="228" text-anchor="middle" font-size="11" fill="#555">（諂媚、提供情緒）</text>
+
+                    <rect x="340" y="188" width="240" height="52" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="460" y="210" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c1d1d">沙悟淨（忠誠者）</text>
+                    <text x="460" y="228" text-anchor="middle" font-size="11" fill="#555">（默從、邊緣化）</text>
+                </svg>
             </div>
             <ol>
                 <li><b>合法性（唐僧）與技術實力（孫悟空）的分離：</b>唐僧手無縛雞之力，卻是唯一擁有大唐御賜與觀音授權的「合法領導人」；孫悟空能力最強，卻缺乏政治合法性。</li>
@@ -596,20 +611,33 @@
             <p>孫悟空大鬧天宮與明代末年的農民起義（如李自成、張獻忠等），雖然一個屬於神魔小說的文學虛構，另一個是真實發生的歷史事件，但兩者在政治結構的腐敗根源、階級動員的邏輯以及與統治體系的互動過程上，展現出高度的同構性與歷史相似性。</p>
 
             <p><b>1. 社會背景：體制固化與底層生存空間的擠壓</b></p>
-            <div class="pre-box">
-┌────────────────────────────────────────────────────────┐
-│                      體制失能與固化                     │
-├───────────────────────────┬────────────────────────────┤
-│   天庭體系 (《西遊記》)   │   明代晚期社會 (歷史現實)  │
-├───────────────────────────┼────────────────────────────┤
-│ • 仙位永不出缺，階級壟斷  │ • 宗室龐大、土地兼併       │
-│ • 孫悟空被安插為「弼馬溫」│ • 底層知識份子與流民無出路 │
-│ • 人事排擠與體制性侮辱    │ • 裁撤驛卒 (李自成失業)   │
-└─────────────┬─────────────┴─────────────┬──────────────┘
-              │                           │
-              ▼                           ▼
-        【迫使爆發】                【迫使爆發】
-      揭竿而起、大鬧天宮           崇禎年間農民大起義
+            <div class="diagram-box">
+                <svg viewBox="0 0 640 230" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">
+                    <rect x="10" y="8" width="620" height="30" fill="#8c2a2a"/>
+                    <text x="320" y="28" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">體制失能與固化</text>
+
+                    <rect x="10" y="38" width="303" height="108" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <rect x="327" y="38" width="303" height="108" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+
+                    <text x="161" y="58" text-anchor="middle" font-size="12" font-weight="bold" fill="#5c1d1d">天庭體系（《西遊記》）</text>
+                    <text x="30" y="78" font-size="10.5" fill="#333">• 仙位永不出缺，階級壟斷</text>
+                    <text x="30" y="96" font-size="10.5" fill="#333">• 孫悟空被安插為「弼馬溫」</text>
+                    <text x="30" y="114" font-size="10.5" fill="#333">• 人事排擠與體制性侮辱</text>
+
+                    <text x="478" y="58" text-anchor="middle" font-size="12" font-weight="bold" fill="#5c1d1d">明代晚期社會（歷史現實）</text>
+                    <text x="347" y="78" font-size="10.5" fill="#333">• 宗室龐大、土地兼併</text>
+                    <text x="347" y="96" font-size="10.5" fill="#333">• 底層知識份子與流民無出路</text>
+                    <text x="347" y="114" font-size="10.5" fill="#333">• 裁撤驛卒（李自成失業）</text>
+
+                    <path d="M161,146 V178" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M478,146 V178" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <text x="161" y="196" text-anchor="middle" font-size="12" font-weight="bold" fill="#8c2a2a">【迫使爆發】</text>
+                    <text x="161" y="214" text-anchor="middle" font-size="11" fill="#333">揭竿而起、大鬧天宮</text>
+
+                    <text x="478" y="196" text-anchor="middle" font-size="12" font-weight="bold" fill="#8c2a2a">【迫使爆發】</text>
+                    <text x="478" y="214" text-anchor="middle" font-size="11" fill="#333">崇禎年間農民大起義</text>
+                </svg>
             </div>
             <ul>
                 <li><b>流民與「無產者」的絕望：</b>李自成原本是明朝銀川驛站的驛卒，因崇禎帝為節省開支裁撤驛站而失業，加上欠債與旱災，最終走投無路投奔民軍。孫悟空雖為石猴，但在天庭體系中同樣屬於「無名無分」的野仙，天庭給予其「弼馬溫」這類無品階的卑微官職，實質上是對其強大實力的體制性侮辱與邊緣化。</li>
@@ -669,13 +697,26 @@
         <div class="answer">
             <p>在《西遊記》中，「緊箍咒」是一套設計極為精密的制度性權力控制機制（Institutional Control Mechanism）。這套機制解決了組織管理中最核心的難題：當下屬的個人能力（技術、武力）遠超領導者，且具備強烈的反叛傾向時，弱勢領導者如何實現有效控制與合規管理？</p>
 
-            <div class="pre-box">
-【天庭/西天最高統治者】 (如來 / 觀音)
-         │
-         │ 1. 賦權 (Delegation of Power)
-         ▼
-  【基層授權管理者】 (唐僧) ─────── 緊箍咒 ───────► 【個人能力強大的下屬】 (孫悟空)
-   (無武力、無技術，但具備政治合法性)               (具反叛歷史、技術優勢，但被制度套牢)
+            <div class="diagram-box">
+                <svg viewBox="0 0 620 175" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">
+                    <rect x="200" y="8" width="220" height="44" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="310" y="34" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5c1d1d">【天庭/西天最高統治者】（如來／觀音）</text>
+
+                    <path d="M310,52 V82" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <text x="320" y="70" font-size="10.5" fill="#5c1d1d">1. 賦權（Delegation of Power）</text>
+
+                    <rect x="15" y="86" width="270" height="50" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="150" y="115" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5c1d1d">【基層授權管理者】（唐僧）</text>
+
+                    <rect x="335" y="86" width="270" height="50" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="470" y="115" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5c1d1d">【個人能力強大的下屬】（孫悟空）</text>
+
+                    <path d="M285,111 H335" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <text x="310" y="103" text-anchor="middle" font-size="10.5" fill="#5c1d1d">緊箍咒</text>
+
+                    <text x="150" y="155" text-anchor="middle" font-size="10.5" fill="#555">（無武力、無技術，但具備政治合法性）</text>
+                    <text x="470" y="155" text-anchor="middle" font-size="10.5" fill="#555">（具反叛歷史、技術優勢，但被制度套牢）</text>
+                </svg>
             </div>
 
             <p><b>1. 政治學視角：權力來源、制度設計與強制服從</b></p>
@@ -731,20 +772,34 @@
         <div class="answer">
             <p>在現代組織管理學與團隊角色理論（如貝爾賓團隊角色模型 Belbin Team Roles）中，《西遊記》取經團隊被奉為高績效團隊（High-Performance Team）的經典範例。</p>
 
-            <div class="pre-box">
-                    ┌─────────────────────────┐
-                    │      唐僧 (CEO / 領導者) │
-                    │ • 確定願景 (Visionary)   │
-                    │ • 掌控合法性與方向       │
-                    └────────────┬────────────┘
-                                 │
-     ┌───────────────────────────┼───────────────────────────┐
-     ▼                           ▼                           ▼
-┌─────────────────────────┐ ┌─────────────────────────┐ ┌─────────────────────────┐
-│  孫悟空 (COO / 專家)    │ │  豬八戒 (CMO / 潤滑劑)  │ │  沙僧 (CFO / 後勤專家)  │
-│ • 技術核心 (Expert)     │ │ • 資源調查 (Explorer)   │ │ • 執行者 (Implementer)  │
-│ • 解決極端問題          │ │ • 提供情緒價值與生活調劑 │ │ • 維護團隊底線與資產    │
-└─────────────────────────┘ └─────────────────────────┘ └─────────────────────────┘
+            <div class="diagram-box">
+                <svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">
+                    <rect x="220" y="8" width="200" height="64" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="320" y="28" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5c1d1d">唐僧（CEO／領導者）</text>
+                    <text x="320" y="46" text-anchor="middle" font-size="10.5" fill="#333">• 確定願景（Visionary）</text>
+                    <text x="320" y="62" text-anchor="middle" font-size="10.5" fill="#333">• 掌控合法性與方向</text>
+
+                    <path d="M320,72 V92" stroke="#8c2a2a" stroke-width="1.6" fill="none"/>
+                    <path d="M110,92 H530" stroke="#8c2a2a" stroke-width="1.6" fill="none"/>
+                    <path d="M110,92 V112" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M320,92 V112" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M530,92 V112" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <rect x="10" y="112" width="200" height="78" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="110" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#5c1d1d">孫悟空（COO／專家）</text>
+                    <text x="110" y="150" text-anchor="middle" font-size="10" fill="#333">• 技術核心（Expert）</text>
+                    <text x="110" y="166" text-anchor="middle" font-size="10" fill="#333">• 解決極端問題</text>
+
+                    <rect x="220" y="112" width="200" height="78" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="320" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#5c1d1d">豬八戒（CMO／潤滑劑）</text>
+                    <text x="320" y="150" text-anchor="middle" font-size="10" fill="#333">• 資源調查（Explorer）</text>
+                    <text x="320" y="166" text-anchor="middle" font-size="10" fill="#333">• 提供情緒價值與生活調劑</text>
+
+                    <rect x="430" y="112" width="200" height="78" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="530" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#5c1d1d">沙僧（CFO／後勤專家）</text>
+                    <text x="530" y="150" text-anchor="middle" font-size="10" fill="#333">• 執行者（Implementer）</text>
+                    <text x="530" y="166" text-anchor="middle" font-size="10" fill="#333">• 維護團隊底線與資產</text>
+                </svg>
             </div>
 
             <p><b>1. 團隊四人的角色分工與管理學定位</b></p>
@@ -813,31 +868,30 @@
         <div class="answer">
             <p>從現代企業戰略與跨國營運（Cross-Border Expansion）的視角來看，通關文牒是取經團隊（跨境專案組）能夠穿越數十個主權獨立、文化異質的人間王國，並最終將「西天真經」（核心技術/文化資產）引入大唐市場的核心合規資產與跨國營運戰略工具。</p>
 
-            <div class="pre-box">
-┌────────────────────────────────────────────────────────┐
-│                   大唐中央政府 (總部)                   │
-│         頒發「通關文牒」(全球營運執照 / 合規憑證)        │
-└───────────┬────────────────────────────────────────────┘
-            │
-            ▼
-┌────────────────────────────────────────────────────────┐
-│             取經團隊 (跨境專案組 / 唐僧團隊)            │
-└───────────┬────────────────────────────────────────────┘
-            │
-            ├───────────────► 1. 遞交文牒 (申請市場准入)
-            │
-            ▼
-┌────────────────────────────────────────────────────────┐
-│                沿途各國政府 (在地監管機構)              │
-│       (西梁女國、烏雞國、車遲國、朱紫國、天竺國等)      │
-└───────────┬────────────────────────────────────────────┘
-            │
-            ├───────────────► 2. 驗證背書、蓋章加印 (審核通過)
-            │
-            ▼
-┌────────────────────────────────────────────────────────┐
-│               實現合規營運與本地資源共享 (合規落地)     │
-└────────────────────────────────────────────────────────┘
+            <div class="diagram-box">
+                <svg viewBox="0 0 620 292" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">
+                    <rect x="60" y="8" width="500" height="56" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="310" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c1d1d">大唐中央政府（總部）</text>
+                    <text x="310" y="48" text-anchor="middle" font-size="10.5" fill="#333">頒發「通關文牒」（全球營運執照／合規憑證）</text>
+
+                    <path d="M310,64 V88" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <rect x="60" y="88" width="500" height="40" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="310" y="112" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c1d1d">取經團隊（跨境專案組／唐僧團隊）</text>
+
+                    <path d="M310,128 V154" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <text x="325" y="145" font-size="10.5" fill="#5c1d1d">1. 遞交文牒（申請市場准入）</text>
+
+                    <rect x="60" y="154" width="500" height="56" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="310" y="176" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c1d1d">沿途各國政府（在地監管機構）</text>
+                    <text x="310" y="194" text-anchor="middle" font-size="10.5" fill="#333">（西梁女國、烏雞國、車遲國、朱紫國、天竺國等）</text>
+
+                    <path d="M310,210 V236" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <text x="325" y="227" font-size="10.5" fill="#5c1d1d">2. 驗證背書、蓋章加印（審核通過）</text>
+
+                    <rect x="60" y="236" width="500" height="46" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="310" y="264" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c1d1d">實現合規營運與本地資源共享（合規落地）</text>
+                </svg>
             </div>
 
             <p><b>1. 國際合規性（Cross-Border Compliance）：市場准入與護城河</b></p>
@@ -867,10 +921,32 @@
         <div class="answer">
             <p>從現代商業戰略中，「西天取經」是一次跨國、跨文化且歷時長達 14 年的頂級技術引進（Technology Transfer）與跨國供應鏈整合（Global Supply Chain Integration）專案。</p>
 
-            <div class="pre-box">
-【痛點識別】          【技術選擇】          【跨境傳輸/供應鏈】        【在地化與吸收】
-大唐社會秩序失序 ──► 西天「三藏真經」 ──► 唐僧團隊 (物流與護航) ──► 大唐市場推廣與應用
-(強烈市場需求)       (核心技術/專利)       (技術載體與傳輸鏈)        (技術落地與轉化)
+            <div class="diagram-box">
+                <svg viewBox="0 0 670 115" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">
+                    <rect x="10" y="15" width="145" height="85" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="82" y="34" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#8c2a2a">【痛點識別】</text>
+                    <text x="82" y="58" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333">大唐社會秩序失序</text>
+                    <text x="82" y="80" text-anchor="middle" font-size="9.5" fill="#666">（強烈市場需求）</text>
+
+                    <rect x="175" y="15" width="145" height="85" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="247" y="34" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#8c2a2a">【技術選擇】</text>
+                    <text x="247" y="58" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333">西天「三藏真經」</text>
+                    <text x="247" y="80" text-anchor="middle" font-size="9.5" fill="#666">（核心技術／專利）</text>
+
+                    <rect x="340" y="15" width="145" height="85" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="412" y="34" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#8c2a2a">【跨境傳輸/供應鏈】</text>
+                    <text x="412" y="58" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333">唐僧團隊（物流與護航）</text>
+                    <text x="412" y="80" text-anchor="middle" font-size="9.5" fill="#666">（技術載體與傳輸鏈）</text>
+
+                    <rect x="505" y="15" width="145" height="85" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="577" y="34" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#8c2a2a">【在地化與吸收】</text>
+                    <text x="577" y="58" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333">大唐市場推廣與應用</text>
+                    <text x="577" y="80" text-anchor="middle" font-size="9.5" fill="#666">（技術落地與轉化）</text>
+
+                    <path d="M155,55 H175" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M320,55 H340" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M485,55 H505" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                </svg>
             </div>
 
             <p><b>1. 商業模式：技術引進與市場需求的閉環設計</b></p>
@@ -886,19 +962,39 @@
             </ul>
 
             <p><b>3. 風險控制（Risk Management）：九九八十一難的風險矩陣</b></p>
-            <div class="pre-box">
-                       【風險衝擊程度 (Impact)】
-                  低 (Minor)                 高 (Critical)
-             ┌─────────────────────────┬─────────────────────────┐
-  高 (High)  │ 氣候與地形風險          │ 關鍵人才流失 / 被俘      │
-             │ (如：火焰山阻路、通天河)│ (如：唐僧被妖怪搶走)    │
-【風險發生率 │ ➔ 應對：調用外部技術    │ ➔ 應對：預設應變預案    │
- (Likelihood)│    (借芭蕉扇)           │    (孫悟空救援)         │
-             ├─────────────────────────┼─────────────────────────┤
-  低 (Low)   │ 資源與後勤短缺          │ 技術版本錯誤 / 假經風險  │
-             │ (如：斷糧、生病)        │ (如：無字真經、小雷音寺)│
-             │ ➔ 應對：在地化資源補充  │ ➔ 應對：二次稽核與質檢  │
-             └─────────────────────────┴─────────────────────────┘
+            <div class="diagram-box">
+                <svg viewBox="0 0 630 330" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">
+                    <text x="365" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#5c1d1d">【風險衝擊程度（Impact）】</text>
+                    <text x="230" y="45" text-anchor="middle" font-size="11" font-weight="bold" fill="#5c1d1d">低（Minor）</text>
+                    <text x="490" y="45" text-anchor="middle" font-size="11" font-weight="bold" fill="#5c1d1d">高（Critical）</text>
+
+                    <text transform="rotate(-90 25 195)" x="25" y="195" text-anchor="middle" font-size="11" font-weight="bold" fill="#5c1d1d">風險發生率（Likelihood）</text>
+                    <text x="70" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#5c1d1d">高（High）</text>
+                    <text x="70" y="252" text-anchor="middle" font-size="11" font-weight="bold" fill="#5c1d1d">低（Low）</text>
+
+                    <rect x="110" y="60" width="250" height="120" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <rect x="360" y="60" width="250" height="120" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <rect x="110" y="180" width="250" height="120" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <rect x="360" y="180" width="250" height="120" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+
+                    <text x="125" y="82" font-size="11" font-weight="bold" fill="#333">氣候與地形風險</text>
+                    <text x="125" y="102" font-size="9.5" fill="#666">（如：火焰山阻路、通天河）</text>
+                    <text x="125" y="126" font-size="9.5" fill="#8c2a2a">➔ 應對：調用外部技術</text>
+                    <text x="125" y="144" font-size="9.5" fill="#8c2a2a">　（借芭蕉扇）</text>
+
+                    <text x="375" y="82" font-size="11" font-weight="bold" fill="#333">關鍵人才流失／被俘</text>
+                    <text x="375" y="102" font-size="9.5" fill="#666">（如：唐僧被妖怪搶走）</text>
+                    <text x="375" y="126" font-size="9.5" fill="#8c2a2a">➔ 應對：預設應變預案</text>
+                    <text x="375" y="144" font-size="9.5" fill="#8c2a2a">　（孫悟空救援）</text>
+
+                    <text x="125" y="202" font-size="11" font-weight="bold" fill="#333">資源與後勤短缺</text>
+                    <text x="125" y="222" font-size="9.5" fill="#666">（如：斷糧、生病）</text>
+                    <text x="125" y="246" font-size="9.5" fill="#8c2a2a">➔ 應對：在地化資源補充</text>
+
+                    <text x="375" y="202" font-size="11" font-weight="bold" fill="#333">技術版本錯誤／假經風險</text>
+                    <text x="375" y="222" font-size="9.5" fill="#666">（如：無字真經、小雷音寺）</text>
+                    <text x="375" y="246" font-size="9.5" fill="#8c2a2a">➔ 應對：二次稽核與質檢</text>
+                </svg>
             </div>
             <ul>
                 <li><b>人才風險（Key Person Risk）：</b>唐僧作為單點核心極易被俘。引進孫悟空等人作為「護航保鏢」，並建立授權代理機制，當唐僧被扣押時，孫悟空自動接管戰術決策與救援。</li>
@@ -915,26 +1011,27 @@
         <div class="answer">
             <p>西天靈山集團（CEO 如來佛祖）透過取經專案進行了一場頂級品牌全球化（Brand Globalization）與跨國市場擴張（Market Expansion）的資本戰略。</p>
 
-            <div class="pre-box">
-┌────────────────────────────────────────────────────────┐
-│                   靈山集團 (西天)                      │
-│   • 現狀：西牛賀洲市場飽和、競爭激烈                   │
-│   • 戰略目標：進軍人口稠密、財富集中的「東勝神洲/南瞻部洲」 │
-└───────────┬────────────────────────────────────────────┘
-            │
-            │  1. 尋找市場切入點 (Market Entry)
-            ▼
-┌────────────────────────────────────────────────────────┐
-│                 大唐市場 (南瞻部洲)                    │
-│   • 現狀：道教文化壟斷、地緣政治強大                   │
-│   • 痛點：玄武門之變後，皇權存在「合法性與道德焦慮」     │
-└───────────┬────────────────────────────────────────────┘
-            │
-            │  2. 提供定制化解決方案 (B2G 定制)
-            ▼
-┌────────────────────────────────────────────────────────┐
-│             達成「西天取經」跨境戰略合作               │
-└────────────────────────────────────────────────────────┘
+            <div class="diagram-box">
+                <svg viewBox="0 0 620 276" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">
+                    <rect x="40" y="8" width="540" height="76" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="310" y="28" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c1d1d">靈山集團（西天）</text>
+                    <text x="310" y="48" text-anchor="middle" font-size="10" fill="#333">• 現狀：西牛賀洲市場飽和、競爭激烈</text>
+                    <text x="310" y="66" text-anchor="middle" font-size="9.5" fill="#333">• 戰略目標：進軍人口稠密、財富集中的「東勝神洲/南瞻部洲」</text>
+
+                    <path d="M310,84 V110" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <text x="325" y="101" font-size="10.5" fill="#5c1d1d">1. 尋找市場切入點（Market Entry）</text>
+
+                    <rect x="40" y="114" width="540" height="76" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="310" y="134" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c1d1d">大唐市場（南瞻部洲）</text>
+                    <text x="310" y="154" text-anchor="middle" font-size="10" fill="#333">• 現狀：道教文化壟斷、地緣政治強大</text>
+                    <text x="310" y="172" text-anchor="middle" font-size="9.5" fill="#333">• 痛點：玄武門之變後，皇權存在「合法性與道德焦慮」</text>
+
+                    <path d="M310,190 V216" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <text x="325" y="207" font-size="10.5" fill="#5c1d1d">2. 提供定制化解決方案（B2G 定制）</text>
+
+                    <rect x="40" y="220" width="540" height="46" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="310" y="248" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c1d1d">達成「西天取經」跨境戰略合作</text>
+                </svg>
             </div>
 
             <p><b>1. 戰略背景：東進戰略的資本動機</b></p>
@@ -953,19 +1050,32 @@
             </ul>
 
             <p><b>4. 股權激勵與全球化組織架構</b></p>
-            <div class="pre-box">
-              ┌────────────────────────────────────────┐
-              │     靈山集團董事會 (如來 / 觀音)       │
-              └───────────────────┬────────────────────┘
-                                  │
-                  期權兌現 / 職務晉升 (IPO 敲鐘)
-                                  │
-    ┌─────────────────────────────┼─────────────────────────────┐
-    ▼                             ▼                             ▼
-┌────────────────────────┐ ┌────────────────────────┐ ┌────────────────────────┐
-│ 唐僧 ➔ 旃檀功德佛      │ │ 孫悟空 ➔ 鬥戰勝佛      │ │ 豬八戒 ➔ 淨壇使者      │
-│ (獲取最高管理職位)     │ │ (核心技術入股，獲封高級高管)│ │ (獲取特定邊角市場特許經營權)│
-└────────────────────────┘ └────────────────────────┘ └────────────────────────┘
+            <div class="diagram-box">
+                <svg viewBox="0 0 640 185" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">
+                    <rect x="210" y="8" width="220" height="40" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="320" y="32" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5c1d1d">靈山集團董事會（如來／觀音）</text>
+
+                    <path d="M320,48 V88" stroke="#8c2a2a" stroke-width="1.6" fill="none"/>
+                    <text x="335" y="70" font-size="10" fill="#5c1d1d">期權兌現／職務晉升</text>
+                    <text x="335" y="84" font-size="10" fill="#5c1d1d">（IPO 敲鐘）</text>
+
+                    <path d="M110,88 H530" stroke="#8c2a2a" stroke-width="1.6" fill="none"/>
+                    <path d="M110,88 V112" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M320,88 V112" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M530,88 V112" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <rect x="10" y="112" width="200" height="64" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="110" y="136" text-anchor="middle" font-size="12" font-weight="bold" fill="#5c1d1d">唐僧 ➔ 旃檀功德佛</text>
+                    <text x="110" y="156" text-anchor="middle" font-size="9.5" fill="#333">（獲取最高管理職位）</text>
+
+                    <rect x="220" y="112" width="200" height="64" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="320" y="136" text-anchor="middle" font-size="12" font-weight="bold" fill="#5c1d1d">孫悟空 ➔ 鬥戰勝佛</text>
+                    <text x="320" y="156" text-anchor="middle" font-size="9.5" fill="#333">（核心技術入股，獲封高級高管）</text>
+
+                    <rect x="430" y="112" width="200" height="64" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="530" y="136" text-anchor="middle" font-size="12" font-weight="bold" fill="#5c1d1d">豬八戒 ➔ 淨壇使者</text>
+                    <text x="530" y="156" text-anchor="middle" font-size="9.5" fill="#333">（獲取特定邊角市場特許經營權）</text>
+                </svg>
             </div>
             <p>開出對賭協議（Earn-out Agreement），取經成功後在靈山大殿舉行「封佛大典」（IPO 敲鐘與期權兌現）。唐僧進入核心管理層；孫悟空獲封高級高管；豬八戒獲封「淨壇使者」，獲取特定市場（享用祭祀）的收益分潤權。</p>
         </div>
@@ -978,21 +1088,32 @@
         <div class="answer">
             <p>如果將「西天取經」看作一場由央企/巨頭主導的產業重組，妖怪則代表了兩類企業：體制內背景的「巨頭拆分/高管創業公司」（有背景的妖怪），以及本土草根崛起的「民間獨立企業」（無背景的妖怪）。</p>
 
-            <div class="pre-box">
-                  ┌─────────────────────────────────────────┐
-                  │        市場競爭主體 (妖怪企業)          │
-                  └────────────────────┬────────────────────┘
-                                       │
-            ┌──────────────────────────┴──────────────────────────┐
-            ▼                                                     ▼
-┌─────────────────────────┐                           ┌─────────────────────────┐
-│ 体制内妖怪 (巨頭拆分/派駐)│                           │  民間妖怪 (草根創業企業) │
-│ (金角銀角、黃眉、九靈元聖)│                           │ (白骨精、蜘蛛精、南山大王)│
-└───────────┬─────────────┘                           └───────────┬─────────────┘
-            │                                                     │
-            ├─ 核心資產：母公司授權/專利法寶 (紫金葫蘆、人種袋)   ├─ 核心資產：自研技術/野蠻生長 (白骨變幻、蜘蛛絲)
-            ├─ 資本結構：無限責任背書 (兜率宮/彌勒佛/太乙天尊)    ├─ 資本結構：自負盈虧、零合規保護
-            └─ 退出機制：高價併購 / 母公司回購 (M&amp;A Safe)         └─ 退出機制：破產清算 / 強制消滅 (Liquidation)
+            <div class="diagram-box">
+                <svg viewBox="0 0 640 195" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">
+                    <rect x="190" y="8" width="260" height="40" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="320" y="32" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5c1d1d">市場競爭主體（妖怪企業）</text>
+
+                    <path d="M320,48 V64" stroke="#8c2a2a" stroke-width="1.6" fill="none"/>
+                    <path d="M155,64 H485" stroke="#8c2a2a" stroke-width="1.6" fill="none"/>
+                    <path d="M155,64 V74" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M485,64 V74" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <rect x="15" y="74" width="280" height="48" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="155" y="94" text-anchor="middle" font-size="12" font-weight="bold" fill="#5c1d1d">體制內妖怪（巨頭拆分/派駐）</text>
+                    <text x="155" y="112" text-anchor="middle" font-size="9.5" fill="#333">（金角銀角、黃眉、九靈元聖）</text>
+
+                    <rect x="345" y="74" width="280" height="48" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="485" y="94" text-anchor="middle" font-size="12" font-weight="bold" fill="#5c1d1d">民間妖怪（草根創業企業）</text>
+                    <text x="485" y="112" text-anchor="middle" font-size="9.5" fill="#333">（白骨精、蜘蛛精、南山大王）</text>
+
+                    <text x="20" y="140" font-size="9.5" fill="#333">├─ 核心資產：母公司授權/專利法寶（紫金葫蘆、人種袋）</text>
+                    <text x="20" y="158" font-size="9.5" fill="#333">├─ 資本結構：無限責任背書（兜率宮/彌勒佛/太乙天尊）</text>
+                    <text x="20" y="176" font-size="9.5" fill="#8c2a2a">└─ 退出機制：高價併購／母公司回購（M&amp;A Safe）</text>
+
+                    <text x="350" y="140" font-size="9.5" fill="#333">├─ 核心資產：自研技術/野蠻生長（白骨變幻、蜘蛛絲）</text>
+                    <text x="350" y="158" font-size="9.5" fill="#333">├─ 資本結構：自負盈虧、零合規保護</text>
+                    <text x="350" y="176" font-size="9.5" fill="#8c2a2a">└─ 退出機制：破產清算／強制消滅（Liquidation）</text>
+                </svg>
             </div>
 
             <p><b>1. 兩類妖怪企業的對比</b></p>
@@ -1040,19 +1161,36 @@
             </ul>
 
             <p><b>3. 併購與清算（M&amp;A vs Liquidation）：殘酷的雙重標準</b></p>
-            <div class="pre-box">
-  妖怪企業被孫悟空打敗
-         │
-         ├───────► 是否擁有母公司/體制背書 (Parent Company / Sponsorship)?
-         │
-         ├─── [ YES ] ───► 【戰略併購 / 母公司資產收回 (M&amp;A)】
-         │                  • 觀音/老君/彌勒 現身叫停
-         │                  • 宣稱「童子/坐騎 私自下凡」
-         │                  • 無痛回收核心資產，高管無傷免責
-         │
-         └─── [ NO  ] ───► 【破產清算 / 強制執行 (Liquidation)】
-                            • 一棒打死，洞府被燒
-                            • 資產被充公，團隊徹底瓦解
+            <div class="diagram-box">
+                <svg viewBox="0 0 620 268" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">
+                    <rect x="190" y="8" width="260" height="36" rx="6" fill="#f3ece1" stroke="#8c2a2a" stroke-width="1.5"/>
+                    <text x="320" y="31" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5c1d1d">妖怪企業被孫悟空打敗</text>
+
+                    <path d="M320,44 V66" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <rect x="100" y="66" width="440" height="40" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.3"/>
+                    <text x="320" y="90" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#5c1d1d">是否擁有母公司／體制背書？（Parent Company / Sponsorship）</text>
+
+                    <path d="M320,106 V126" stroke="#8c2a2a" stroke-width="1.6" fill="none"/>
+                    <path d="M140,126 H500" stroke="#8c2a2a" stroke-width="1.6" fill="none"/>
+                    <path d="M140,126 V146" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M500,126 V146" stroke="#8c2a2a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+                    <text x="140" y="120" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#2f6e3a">［YES］</text>
+                    <text x="500" y="120" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#8c2a2a">［NO］</text>
+
+                    <rect x="20" y="146" width="280" height="110" rx="6" fill="#fdfaf6" stroke="#2f6e3a" stroke-width="1.4"/>
+                    <text x="160" y="164" text-anchor="middle" font-size="11" font-weight="bold" fill="#2f6e3a">【戰略併購／母公司資產收回】</text>
+                    <text x="160" y="180" text-anchor="middle" font-size="10" fill="#2f6e3a">（M&amp;A）</text>
+                    <text x="32" y="200" font-size="9.5" fill="#333">• 觀音/老君/彌勒 現身叫停</text>
+                    <text x="32" y="217" font-size="9.5" fill="#333">• 宣稱「童子/坐騎 私自下凡」</text>
+                    <text x="32" y="234" font-size="9.5" fill="#333">• 無痛回收核心資產，高管無傷免責</text>
+
+                    <rect x="320" y="146" width="280" height="110" rx="6" fill="#fdfaf6" stroke="#8c2a2a" stroke-width="1.4"/>
+                    <text x="460" y="164" text-anchor="middle" font-size="11" font-weight="bold" fill="#8c2a2a">【破產清算／強制執行】</text>
+                    <text x="460" y="180" text-anchor="middle" font-size="10" fill="#8c2a2a">（Liquidation）</text>
+                    <text x="332" y="200" font-size="9.5" fill="#333">• 一棒打死，洞府被燒</text>
+                    <text x="332" y="217" font-size="9.5" fill="#333">• 資產被充公，團隊徹底瓦解</text>
+                </svg>
             </div>
             <ul>
                 <li><b>體制內妖怪（高價併購與資產重組）：</b>金角、銀角大王被逼入絕境時，太上老君現身收回法寶與童子，實現附帶免責條款的資產回購。黑熊精與紅孩兒因個人技術能力強悍，被觀音菩薩直接進行人才併購（Acqui-hiring）。</li>
