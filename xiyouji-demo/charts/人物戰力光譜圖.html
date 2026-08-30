@@ -3,24 +3,83 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  // 在樣式套用前就先定案主題，避免翻回上次選擇時畫面閃一下錯誤配色
+  try {
+    var t = localStorage.getItem('xiyouji-chart-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
 <title>《西遊記》人物戰力光譜圖</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500&family=Cormorant+Garamond:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ground:#1A170F;--paper:#282315;--ink:#DBE3E6;--muted:#A6988C;
-    --aegean:#91CDDE;--wine:#D98CA1;--bronze:#DDB97E;--olive:#9FBCA2;--purple:#B093BE;
-    --rule:#5C533D;
+    --ground:#FAF6EE;--paper:#FFFFFF;--ink:#2A2620;--muted:#7C7163;--muted-strong:#5A5348;
+    --rule:#E4DCC9;--rule-strong:#B8AC90;--card-text:#4A4640;
+
+    --olive-strong:#3F7A57;--olive-soft:#5C8A6C;
+    --aegean-strong:#1E6B85;--aegean-soft:#4A7A8C;
+    --bronze-strong:#8A5D14;--bronze-soft:#93764A;
+    --wine-strong:#93314E;--wine-soft:#8C5563;
+    --purple-strong:#6B4380;--purple-soft:#7A5C8C;
+
+    --box-aegean-bg:#E8F3F6;--box-aegean-border:#9DC2CE;
+    --quad-warm-bg:#F7EEDD;
+    --box-wine-bg:#FBEBEF;--box-wine-border:#D9A6B4;
+    --box-bronze-bg:#FBF0DD;--box-bronze-border:#D8BD8E;
+    --box-muted-bg:#F1EFE9;--box-muted-border:#C9C2B0;
+    --box-olive-bg:#EAF4EC;--box-olive-border:#9DBEA0;
+    --callout-bg:#FBF3E4;--callout-border:#C9B77F;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:#1A170F;--paper:#282315;--ink:#DBE3E6;--muted:#A6988C;--muted-strong:#9C978B;
+      --rule:#5C533D;--rule-strong:#7E7358;--card-text:#B3B9BC;
+
+      --olive-strong:#9FBCA2;--olive-soft:#829C85;
+      --aegean-strong:#91CDDE;--aegean-soft:#7E9EA9;
+      --bronze-strong:#DDB97E;--bronze-soft:#B29F76;
+      --wine-strong:#D98CA1;--wine-soft:#AB7C89;
+      --purple-strong:#B093BE;--purple-soft:#9C87AB;
+
+      --box-aegean-bg:#182225;--box-aegean-border:#587D89;
+      --quad-warm-bg:#272017;
+      --box-wine-bg:#321A1E;--box-wine-border:#965462;
+      --box-bronze-bg:#322715;--box-bronze-border:#967A4A;
+      --box-muted-bg:#24231E;--box-muted-border:#767060;
+      --box-olive-bg:#1C261C;--box-olive-border:#5C7B5D;
+      --callout-bg:#2C2617;--callout-border:#87784F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:#1A170F;--paper:#282315;--ink:#DBE3E6;--muted:#A6988C;--muted-strong:#9C978B;
+    --rule:#5C533D;--rule-strong:#7E7358;--card-text:#B3B9BC;
+
+    --olive-strong:#9FBCA2;--olive-soft:#829C85;
+    --aegean-strong:#91CDDE;--aegean-soft:#7E9EA9;
+    --bronze-strong:#DDB97E;--bronze-soft:#B29F76;
+    --wine-strong:#D98CA1;--wine-soft:#AB7C89;
+    --purple-strong:#B093BE;--purple-soft:#9C87AB;
+
+    --box-aegean-bg:#182225;--box-aegean-border:#587D89;
+    --quad-warm-bg:#272017;
+    --box-wine-bg:#321A1E;--box-wine-border:#965462;
+    --box-bronze-bg:#322715;--box-bronze-border:#967A4A;
+    --box-muted-bg:#24231E;--box-muted-border:#767060;
+    --box-olive-bg:#1C261C;--box-olive-border:#5C7B5D;
+    --callout-bg:#2C2617;--callout-border:#87784F;
   }
   *{box-sizing:border-box}
+  button{color:inherit;font:inherit}
   body{margin:0;background:var(--ground);color:var(--ink);
     font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
     line-height:1.75;-webkit-font-smoothing:antialiased}
   .wrap{max-width:980px;margin:0 auto;padding:56px 24px 96px}
   header{border-bottom:1px solid var(--rule);padding-bottom:28px;margin-bottom:40px}
   .eyebrow{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;
-    font-size:20px;color:var(--bronze);letter-spacing:.04em;margin:0 0 6px}
+    font-size:20px;color:var(--bronze-strong);letter-spacing:.04em;margin:0 0 6px}
   h1{font-family:"Noto Serif TC",serif;font-weight:700;
     font-size:clamp(27px,5vw,38px);letter-spacing:.08em;margin:0 0 12px}
   .lede{margin:0;color:var(--muted);font-size:15px;max-width:58ch}
@@ -33,30 +92,37 @@
   .frame svg{display:block;min-width:860px;width:100%;height:auto}
   .grid{display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
     border-top:1px solid var(--rule)}
-  .card{padding:15px 16px;border-bottom:1px solid rgba(197,181,140,.6)}
+  .card{padding:15px 16px;border-bottom:1px solid var(--rule)}
   .card .nm{font-family:"Noto Serif TC",serif;font-weight:600;font-size:16px;letter-spacing:.06em}
   .card .gk{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;
-    font-size:14px;color:var(--bronze);margin-left:8px}
+    font-size:14px;color:var(--bronze-strong);margin-left:8px}
   .card .yr{font-size:11.5px;color:var(--muted);margin-left:8px}
-  .card p{margin:3px 0 0;font-size:13.5px;color:#B3B9BC}
-  .m1 .nm{color:var(--olive)} .m2 .nm{color:var(--aegean)}
-  .m3 .nm{color:var(--bronze)} .m4 .nm{color:var(--wine)}
+  .card p{margin:3px 0 0;font-size:13.5px;color:var(--card-text)}
+  .m1 .nm{color:var(--olive-strong)} .m2 .nm{color:var(--aegean-strong)}
+  .m3 .nm{color:var(--bronze-strong)} .m4 .nm{color:var(--wine-strong)}
   .band{display:flex;align-items:baseline;gap:12px;margin:0 0 2px}
   .tag{font-size:11px;letter-spacing:.16em;color:var(--muted)}
   .notes{margin-top:20px;display:grid;gap:14px;
     grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
-  .note{border-left:2px solid var(--bronze);padding-left:14px}
+  .note{border-left:2px solid var(--bronze-strong);padding-left:14px}
   .note b{font-family:"Noto Serif TC",serif;font-weight:600;display:block;font-size:14px}
   .note span{font-size:13px;color:var(--muted)}
   blockquote{margin:0;padding:16px 20px;background:var(--paper);
-    border-left:3px solid var(--wine);font-family:"Noto Serif TC",serif;
+    border-left:3px solid var(--wine-strong);font-family:"Noto Serif TC",serif;
     font-size:15px;letter-spacing:.04em}
   blockquote cite{display:block;font-family:"Noto Sans TC",sans-serif;font-style:normal;
     font-size:12.5px;color:var(--muted);margin-top:6px;letter-spacing:0}
   footer{border-top:1px solid var(--rule);padding-top:20px;color:var(--muted);font-size:12.5px}
+
+  .theme-toggle{position:fixed;top:16px;right:16px;width:36px;height:36px;
+    border:1px solid var(--rule-strong);border-radius:8px;background:var(--paper);
+    color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;
+    z-index:10}
+  .theme-toggle svg{width:20px;height:20px;display:block}
 </style>
 </head>
 <body>
+<button id="themeToggle" class="theme-toggle" type="button" title="切換深色/淺色模式" aria-label="切換深色/淺色模式"></button>
 <div class="wrap">
 
 <header>
@@ -71,93 +137,93 @@
   <div class="frame">
 <svg viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="西遊記人物戰力光譜圖">
 
-<rect x="88" y="68" width="389" height="452" fill="#182225"/>
-<rect x="477" y="68" width="389" height="452" fill="#272017"/>
-<rect x="88" y="294" width="778" height="226" fill="#DBE3E6" opacity="0.05"/>
-<rect x="88" y="68" width="778" height="452" fill="none" stroke="#7E7358"/>
-<line x1="477" y1="68" x2="477" y2="520" stroke="#7E7358" stroke-dasharray="3 4"/>
-<line x1="88" y1="294" x2="866" y2="294" stroke="#7E7358" stroke-dasharray="3 4"/>
+<rect x="88" y="68" width="389" height="452" fill="var(--box-aegean-bg)"/>
+<rect x="477" y="68" width="389" height="452" fill="var(--quad-warm-bg)"/>
+<rect x="88" y="294" width="778" height="226" fill="var(--ink)" opacity="0.05"/>
+<rect x="88" y="68" width="778" height="452" fill="none" stroke="var(--rule-strong)"/>
+<line x1="477" y1="68" x2="477" y2="520" stroke="var(--rule-strong)" stroke-dasharray="3 4"/>
+<line x1="88" y1="294" x2="866" y2="294" stroke="var(--rule-strong)" stroke-dasharray="3 4"/>
 
-<text x="100" y="88" font-size="9.5" fill="#9C978B">↑ 實戰表現頂尖</text>
-<text x="100" y="510" font-size="9.5" fill="#9C978B">↓ 戰力有限</text>
-<text x="282" y="52" font-size="10.5" text-anchor="middle" fill="#91CDDE" letter-spacing="3">靠自身修為武藝</text>
-<text x="672" y="52" font-size="10.5" text-anchor="middle" fill="#D98CA1" letter-spacing="3">靠法寶決勝</text>
+<text x="100" y="88" font-size="9.5" fill="var(--muted)">↑ 實戰表現頂尖</text>
+<text x="100" y="510" font-size="9.5" fill="var(--muted)">↓ 戰力有限</text>
+<text x="282" y="52" font-size="10.5" text-anchor="middle" fill="var(--aegean-strong)" letter-spacing="3">靠自身修為武藝</text>
+<text x="672" y="52" font-size="10.5" text-anchor="middle" fill="var(--wine-strong)" letter-spacing="3">靠法寶決勝</text>
 
 <g font-family="'Noto Serif TC',serif">
-  <circle cx="240" cy="105" r="9" fill="#9FBCA2"/>
-  <text x="240" y="91" font-size="14" text-anchor="middle" fill="#98B99C" font-weight="700">如來佛祖</text>
-  <text x="240" y="126" font-size="9.5" text-anchor="middle" fill="#829C85">翻掌即壓住悟空，全程未用任何法寶</text>
+  <circle cx="240" cy="105" r="9" fill="var(--olive-strong)"/>
+  <text x="240" y="91" font-size="14" text-anchor="middle" fill="var(--olive-strong)" font-weight="700">如來佛祖</text>
+  <text x="240" y="126" font-size="9.5" text-anchor="middle" fill="var(--olive-soft)">翻掌即壓住悟空，全程未用任何法寶</text>
 
-  <circle cx="405" cy="180" r="8.5" fill="#91CDDE"/>
-  <text x="405" y="166" font-size="13.5" text-anchor="middle" fill="#91CDDE" font-weight="700">孫悟空</text>
-  <text x="405" y="201" font-size="9.5" text-anchor="middle" fill="#7E9EA9">七十二變與觔斗雲，金箍棒是兵器不是外掛</text>
+  <circle cx="405" cy="180" r="8.5" fill="var(--aegean-strong)"/>
+  <text x="405" y="166" font-size="13.5" text-anchor="middle" fill="var(--aegean-strong)" font-weight="700">孫悟空</text>
+  <text x="405" y="201" font-size="9.5" text-anchor="middle" fill="var(--aegean-soft)">七十二變與觔斗雲，金箍棒是兵器不是外掛</text>
 
-  <circle cx="135" cy="200" r="7" fill="#9FBCA2"/>
-  <text x="135" y="186" font-size="12.5" text-anchor="middle" fill="#98B99C" font-weight="700">九靈元聖</text>
-  <text x="135" y="221" font-size="9.5" text-anchor="middle" fill="#829C85">純憑巨口叼走悟空</text>
+  <circle cx="135" cy="200" r="7" fill="var(--olive-strong)"/>
+  <text x="135" y="186" font-size="12.5" text-anchor="middle" fill="var(--olive-strong)" font-weight="700">九靈元聖</text>
+  <text x="135" y="221" font-size="9.5" text-anchor="middle" fill="var(--olive-soft)">純憑巨口叼走悟空</text>
 
-  <circle cx="290" cy="270" r="7" fill="#91CDDE"/>
-  <text x="290" y="256" font-size="12.5" text-anchor="middle" fill="#91CDDE" font-weight="700">二郎神</text>
-  <text x="290" y="291" font-size="9.5" text-anchor="middle" fill="#7E9EA9">變化之術與悟空鬥成平手</text>
+  <circle cx="290" cy="270" r="7" fill="var(--aegean-strong)"/>
+  <text x="290" y="256" font-size="12.5" text-anchor="middle" fill="var(--aegean-strong)" font-weight="700">二郎神</text>
+  <text x="290" y="291" font-size="9.5" text-anchor="middle" fill="var(--aegean-soft)">變化之術與悟空鬥成平手</text>
 
-  <circle cx="140" cy="340" r="6.5" fill="#91CDDE"/>
-  <text x="140" y="326" font-size="12" text-anchor="middle" fill="#91CDDE" font-weight="700">六耳獼猴</text>
-  <text x="140" y="361" font-size="9.5" text-anchor="middle" fill="#7E9EA9">神通與悟空完全相同</text>
+  <circle cx="140" cy="340" r="6.5" fill="var(--aegean-strong)"/>
+  <text x="140" y="326" font-size="12" text-anchor="middle" fill="var(--aegean-strong)" font-weight="700">六耳獼猴</text>
+  <text x="140" y="361" font-size="9.5" text-anchor="middle" fill="var(--aegean-soft)">神通與悟空完全相同</text>
 
-  <circle cx="425" cy="335" r="7" fill="#91CDDE"/>
-  <text x="425" y="321" font-size="12.5" text-anchor="middle" fill="#91CDDE" font-weight="700">牛魔王</text>
-  <text x="425" y="356" font-size="9.5" text-anchor="middle" fill="#7E9EA9">需天庭合圍才制伏</text>
+  <circle cx="425" cy="335" r="7" fill="var(--aegean-strong)"/>
+  <text x="425" y="321" font-size="12.5" text-anchor="middle" fill="var(--aegean-strong)" font-weight="700">牛魔王</text>
+  <text x="425" y="356" font-size="9.5" text-anchor="middle" fill="var(--aegean-soft)">需天庭合圍才制伏</text>
 
-  <circle cx="285" cy="412" r="6" fill="#9C978B"/>
-  <text x="285" y="398" font-size="12" text-anchor="middle" fill="#A6988C" font-weight="700">豬八戒</text>
-  <text x="285" y="433" font-size="9.5" text-anchor="middle" fill="#8B8578">天蓬元帥出身，實戰多半居下風</text>
+  <circle cx="285" cy="412" r="6" fill="var(--muted-strong)"/>
+  <text x="285" y="398" font-size="12" text-anchor="middle" fill="var(--muted-strong)" font-weight="700">豬八戒</text>
+  <text x="285" y="433" font-size="9.5" text-anchor="middle" fill="var(--muted)">天蓬元帥出身，實戰多半居下風</text>
 
-  <circle cx="150" cy="455" r="5.5" fill="#9C978B"/>
-  <text x="150" y="441" font-size="11.5" text-anchor="middle" fill="#A6988C" font-weight="700">白骨精</text>
-  <text x="150" y="476" font-size="9.5" text-anchor="middle" fill="#8B8578">僅靠變化行騙，一棒即斃</text>
+  <circle cx="150" cy="455" r="5.5" fill="var(--muted-strong)"/>
+  <text x="150" y="441" font-size="11.5" text-anchor="middle" fill="var(--muted-strong)" font-weight="700">白骨精</text>
+  <text x="150" y="476" font-size="9.5" text-anchor="middle" fill="var(--muted)">僅靠變化行騙，一棒即斃</text>
 
-  <circle cx="790" cy="115" r="8.5" fill="#DDB97E"/>
-  <text x="790" y="101" font-size="13.5" text-anchor="middle" fill="#DDB97E" font-weight="700">太上老君</text>
-  <text x="790" y="136" font-size="9.5" text-anchor="middle" fill="#B29F76">法寶之源，本人罕親自動手</text>
+  <circle cx="790" cy="115" r="8.5" fill="var(--bronze-strong)"/>
+  <text x="790" y="101" font-size="13.5" text-anchor="middle" fill="var(--bronze-strong)" font-weight="700">太上老君</text>
+  <text x="790" y="136" font-size="9.5" text-anchor="middle" fill="var(--bronze-soft)">法寶之源，本人罕親自動手</text>
 
-  <circle cx="578" cy="170" r="7.5" fill="#B093BE"/>
-  <text x="578" y="156" font-size="13" text-anchor="middle" fill="#B093BE" font-weight="700">鎮元子</text>
-  <text x="578" y="191" font-size="9.5" text-anchor="middle" fill="#9C87AB">袖裡乾坤一袖收走師徒四人</text>
+  <circle cx="578" cy="170" r="7.5" fill="var(--purple-strong)"/>
+  <text x="578" y="156" font-size="13" text-anchor="middle" fill="var(--purple-strong)" font-weight="700">鎮元子</text>
+  <text x="578" y="191" font-size="9.5" text-anchor="middle" fill="var(--purple-soft)">袖裡乾坤一袖收走師徒四人</text>
 
-  <circle cx="730" cy="240" r="7.5" fill="#DDB97E"/>
-  <text x="730" y="226" font-size="13" text-anchor="middle" fill="#DDB97E" font-weight="700">青牛精</text>
-  <text x="730" y="261" font-size="9.5" text-anchor="middle" fill="#B29F76">金剛琢套走金箍棒與眾神兵器</text>
+  <circle cx="730" cy="240" r="7.5" fill="var(--bronze-strong)"/>
+  <text x="730" y="226" font-size="13" text-anchor="middle" fill="var(--bronze-strong)" font-weight="700">青牛精</text>
+  <text x="730" y="261" font-size="9.5" text-anchor="middle" fill="var(--bronze-soft)">金剛琢套走金箍棒與眾神兵器</text>
 
-  <circle cx="545" cy="305" r="7" fill="#DDB97E"/>
-  <text x="545" y="291" font-size="12.5" text-anchor="middle" fill="#DDB97E" font-weight="700">黃眉怪</text>
-  <text x="545" y="326" font-size="9.5" text-anchor="middle" fill="#B29F76">人種袋兩度裝走悟空</text>
+  <circle cx="545" cy="305" r="7" fill="var(--bronze-strong)"/>
+  <text x="545" y="291" font-size="12.5" text-anchor="middle" fill="var(--bronze-strong)" font-weight="700">黃眉怪</text>
+  <text x="545" y="326" font-size="9.5" text-anchor="middle" fill="var(--bronze-soft)">人種袋兩度裝走悟空</text>
 
-  <circle cx="810" cy="335" r="6.5" fill="#D98CA1"/>
-  <text x="810" y="321" font-size="12" text-anchor="middle" fill="#D98CA1" font-weight="700">賽太歲</text>
-  <text x="810" y="356" font-size="9.5" text-anchor="middle" fill="#C99FA9">紫金鈴放火放煙放沙</text>
+  <circle cx="810" cy="335" r="6.5" fill="var(--wine-strong)"/>
+  <text x="810" y="321" font-size="12" text-anchor="middle" fill="var(--wine-strong)" font-weight="700">賽太歲</text>
+  <text x="810" y="356" font-size="9.5" text-anchor="middle" fill="var(--wine-soft)">紫金鈴放火放煙放沙</text>
 
-  <circle cx="628" cy="390" r="6" fill="#9C978B"/>
-  <text x="628" y="376" font-size="12" text-anchor="middle" fill="#A6988C" font-weight="700">玉皇大帝</text>
-  <text x="628" y="411" font-size="9.5" text-anchor="middle" fill="#8B8578">全書未曾親自出手，戰力無從評估</text>
+  <circle cx="628" cy="390" r="6" fill="var(--muted-strong)"/>
+  <text x="628" y="376" font-size="12" text-anchor="middle" fill="var(--muted-strong)" font-weight="700">玉皇大帝</text>
+  <text x="628" y="411" font-size="9.5" text-anchor="middle" fill="var(--muted)">全書未曾親自出手，戰力無從評估</text>
 </g>
 
-<rect x="498" y="430" width="352" height="88" rx="3" fill="#2C2617" stroke="#87784F"/>
-<text x="674" y="452" font-size="12" fill="#D98CA1" font-family="'Noto Serif TC',serif" font-weight="600" text-anchor="middle">問題的核心</text>
-<text x="674" y="474" font-size="10" fill="#ACAAA5" text-anchor="middle">右側那群人的戰績靠的不是修為，而是法寶。</text>
-<text x="674" y="490" font-size="10" fill="#ACAAA5" text-anchor="middle">法寶剋制的是兵器與神通，剋不了武藝本身——</text>
-<text x="674" y="506" font-size="10" fill="#9C978B" text-anchor="middle">所以悟空從未被打死，只是一再被「收走」。</text>
+<rect x="498" y="430" width="352" height="88" rx="3" fill="var(--callout-bg)" stroke="var(--callout-border)"/>
+<text x="674" y="452" font-size="12" fill="var(--wine-strong)" font-family="'Noto Serif TC',serif" font-weight="600" text-anchor="middle">問題的核心</text>
+<text x="674" y="474" font-size="10" fill="var(--card-text)" text-anchor="middle">右側那群人的戰績靠的不是修為，而是法寶。</text>
+<text x="674" y="490" font-size="10" fill="var(--card-text)" text-anchor="middle">法寶剋制的是兵器與神通，剋不了武藝本身——</text>
+<text x="674" y="506" font-size="10" fill="var(--muted)" text-anchor="middle">所以悟空從未被打死，只是一再被「收走」。</text>
 
-<g transform="translate(120,548)" font-size="10.5" fill="#A6988C">
-  <circle cx="4" cy="-4" r="5" fill="#9FBCA2"/><text x="16" y="0">純力量頂點</text>
-  <circle cx="106" cy="-4" r="5" fill="#91CDDE"/><text x="118" y="0">武藝取勝</text>
-  <circle cx="196" cy="-4" r="5" fill="#DDB97E"/><text x="208" y="0">法寶取勝</text>
-  <circle cx="286" cy="-4" r="5" fill="#B093BE"/><text x="298" y="0">特殊層級</text>
-  <circle cx="376" cy="-4" r="5" fill="#9C978B"/><text x="388" y="0">戰力有限或未展示</text>
+<g transform="translate(120,548)" font-size="10.5" fill="var(--muted)">
+  <circle cx="4" cy="-4" r="5" fill="var(--olive-strong)"/><text x="16" y="0">純力量頂點</text>
+  <circle cx="106" cy="-4" r="5" fill="var(--aegean-strong)"/><text x="118" y="0">武藝取勝</text>
+  <circle cx="196" cy="-4" r="5" fill="var(--bronze-strong)"/><text x="208" y="0">法寶取勝</text>
+  <circle cx="286" cy="-4" r="5" fill="var(--purple-strong)"/><text x="298" y="0">特殊層級</text>
+  <circle cx="376" cy="-4" r="5" fill="var(--muted-strong)"/><text x="388" y="0">戰力有限或未展示</text>
 </g>
 
-<line x1="88" y1="572" x2="866" y2="572" stroke="#9C978B" stroke-width="1.2"/>
-<text x="88" y="592" font-size="11" fill="#91CDDE">← 靠自身修為</text>
-<text x="866" y="592" font-size="11" text-anchor="end" fill="#D98CA1">靠法寶決勝 →</text>
+<line x1="88" y1="572" x2="866" y2="572" stroke="var(--muted)" stroke-width="1.2"/>
+<text x="88" y="592" font-size="11" fill="var(--aegean-strong)">← 靠自身修為</text>
+<text x="866" y="592" font-size="11" text-anchor="end" fill="var(--wine-strong)">靠法寶決勝 →</text>
 </svg>
   </div>
 
@@ -175,48 +241,48 @@
 <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="孫悟空戰力前後對照分析圖">
 <defs>
   <marker id="pw" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-    <path d="M0,0 L7,3 L0,6 z" fill="#7E7358"/>
+    <path d="M0,0 L7,3 L0,6 z" fill="var(--rule-strong)"/>
   </marker>
 </defs>
 
 <g font-family="'Noto Serif TC',serif">
-  <rect x="40" y="46" width="190" height="70" rx="3" fill="#182225" stroke="#587D89"/>
-  <text x="135" y="70" font-size="12.5" fill="#91CDDE" text-anchor="middle">常見印象</text>
-  <text x="135" y="90" font-size="9.5" fill="#7E9EA9" text-anchor="middle">十萬天兵拿他不下</text>
-  <text x="135" y="106" font-size="9" fill="#638090" text-anchor="middle">於是認定他當時天下無敵</text>
+  <rect x="40" y="46" width="190" height="70" rx="3" fill="var(--box-aegean-bg)" stroke="var(--box-aegean-border)"/>
+  <text x="135" y="70" font-size="12.5" fill="var(--aegean-strong)" text-anchor="middle">常見印象</text>
+  <text x="135" y="90" font-size="9.5" fill="var(--aegean-soft)" text-anchor="middle">十萬天兵拿他不下</text>
+  <text x="135" y="106" font-size="9" fill="var(--aegean-soft)" text-anchor="middle">於是認定他當時天下無敵</text>
 
-  <rect x="255" y="46" width="190" height="70" rx="3" fill="#321A1E" stroke="#965462"/>
-  <text x="350" y="70" font-size="12.5" fill="#D98CA1" text-anchor="middle">但原著其實寫著</text>
-  <text x="350" y="90" font-size="9.5" fill="#AB7C89" text-anchor="middle">十萬天兵是圍山布陣</text>
-  <text x="350" y="106" font-size="9" fill="#8A6570" text-anchor="middle">真正單挑的只有少數幾位</text>
+  <rect x="255" y="46" width="190" height="70" rx="3" fill="var(--box-wine-bg)" stroke="var(--box-wine-border)"/>
+  <text x="350" y="70" font-size="12.5" fill="var(--wine-strong)" text-anchor="middle">但原著其實寫著</text>
+  <text x="350" y="90" font-size="9.5" fill="var(--wine-soft)" text-anchor="middle">十萬天兵是圍山布陣</text>
+  <text x="350" y="106" font-size="9" fill="var(--wine-soft)" text-anchor="middle">真正單挑的只有少數幾位</text>
 
-  <rect x="470" y="46" width="190" height="70" rx="3" fill="#321A1E" stroke="#965462"/>
-  <text x="565" y="70" font-size="12.5" fill="#D98CA1" text-anchor="middle">而且他並沒有贏</text>
-  <text x="565" y="90" font-size="9.5" fill="#AB7C89" text-anchor="middle">與二郎神鬥成平手</text>
-  <text x="565" y="106" font-size="9" fill="#8A6570" text-anchor="middle">終遭老君金剛琢暗算擊倒</text>
+  <rect x="470" y="46" width="190" height="70" rx="3" fill="var(--box-wine-bg)" stroke="var(--box-wine-border)"/>
+  <text x="565" y="70" font-size="12.5" fill="var(--wine-strong)" text-anchor="middle">而且他並沒有贏</text>
+  <text x="565" y="90" font-size="9.5" fill="var(--wine-soft)" text-anchor="middle">與二郎神鬥成平手</text>
+  <text x="565" y="106" font-size="9" fill="var(--wine-soft)" text-anchor="middle">終遭老君金剛琢暗算擊倒</text>
 
-  <rect x="685" y="46" width="175" height="70" rx="3" fill="#322715" stroke="#967A4A"/>
-  <text x="772" y="70" font-size="12.5" fill="#DDBA7E" text-anchor="middle">關鍵在這裡</text>
-  <text x="772" y="90" font-size="9.5" fill="#B29F76" text-anchor="middle">收伏他的是法寶</text>
-  <text x="772" y="106" font-size="9" fill="#9A835A" text-anchor="middle">不是武藝，這條線索一路延續</text>
+  <rect x="685" y="46" width="175" height="70" rx="3" fill="var(--box-bronze-bg)" stroke="var(--box-bronze-border)"/>
+  <text x="772" y="70" font-size="12.5" fill="var(--bronze-strong)" text-anchor="middle">關鍵在這裡</text>
+  <text x="772" y="90" font-size="9.5" fill="var(--bronze-soft)" text-anchor="middle">收伏他的是法寶</text>
+  <text x="772" y="106" font-size="9" fill="var(--bronze-soft)" text-anchor="middle">不是武藝，這條線索一路延續</text>
 
-  <rect x="255" y="152" width="190" height="70" rx="3" fill="#24231E" stroke="#767060"/>
-  <text x="350" y="176" font-size="12.5" fill="#ACAAA5" text-anchor="middle">取經路上的對手</text>
-  <text x="350" y="196" font-size="9.5" fill="#9C978B" text-anchor="middle">多半持神仙級法寶</text>
-  <text x="350" y="212" font-size="9" fill="#7C7A70" text-anchor="middle">金剛琢、人種袋、紫金鈴、袖裡乾坤</text>
+  <rect x="255" y="152" width="190" height="70" rx="3" fill="var(--box-muted-bg)" stroke="var(--box-muted-border)"/>
+  <text x="350" y="176" font-size="12.5" fill="var(--muted-strong)" text-anchor="middle">取經路上的對手</text>
+  <text x="350" y="196" font-size="9.5" fill="var(--muted)" text-anchor="middle">多半持神仙級法寶</text>
+  <text x="350" y="212" font-size="9" fill="var(--muted)" text-anchor="middle">金剛琢、人種袋、紫金鈴、袖裡乾坤</text>
 
-  <rect x="470" y="152" width="190" height="70" rx="3" fill="#24231E" stroke="#767060"/>
-  <text x="565" y="176" font-size="12.5" fill="#ACAAA5" text-anchor="middle">法寶剋的是什麼</text>
-  <text x="565" y="196" font-size="9.5" fill="#9C978B" text-anchor="middle">套兵器、裝人、困住</text>
-  <text x="565" y="212" font-size="9" fill="#7C7A70" text-anchor="middle">全是繞過武藝的手段</text>
+  <rect x="470" y="152" width="190" height="70" rx="3" fill="var(--box-muted-bg)" stroke="var(--box-muted-border)"/>
+  <text x="565" y="176" font-size="12.5" fill="var(--muted-strong)" text-anchor="middle">法寶剋的是什麼</text>
+  <text x="565" y="196" font-size="9.5" fill="var(--muted)" text-anchor="middle">套兵器、裝人、困住</text>
+  <text x="565" y="212" font-size="9" fill="var(--muted)" text-anchor="middle">全是繞過武藝的手段</text>
 
-  <rect x="685" y="152" width="175" height="70" rx="3" fill="#1C261C" stroke="#5C7B5D"/>
-  <text x="772" y="176" font-size="12.5" fill="#98B99C" text-anchor="middle">結論</text>
-  <text x="772" y="196" font-size="9.5" fill="#829C85" text-anchor="middle">戰力沒降，考題換了</text>
-  <text x="772" y="212" font-size="9" fill="#6E8570" text-anchor="middle">從比拳腳變成比誰有東西</text>
+  <rect x="685" y="152" width="175" height="70" rx="3" fill="var(--box-olive-bg)" stroke="var(--box-olive-border)"/>
+  <text x="772" y="176" font-size="12.5" fill="var(--olive-strong)" text-anchor="middle">結論</text>
+  <text x="772" y="196" font-size="9.5" fill="var(--olive-soft)" text-anchor="middle">戰力沒降，考題換了</text>
+  <text x="772" y="212" font-size="9" fill="var(--olive-soft)" text-anchor="middle">從比拳腳變成比誰有東西</text>
 </g>
 
-<g stroke="#7E7358" stroke-width="1.3" fill="none" marker-end="url(#pw)">
+<g stroke="var(--rule-strong)" stroke-width="1.3" fill="none" marker-end="url(#pw)">
   <line x1="230" y1="81" x2="251" y2="81"/>
   <line x1="445" y1="81" x2="466" y2="81"/>
   <line x1="660" y1="81" x2="681" y2="81"/>
@@ -225,10 +291,10 @@
   <line x1="660" y1="187" x2="681" y2="187"/>
 </g>
 
-<text x="40" y="266" font-size="11" fill="#A6988C">另有兩個常被忽略的變因：其一，大鬧天宮時悟空孤身一人，取經路上卻要分心保護肉身凡胎的唐僧，許多場合不是打不贏，</text>
-<text x="40" y="288" font-size="11" fill="#A6988C">而是不能放手打；其二，他頭上多了緊箍，行動受制於唐僧的判斷，這是戰力之外的約束。</text>
-<text x="40" y="320" font-size="11" fill="#A6988C">真正未用法寶而正面制伏悟空的，全書只有如來與九靈元聖兩例；連二郎神都只鬥成平手，最後仍須老君擲金剛琢相助。</text>
-<text x="40" y="352" font-size="10" fill="#9C978B">※ 本頁的高下判斷屬依情節推定的相對定位，原著並無明文的戰力排行；不同版本與後世改編的設定差異亦大。</text>
+<text x="40" y="266" font-size="11" fill="var(--muted)">另有兩個常被忽略的變因：其一，大鬧天宮時悟空孤身一人，取經路上卻要分心保護肉身凡胎的唐僧，許多場合不是打不贏，</text>
+<text x="40" y="288" font-size="11" fill="var(--muted)">而是不能放手打；其二，他頭上多了緊箍，行動受制於唐僧的判斷，這是戰力之外的約束。</text>
+<text x="40" y="320" font-size="11" fill="var(--muted)">真正未用法寶而正面制伏悟空的，全書只有如來與九靈元聖兩例；連二郎神都只鬥成平手，最後仍須老君擲金剛琢相助。</text>
+<text x="40" y="352" font-size="10" fill="var(--muted)">※ 本頁的高下判斷屬依情節推定的相對定位，原著並無明文的戰力排行；不同版本與後世改編的設定差異亦大。</text>
 </svg>
   </div>
 </section>
@@ -265,5 +331,28 @@
 </footer>
 
 </div>
+<script>
+  var themeIcons = {
+    sun: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/><path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"/></svg>',
+    moon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"/></svg>'
+  };
+  function currentTheme() {
+    var explicit = document.documentElement.getAttribute('data-theme');
+    if (explicit === 'dark' || explicit === 'light') return explicit;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('xiyouji-chart-theme', theme); } catch (e) {}
+    var btn = document.getElementById('themeToggle');
+    btn.innerHTML = theme === 'dark' ? themeIcons.sun : themeIcons.moon;
+    btn.title = theme === 'dark' ? '切換為淺色模式' : '切換為深色模式';
+    btn.setAttribute('aria-label', btn.title);
+  }
+  applyTheme(currentTheme());
+  document.getElementById('themeToggle').addEventListener('click', function () {
+    applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+  });
+</script>
 </body>
 </html>
