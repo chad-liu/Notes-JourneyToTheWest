@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《西遊記》的大哉問</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family:
+            "Noto Sans TC",
+            "Microsoft JhengHei",
+            "PingFang TC",
+            sans-serif;
+        line-height: 1.8;
+        color: #2d2a26;
+        background: #f5f1e8;
+    }
+
+    header {
+        background: linear-gradient(135deg, #332b25, #65513d);
+        color: #fff;
+        text-align: center;
+        padding: 70px 20px 60px;
+    }
+
+    header h1 {
+        margin: 0 0 15px;
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        letter-spacing: 0.12em;
+    }
+
+    header p {
+        margin: 0;
+        font-size: 1.15rem;
+        opacity: 0.9;
+    }
+
+    .container {
+        width: min(1200px, 92%);
+        margin: 45px auto;
+    }
+
+    .intro {
+        background: #fff;
+        padding: 30px 35px;
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0,0,0,.08);
+        margin-bottom: 40px;
+        border-left: 6px solid #9b6b3d;
+    }
+
+    .intro p {
+        margin: 10px 0;
+    }
+
+    h2 {
+        font-size: 2rem;
+        color: #5a3f2b;
+        margin: 55px 0 25px;
+        border-bottom: 2px solid #c9b79c;
+        padding-bottom: 10px;
+    }
+
+    h3 {
+        color: #68492f;
+        margin-top: 0;
+    }
+
+    .question-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background: #fff;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.07);
+        border-top: 5px solid #9b6b3d;
+        transition: transform .2s, box-shadow .2s;
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0,0,0,.12);
+    }
+
+    .card .number {
+        font-size: .9rem;
+        color: #9b6b3d;
+        font-weight: bold;
+        letter-spacing: .1em;
+    }
+
+    .card h3 {
+        font-size: 1.35rem;
+    }
+
+    .card .answer {
+        color: #555;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.07);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 850px;
+    }
+
+    th {
+        background: #5a3f2b;
+        color: #fff;
+        padding: 15px;
+        text-align: left;
+    }
+
+    td {
+        padding: 15px;
+        border-bottom: 1px solid #e5ddd2;
+        vertical-align: top;
+    }
+
+    tr:nth-child(even) {
+        background: #faf7f1;
+    }
+
+    .qa {
+        margin: 18px 0;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0,0,0,.06);
+        overflow: hidden;
+    }
+
+    .qa summary {
+        cursor: pointer;
+        padding: 20px 25px;
+        font-weight: bold;
+        font-size: 1.15rem;
+        color: #5a3f2b;
+        background: #fffaf2;
+    }
+
+    .qa summary:hover {
+        background: #f4eadb;
+    }
+
+    .qa-content {
+        padding: 5px 25px 25px;
+        border-top: 1px solid #eadfce;
+    }
+
+    .highlight {
+        background: #efe2cf;
+        border-left: 5px solid #9b6b3d;
+        padding: 18px 22px;
+        margin: 20px 0;
+        font-size: 1.08rem;
+    }
+
+    .characters {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+    }
+
+    .character {
+        background: #fff;
+        padding: 22px;
+        border-radius: 14px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.06);
+    }
+
+    .character strong {
+        display: block;
+        font-size: 1.3rem;
+        color: #68492f;
+        margin-bottom: 8px;
+    }
+
+    .final-question {
+        margin-top: 50px;
+        background: linear-gradient(135deg, #49382b, #806345);
+        color: #fff;
+        border-radius: 20px;
+        padding: 50px 35px;
+        text-align: center;
+        box-shadow: 0 8px 30px rgba(0,0,0,.15);
+    }
+
+    .final-question h2 {
+        color: #fff;
+        border: 0;
+        margin-top: 0;
+    }
+
+    .final-question .quote {
+        font-size: clamp(1.3rem, 3vw, 2rem);
+        line-height: 1.7;
+        font-weight: bold;
+        margin: 25px auto;
+        max-width: 900px;
+    }
+
+    footer {
+        margin-top: 60px;
+        padding: 30px;
+        text-align: center;
+        color: #766b60;
+        background: #e9e1d5;
+    }
+
+    @media (max-width: 600px) {
+        header {
+            padding: 50px 15px;
+        }
+
+        .container {
+            width: 94%;
+        }
+
+        .intro {
+            padding: 22px;
+        }
+
+        .card {
+            padding: 20px;
+        }
+
+        .final-question {
+            padding: 35px 20px;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>《西遊記》的大哉問</h1>
+    <p>從神魔故事，看見人生、自由、修行與自我</p>
+</header>
+
+<main class="container">
+
+```
+<section class="intro">
+    <p>
+        如果把《西遊記》不只當成「唐僧師徒取經、降妖除魔的故事」，
+        而是當成一部探問「人為什麼要修行、如何面對自己、什麼是真正的自由」
+        的作品，那麼其中其實存在許多值得反覆思考的「大哉問」。
+    </p>
+
+    <div class="highlight">
+        《西遊記》的旅程，不只是從東土走向西天，
+        更是一個人從「認識世界」走向「認識自己」的過程。
+    </div>
+</section>
+
+<h2>一、十大大哉問</h2>
+
+<div class="question-grid">
+
+    <article class="card">
+        <div class="number">大哉問 01</div>
+        <h3>人為什麼要取經？</h3>
+        <p><strong>故事：</strong>唐僧不遠萬里前往西天。</p>
+        <p class="answer">
+            <strong>思考：</strong>
+            人活著究竟在追求什麼？為什麼人會不斷尋找真理與答案？
+        </p>
+    </article>
+
+    <article class="card">
+        <div class="number">大哉問 02</div>
+        <h3>什麼是真正的自由？</h3>
+        <p><strong>故事：</strong>孫悟空大鬧天宮，最後被壓在五行山下。</p>
+        <p class="answer">
+            <strong>思考：</strong>
+            不受任何約束就是自由嗎？真正的自由是否包括自我控制？
+        </p>
+    </article>
+
+    <article class="card">
+        <div class="number">大哉問 03</div>
+        <h3>人能不能戰勝自己的心魔？</h3>
+        <p><strong>故事：</strong>三打白骨精、真假美猴王。</p>
+        <p class="answer">
+            <strong>思考：</strong>
+            人最大的敵人究竟在外面，還是在自己的內心？
+        </p>
+    </article>
+
+    <article class="card">
+        <div class="number">大哉問 04</div>
+        <h3>善與惡真的能一眼分辨嗎？</h3>
+        <p><strong>故事：</strong>白骨精不斷改變外貌。</p>
+        <p class="answer">
+            <strong>思考：</strong>
+            外表是判斷善惡的可靠標準嗎？我們看到的是真相，還是自己想相信的真相？
+        </p>
+    </article>
+
+    <article class="card">
+        <div class="number">大哉問 05</div>
+        <h3>為什麼有能力的人仍需要團隊？</h3>
+        <p><strong>故事：</strong>唐僧、孫悟空、豬八戒、沙僧共同取經。</p>
+        <p class="answer">
+            <strong>思考：</strong>
+            個人能力與團隊合作，哪一個更重要？
+        </p>
+    </article>
+
+    <article class="card">
+        <div class="number">大哉問 06</div>
+        <h3>規則與自由哪一個更重要？</h3>
+        <p><strong>故事：</strong>孫悟空戴上緊箍兒。</p>
+        <p class="answer">
+            <strong>思考：</strong>
+            沒有規則的自由，真的能帶來真正的自由嗎？
+        </p>
+    </article>
+
+    <article class="card">
+        <div class="number">大哉問 07</div>
+        <h3>命運可以改變嗎？</h3>
+        <p><strong>故事：</strong>悟空反抗天庭，後來走上取經之路。</p>
+        <p class="answer">
+            <strong>思考：</strong>
+            人究竟能不能改變自己的命運？
+        </p>
+    </article>
+
+    <article class="card">
+        <div class="number">大哉問 08</div>
+        <h3>修行是在改變世界，還是在改變自己？</h3>
+        <p><strong>故事：</strong>師徒一路經歷八十一難。</p>
+        <p class="answer">
+            <strong>思考：</strong>
+            成長的真正對象究竟是環境，還是自己？
+        </p>
+    </article>
+
+    <article class="card">
+        <div class="number">大哉問 09</div>
+        <h3>為什麼人總是在磨難後才成長？</h3>
+        <p><strong>故事：</strong>唐僧師徒經歷八十一難。</p>
+        <p class="answer">
+            <strong>思考：</strong>
+            苦難究竟是懲罰，還是成長的必經之路？
+        </p>
+    </article>
+
+    <article class="card">
+        <div class="number">大哉問 10</div>
+        <h3>到了西天，真的就得到真經了嗎？</h3>
+        <p><strong>故事：</strong>唐僧最後取得佛經。</p>
+        <p class="answer">
+            <strong>思考：</strong>
+            真理可以被裝進一本經書裡嗎？
+        </p>
+    </article>
+
+</div>
+
+
+<h2>二、角色背後的大哉問</h2>
+
+<div class="characters">
+
+    <div class="character">
+        <strong>唐僧</strong>
+        <p>代表信念、道德與理想。</p>
+        <p>核心問題：</p>
+        <p><b>「我相信什麼？」</b></p>
+    </div>
+
+    <div class="character">
+        <strong>孫悟空</strong>
+        <p>代表力量、自由與自我。</p>
+        <p>核心問題：</p>
+        <p><b>「我如何才能真正自由？」</b></p>
+    </div>
+
+    <div class="character">
+        <strong>豬八戒</strong>
+        <p>代表欲望、弱點與普通人的人性。</p>
+        <p>核心問題：</p>
+        <p><b>「一個不完美的人能不能修行？」</b></p>
+    </div>
+
+    <div class="character">
+        <strong>沙僧</strong>
+        <p>代表責任、穩定與堅持。</p>
+        <p>核心問題：</p>
+        <p><b>「平凡的堅持有沒有價值？」</b></p>
+    </div>
+
+</div>
+
+
+<h2>三、經典故事中的哲學問題</h2>
+
+<details class="qa">
+    <summary>問題一：孫悟空為什麼一定要追求自由？</summary>
+    <div class="qa-content">
+        <p>
+            孫悟空最初不願接受任何人的支配，因此反抗地府、龍宮與天庭。
+            他追求的是「不受任何人管束」的自由。
+        </p>
+        <p>
+            但後來他被如來佛祖壓在五行山下，又戴上緊箍兒。
+            這讓我們重新思考：
+        </p>
+        <div class="highlight">
+            沒有任何約束就是自由嗎？
+            <br>
+            還是能夠控制自己的欲望與衝動，才是真正的自由？
+        </div>
+    </div>
+</details>
+
+<details class="qa">
+    <summary>問題二：孫悟空真正的敵人究竟是誰？</summary>
+    <div class="qa-content">
+        <p>
+            表面上，孫悟空一路上對抗各種妖怪。
+            但從更深的角度來看，他真正需要戰勝的包括：
+            驕傲、憤怒、衝動、執著與自我中心。
+        </p>
+        <div class="highlight">
+            人一生最大的敵人，到底是別人，還是自己？
+        </div>
+    </div>
+</details>
+
+<details class="qa">
+    <summary>問題三：三打白骨精告訴我們什麼？</summary>
+    <div class="qa-content">
+        <p>
+            白骨精不斷變換外貌，唐僧相信眼前所看到的人，
+            孫悟空則相信自己的判斷。
+        </p>
+        <p>
+            這場衝突其實提出了一個非常現代的問題：
+        </p>
+        <div class="highlight">
+            我們看到的是真相，
+            還是我們「想相信的真相」？
+        </div>
+    </div>
+</details>
+
+<details class="qa">
+    <summary>問題四：唐僧與孫悟空到底誰才是對的？</summary>
+    <div class="qa-content">
+        <p>
+            唐僧重視慈悲、戒律與原則；
+            孫悟空重視經驗、判斷與實際行動。
+        </p>
+        <p>
+            當「道德原則」與「現實判斷」發生衝突時，
+            我們究竟應該相信哪一個？
+        </p>
+    </div>
+</details>
+
+<details class="qa">
+    <summary>問題五：豬八戒為什麼值得我們注意？</summary>
+    <div class="qa-content">
+        <p>
+            豬八戒愛吃、愛睡、怕辛苦，也有許多欲望。
+            他不像孫悟空那麼強，也不像唐僧那麼堅定。
+        </p>
+        <p>
+            但即使如此，他最後仍然走到了西天。
+        </p>
+        <div class="highlight">
+            修行是不是一定要先成為完美的人？
+            <br><br>
+            或許正因為我們不完美，所以才需要修行。
+        </div>
+    </div>
+</details>
+
+<details class="qa">
+    <summary>問題六：為什麼一定要經歷八十一難？</summary>
+    <div class="qa-content">
+        <p>
+            如果佛祖可以直接把經書送到東土，
+            為什麼唐僧師徒還要走十萬八千里？
+        </p>
+        <p>
+            因為真正重要的可能不是「得到答案」，
+            而是「成為能理解答案的人」。
+        </p>
+        <div class="highlight">
+            八十一難不只是取得真經的代價，
+            八十一難本身就是「經」。
+        </div>
+    </div>
+</details>
+
+<details class="qa">
+    <summary>問題七：如來為什麼不直接消滅孫悟空？</summary>
+    <div class="qa-content">
+        <p>
+            如來有能力制服孫悟空，卻沒有直接消滅他，
+            而是把他壓在五行山下，等待他走上取經之路。
+        </p>
+        <p>
+            這可以理解為：
+        </p>
+        <div class="highlight">
+            真正的教育不是消滅一個人的力量，
+            而是讓力量找到正確的方向。
+        </div>
+    </div>
+</details>
+
+<details class="qa">
+    <summary>問題八：妖怪背後的「關係」代表什麼？</summary>
+    <div class="qa-content">
+        <p>
+            《西遊記》中有些妖怪最後會被發現是神仙的坐騎、
+            童子或與天庭、佛門有關的人物。
+        </p>
+        <p>
+            這使故事產生另一個值得思考的問題：
+        </p>
+        <div class="highlight">
+            規則真的對所有人都一樣嗎？
+            <br>
+            權力與關係是否會影響我們所認為的正義？
+        </div>
+    </div>
+</details>
+
+
+<h2>四、八十一難真正代表什麼？</h2>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>表面上的故事</th>
+                <th>深層的象徵</th>
+                <th>可以思考的問題</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>遇到妖怪</td>
+                <td>面對外在困難</td>
+                <td>人生的敵人來自外界還是內心？</td>
+            </tr>
+            <tr>
+                <td>孫悟空與唐僧衝突</td>
+                <td>理性與信念的衝突</td>
+                <td>原則與現實哪個重要？</td>
+            </tr>
+            <tr>
+                <td>豬八戒想放棄</td>
+                <td>人性的軟弱</td>
+                <td>不完美的人能否堅持到底？</td>
+            </tr>
+            <tr>
+                <td>被妖怪抓走</td>
+                <td>失去掌控</td>
+                <td>人在無法控制環境時怎麼辦？</td>
+            </tr>
+            <tr>
+                <td>重新出發</td>
+                <td>挫折後的成長</td>
+                <td>失敗是否也是修行？</td>
+            </tr>
+            <tr>
+                <td>最後取得真經</td>
+                <td>完成自我轉化</td>
+                <td>真正得到的究竟是經書，還是自己？</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<h2>五、五個終極問題</h2>
+
+<div class="question-grid">
+
+    <article class="card">
+        <div class="number">01</div>
+        <h3>人為什麼要尋找真理？</h3>
+        <p>——唐僧</p>
+    </article>
+
+    <article class="card">
+        <div class="number">02</div>
+        <h3>沒有束縛就是自由嗎？</h3>
+        <p>——孫悟空</p>
+    </article>
+
+    <article class="card">
+        <div class="number">03</div>
+        <h3>我最大的敵人究竟是誰？</h3>
+        <p>——妖怪與心魔</p>
+    </article>
+
+    <article class="card">
+        <div class="number">04</div>
+        <h3>一個不完美的人能不能成為更好的人？</h3>
+        <p>——豬八戒</p>
+    </article>
+
+    <article class="card">
+        <div class="number">05</div>
+        <h3>真理究竟在遠方，還是在自己的心中？</h3>
+        <p>——西天與真經</p>
+    </article>
+
+</div>
+
+
+<section class="final-question">
+
+    <h2>《西遊記》最大的「大哉問」</h2>
+
+    <div class="quote">
+        「一個人走過千山萬水之後，
+        真正需要改變的，
+        究竟是這個世界，還是自己？」
+    </div>
+
+    <p>
+        西天可能不是一個地理位置，
+        真經也不只是一本書。
+    </p>
+
+    <p>
+        真正的取經，是一個人經過漫長的旅程，
+        最後重新認識自己。
+    </p>
+
+</section>
+```
+
+</main>
+
+<footer>
+    《西遊記》的大哉問｜教學與閱讀思考版
+</footer>
+
+</body>
+</html>
