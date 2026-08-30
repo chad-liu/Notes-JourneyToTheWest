@@ -196,6 +196,16 @@ function applyTheme(theme) {
   $('#themeToggle').innerHTML = theme === 'dark' ? themeIcons.sun : themeIcons.moon;
   $('#themeToggle').title = theme === 'dark' ? '切換為淺色模式' : '切換為深色模式';
   $('#themeToggle').setAttribute('aria-label', $('#themeToggle').title);
+  syncChartTheme(theme);
+}
+
+function syncChartTheme(theme) {
+  // 圖表資料的 iframe 內容與主站同源，部分檔案（如人物戰力光譜圖）支援 data-theme，
+  // 直接同步過去即可共用同一顆按鈕；其餘檔案沒有對應樣式，設了也不會有影響。
+  try {
+    const doc = $('#chartsFrame')?.contentDocument;
+    if (doc) doc.documentElement.setAttribute('data-theme', theme);
+  } catch (e) {}
 }
 
 function initTheme() {
@@ -303,6 +313,8 @@ function ensureCharts() {
     closeChartsMenu();
     closeMobileMenu();
   });
+  // 每次 iframe 換頁都是全新文件，載入完成後把目前主題推進去（對不支援深色模式的檔案是無害的無操作）
+  $('#chartsFrame').addEventListener('load', () => syncChartTheme(currentTheme()));
   loadChart(chartFiles[0].file);
   state.chartsReady = true;
 }
