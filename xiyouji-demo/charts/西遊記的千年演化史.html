@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《西遊記》的千年演化史</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family:
+            "Noto Sans TC",
+            "Microsoft JhengHei",
+            "PingFang TC",
+            sans-serif;
+        line-height: 1.8;
+        color: #263238;
+        background: #f5f7fa;
+    }
+
+    header {
+        background: linear-gradient(135deg, #5d4037, #8d6e63);
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0 0 15px;
+        font-size: 2.8rem;
+        letter-spacing: 3px;
+    }
+
+    header p {
+        margin: 0;
+        font-size: 1.2rem;
+        opacity: 0.95;
+    }
+
+    main {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    section {
+        background: white;
+        margin-bottom: 35px;
+        padding: 35px;
+        border-radius: 16px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+    }
+
+    h2 {
+        color: #5d4037;
+        border-left: 6px solid #8d6e63;
+        padding-left: 15px;
+        margin-top: 0;
+    }
+
+    h3 {
+        color: #6d4c41;
+        margin-top: 30px;
+    }
+
+    .intro {
+        font-size: 1.15rem;
+        background: #fff8e1;
+        border-left: 6px solid #ffb300;
+    }
+
+    .quote {
+        margin: 25px 0;
+        padding: 25px;
+        background: #efebe9;
+        border-radius: 12px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #4e342e;
+    }
+
+    /* 時間軸 */
+    .timeline {
+        position: relative;
+        margin: 30px 0;
+        padding-left: 35px;
+    }
+
+    .timeline::before {
+        content: "";
+        position: absolute;
+        left: 12px;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: #bcaaa4;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 30px;
+        padding: 20px 25px;
+        background: #fafafa;
+        border-radius: 12px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -31px;
+        top: 25px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #6d4c41;
+        border: 4px solid white;
+        box-shadow: 0 0 0 2px #8d6e63;
+    }
+
+    .timeline-year {
+        font-weight: bold;
+        color: #8d6e63;
+        font-size: 1.15rem;
+    }
+
+    /* 表格 */
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        min-width: 760px;
+    }
+
+    th {
+        background: #6d4c41;
+        color: white;
+        padding: 14px;
+        text-align: left;
+    }
+
+    td {
+        padding: 14px;
+        border-bottom: 1px solid #ddd;
+        vertical-align: top;
+    }
+
+    tr:nth-child(even) {
+        background: #fafafa;
+    }
+
+    tr:hover {
+        background: #fff3e0;
+    }
+
+    /* 角色卡片 */
+    .characters {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .character {
+        padding: 25px;
+        border-radius: 14px;
+        background: #f5f5f5;
+        border-top: 5px solid #795548;
+    }
+
+    .character h3 {
+        margin-top: 0;
+    }
+
+    .evolution {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #5d4037;
+        background: #fff8e1;
+        padding: 12px 15px;
+        border-radius: 8px;
+    }
+
+    /* 流程 */
+    .flow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 30px 0;
+    }
+
+    .flow-item {
+        padding: 14px 18px;
+        background: #efebe9;
+        border-radius: 10px;
+        text-align: center;
+        font-weight: bold;
+        min-width: 150px;
+    }
+
+    .arrow {
+        font-size: 1.5rem;
+        color: #795548;
+        font-weight: bold;
+    }
+
+    .highlight {
+        color: #c62828;
+        font-weight: bold;
+    }
+
+    footer {
+        text-align: center;
+        padding: 35px 20px;
+        background: #3e2723;
+        color: #eee;
+        margin-top: 50px;
+    }
+
+    footer p {
+        margin: 5px 0;
+    }
+
+    @media (max-width: 768px) {
+        header h1 {
+            font-size: 2rem;
+        }
+
+        section {
+            padding: 22px;
+        }
+
+        .characters {
+            grid-template-columns: 1fr;
+        }
+
+        .flow {
+            flex-direction: column;
+        }
+
+        .arrow {
+            transform: rotate(90deg);
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>《西遊記》的千年演化史</h1>
+    <p>從歷史上的玄奘取經，到吳承恩筆下的神魔小說</p>
+</header>
+
+<main>
+
+    <!-- 核心概念 -->
+    <section class="intro">
+        <h2>一、核心概念</h2>
+
+        <p>
+            《西遊記》從歷史上的真實取經，演變到吳承恩筆下的神魔小說，
+            經歷了近千年的「全民集體創作」與神格化過程。
+        </p>
+
+        <p>
+            唐玄奘是真實的歷史人物，但我們今天熟悉的孫悟空、豬八戒、
+            沙僧與八十一難，是經過千年民間傳說、宗教敘事、文學加工
+            與戲曲小說累積後，才逐漸形成的。
+        </p>
+
+        <div class="quote">
+            《西遊記》不是一個人突然創造出來的故事，
+            而是一條延續一千多年的文化河流。
+        </div>
+    </section>
+
+
+    <!-- 千年時間軸 -->
+    <section>
+        <h2>二、《西遊記》的「千年集體創作」歷程</h2>
+
+        <div class="timeline">
+
+            <div class="timeline-item">
+                <div class="timeline-year">7世紀・唐朝</div>
+                <h3>玄奘西行取經</h3>
+                <p>
+                    真實的玄奘（602？–664）從長安出發，前往印度求法，
+                    歷時約17年。
+                </p>
+                <p>
+                    這是整個《西遊記》故事最重要的歷史原型。
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">7世紀末～8世紀</div>
+                <h3>玄奘事蹟逐漸傳奇化</h3>
+                <p>
+                    《大唐西域記》與《大唐大慈恩寺三藏法師傳》等著作，
+                    記錄玄奘的西域與印度見聞。
+                </p>
+                <p>
+                    隨著故事流傳，歷史人物開始逐漸帶有傳奇與神聖色彩。
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">唐代</div>
+                <h3>寺院講經與民間講唱</h3>
+                <p>
+                    玄奘取經故事開始從「歷史」走向「傳奇」。
+                    佛教寺院與民間講唱使故事更加通俗化。
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">宋代</div>
+                <h3>說話與民間故事</h3>
+                <p>
+                    取經故事更加通俗化，逐漸出現大量神怪、妖魔與奇異情節。
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">元代</div>
+                <h3>雜劇、平話與猴王形象</h3>
+                <p>
+                    取經故事成為成熟的民間娛樂題材。
+                    孫悟空等角色逐漸形成比較清楚的形象。
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">明代</div>
+                <h3>《西遊記》小說形成</h3>
+                <p>
+                    吳承恩等文學傳統將前代累積的故事整合，
+                    最終形成我們今天看到的神魔小說。
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">明清以後</div>
+                <h3>戲曲、評書與民間信仰</h3>
+                <p>
+                    《西遊記》人物進一步神格化、普及化，
+                    成為東亞文化的重要經典。
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-year">近現代</div>
+                <h3>電影、電視、動畫、漫畫與遊戲</h3>
+                <p>
+                    孫悟空等人物逐漸脫離原著，
+                    成為全球流行文化的重要符號。
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 表格 -->
+    <section>
+        <h2>三、《西遊記》的歷史演化表</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>時代</th>
+                        <th>歷史／文學發展</th>
+                        <th>主要變化</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>7世紀・唐朝</td>
+                        <td>玄奘西行取經</td>
+                        <td>真實的玄奘前往印度求法。</td>
+                    </tr>
+
+                    <tr>
+                        <td>7世紀末～8世紀</td>
+                        <td>《大唐西域記》與《大唐大慈恩寺三藏法師傳》</td>
+                        <td>玄奘的印度見聞被記錄，逐漸產生傳奇色彩。</td>
+                    </tr>
+
+                    <tr>
+                        <td>唐代</td>
+                        <td>佛教寺院與民間講唱</td>
+                        <td>玄奘取經故事從歷史逐漸走向傳奇。</td>
+                    </tr>
+
+                    <tr>
+                        <td>宋代</td>
+                        <td>說話、講經、民間故事</td>
+                        <td>出現更多神怪、妖魔與奇異情節。</td>
+                    </tr>
+
+                    <tr>
+                        <td>元代</td>
+                        <td>雜劇、平話</td>
+                        <td>孫悟空等角色逐漸成形，取經故事更加成熟。</td>
+                    </tr>
+
+                    <tr>
+                        <td>明代</td>
+                        <td>《西遊記》成書</td>
+                        <td>前代故事被重新整合，形成完整的神魔小說。</td>
+                    </tr>
+
+                    <tr>
+                        <td>明清以後</td>
+                        <td>戲曲、評書、繪畫、民間信仰</td>
+                        <td>人物更加神格化與普及化。</td>
+                    </tr>
+
+                    <tr>
+                        <td>現代</td>
+                        <td>電影、電視、動畫、漫畫、遊戲</td>
+                        <td>孫悟空等人物成為全球流行文化符號。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <!-- 角色演化 -->
+    <section>
+        <h2>四、《西遊記》主要角色的演化</h2>
+
+        <div class="characters">
+
+            <div class="character">
+                <h3>① 玄奘 → 唐僧</h3>
+
+                <p>
+                    最初是歷史上的高僧玄奘。
+                    後來在佛教故事中逐漸具有神聖使命，
+                    到了小說裡則成為需要徒弟保護的唐僧。
+                </p>
+
+                <div class="evolution">
+                    玄奘 → 三藏法師 → 唐僧
+                </div>
+            </div>
+
+
+            <div class="character">
+                <h3>② 猴行者 → 孫悟空</h3>
+
+                <p>
+                    早期取經傳說中並沒有今天完整的孫悟空形象。
+                    經過唐宋民間故事、宋元話本與戲曲等長期累積，
+                    「神猴」逐漸被塑造成完整人物。
+                </p>
+
+                <div class="evolution">
+                    猴妖 → 猴行者 → 齊天大聖 → 孫悟空
+                </div>
+
+                <p>
+                    最終形成具有
+                    <span class="highlight">反抗 → 受困 → 修行 → 覺悟 → 護法</span>
+                    完整精神歷程的孫悟空。
+                </p>
+            </div>
+
+
+            <div class="character">
+                <h3>③ 豬八戒</h3>
+
+                <p>
+                    豬八戒並非吳承恩憑空創造，
+                    而是在前代取經故事、民間神話與豬妖形象的基礎上逐漸形成。
+                </p>
+
+                <p>
+                    到了《西遊記》，他被賦予：
+                </p>
+
+                <ul>
+                    <li>好色</li>
+                    <li>貪吃</li>
+                    <li>懶惰</li>
+                    <li>怕死</li>
+                    <li>忠誠</li>
+                    <li>善良</li>
+                    <li>有人情味</li>
+                </ul>
+
+                <p>
+                    因此，豬八戒成為最具有
+                    <span class="highlight">「凡人性」</span>
+                    的角色之一。
+                </p>
+            </div>
+
+
+            <div class="character">
+                <h3>④ 沙僧</h3>
+
+                <p>
+                    相較於孫悟空與豬八戒，
+                    沙僧的前身更加複雜。
+                    在不同時期的故事中具有不同來源與形象。
+                </p>
+
+                <p>
+                    最後小說將他固定為：
+                </p>
+
+                <div class="evolution">
+                    沉默、穩重、服從、負責任的第三弟子
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 吳承恩 -->
+    <section>
+        <h2>五、其實不是「吳承恩創造《西遊記》」</h2>
+
+        <p>
+            這是理解《西遊記》最重要的觀念之一。
+        </p>
+
+        <div class="quote">
+            吳承恩不是《西遊記》故事的「發明者」，
+            而更像是千年取經傳說的「總編輯」。
+        </div>
+
+        <p>
+            《西遊記》的故事並非由一位作者突然創造，
+            而是在漫長的歷史過程中不斷累積、修改、重組。
+        </p>
+    </section>
+
+
+    <!-- 集體創作流程 -->
+    <section>
+        <h2>六、「全民集體創作」的形成過程</h2>
+
+        <div class="flow">
+
+            <div class="flow-item">
+                歷史玄奘
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="flow-item">
+                佛教高僧傳記
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="flow-item">
+                寺院講經
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="flow-item">
+                民間口述故事
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="flow-item">
+                說話、平話
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="flow-item">
+                宋元戲曲
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="flow-item">
+                民間神話
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="flow-item">
+                明代小說
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="flow-item">
+                現代流行文化
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 多元文化融合 -->
+    <section>
+        <h2>七、孫悟空到底是誰創造的？</h2>
+
+        <p>
+            如果要尋找一位「孫悟空的創造者」，
+            恐怕很難得到單一答案。
+        </p>
+
+        <div class="flow">
+
+            <div class="flow-item">
+                印度神話
+            </div>
+
+            <div class="arrow">＋</div>
+
+            <div class="flow-item">
+                佛教故事
+            </div>
+
+            <div class="arrow">＋</div>
+
+            <div class="flow-item">
+                中國猴神傳說
+            </div>
+
+            <div class="arrow">＋</div>
+
+            <div class="flow-item">
+                民間說書
+            </div>
+
+            <div class="arrow">＋</div>
+
+            <div class="flow-item">
+                道教神仙體系
+            </div>
+
+            <div class="arrow">＋</div>
+
+            <div class="flow-item">
+                宋元戲曲
+            </div>
+
+            <div class="arrow">＋</div>
+
+            <div class="flow-item">
+                明代小說
+            </div>
+
+        </div>
+
+        <div class="quote">
+            共同「孵化」出我們今天熟悉的孫悟空。
+        </div>
+    </section>
+
+
+    <!-- 最終結論 -->
+    <section>
+        <h2>八、結論：一條延續千年的文化河流</h2>
+
+        <p>
+            《西遊記》與其說是一部單純的小說，
+            不如把它看成一條延續一千多年的文化河流。
+        </p>
+
+        <p>
+            玄奘是這條文化河流的重要源頭之一；
+            佛教僧侶、民間說書人、戲曲藝人、文人、
+            民間信仰與普通百姓，則不斷為這條河流加入新的內容。
+        </p>
+
+        <p>
+            吳承恩則是其中最重要的整合者之一，
+            將長期累積的故事、人物與思想重新組織，
+            最終形成具有高度文學價值的神魔小說。
+        </p>
+
+        <div class="quote">
+            玄奘是源頭之一，<br>
+            吳承恩是重要的整合者，<br>
+            而孫悟空則是這條文化河流中，
+            最終凝聚出來的文化巨浪。
+        </div>
+    </section>
+
+</main>
+
+
+<footer>
+    <p>《西遊記》的千年演化史</p>
+    <p>從歷史、宗教、民間傳說到神魔小說</p>
+</footer>
+
+</body>
+</html>
