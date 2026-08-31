@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>《西遊記》故事時間軸｜教學版</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family:
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        "PingFang TC",
+        sans-serif;
+    background: #f4f6f8;
+    color: #263238;
+    line-height: 1.8;
+}
+
+/* =========================
+   Header
+========================= */
+
+header {
+    background: linear-gradient(135deg, #263238, #546e7a);
+    color: white;
+    text-align: center;
+    padding: 70px 20px 65px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 3rem;
+    letter-spacing: 4px;
+}
+
+header p {
+    margin: 15px 0 0;
+    font-size: 1.25rem;
+    opacity: 0.95;
+}
+
+.subtitle {
+    margin-top: 20px;
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* =========================
+   Navigation
+========================= */
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #ddd;
+}
+
+nav ul {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+nav li a {
+    display: block;
+    padding: 12px 16px;
+    color: #37474f;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+nav li a:hover {
+    background: #eceff1;
+}
+
+/* =========================
+   Main
+========================= */
+
+main {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+section {
+    background: white;
+    margin-bottom: 35px;
+    padding: 38px;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+}
+
+h2 {
+    margin-top: 0;
+    color: #37474f;
+    border-left: 7px solid #78909c;
+    padding-left: 15px;
+}
+
+h3 {
+    color: #455a64;
+}
+
+p {
+    margin: 12px 0;
+}
+
+strong {
+    color: #263238;
+}
+
+/* =========================
+   Intro
+========================= */
+
+.intro {
+    background: #eceff1;
+    border-left: 7px solid #546e7a;
+}
+
+.big-question {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 30px 0;
+    color: #37474f;
+}
+
+.quote {
+    margin: 25px 0;
+    padding: 25px;
+    background: #fff8e1;
+    border-left: 6px solid #ffb300;
+    border-radius: 12px;
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+/* =========================
+   Three timelines
+========================= */
+
+.timeline-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.timeline-layers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.layer {
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.layer h3 {
+    margin-top: 0;
+}
+
+.layer-myth {
+    background: #ede7f6;
+    border-top: 6px solid #673ab7;
+}
+
+.layer-history {
+    background: #e3f2fd;
+    border-top: 6px solid #1976d2;
+}
+
+.layer-story {
+    background: #fff3e0;
+    border-top: 6px solid #ef6c00;
+}
+
+.layer-icon {
+    font-size: 2.3rem;
+    margin-bottom: 10px;
+}
+
+/* =========================
+   Main timeline
+========================= */
+
+.main-timeline {
+    position: relative;
+    margin: 40px 0;
+    padding-left: 55px;
+}
+
+.main-timeline::before {
+    content: "";
+    position: absolute;
+    left: 18px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #b0bec5;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 35px;
+    padding: 25px;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -48px;
+    top: 27px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #546e7a;
+    border: 5px solid white;
+    box-shadow: 0 0 0 2px #78909c;
+}
+
+.timeline-item h3 {
+    margin: 5px 0;
+}
+
+.period {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: #607d8b;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* =========================
+   Story stages
+========================= */
+
+.stage-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.stage {
+    padding: 25px;
+    border-radius: 15px;
+    background: #fafafa;
+    border: 1px solid #ddd;
+}
+
+.stage-number {
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+    border-radius: 50%;
+    text-align: center;
+    background: #546e7a;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.stage h3 {
+    margin-top: 5px;
+}
+
+/* =========================
+   Flow
+========================= */
+
+.flow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 30px 0;
+}
+
+.flow-item {
+    min-width: 145px;
+    padding: 14px 18px;
+    background: #eceff1;
+    border: 1px solid #cfd8dc;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.arrow {
+    font-size: 1.5rem;
+    color: #607d8b;
+    font-weight: bold;
+}
+
+/* =========================
+   Important events
+========================= */
+
+.events {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.event {
+    padding: 22px;
+    background: #fafafa;
+    border-radius: 13px;
+    border-top: 5px solid #78909c;
+}
+
+.event h3 {
+    margin-top: 0;
+}
+
+/* =========================
+   Character table
+========================= */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
+}
+
+th {
+    background: #455a64;
+    color: white;
+    padding: 14px;
+    text-align: left;
+}
+
+td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+}
+
+tr:nth-child(even) {
+    background: #fafafa;
+}
+
+tr:hover {
+    background: #eceff1;
+}
+
+/* =========================
+   81 trials
+========================= */
+
+.trials-box {
+    background: #fff8e1;
+    border: 2px solid #ffe082;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.trials-number {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    color: #ef6c00;
+}
+
+.trials-title {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+/* =========================
+   Final
+========================= */
+
+.final {
+    background: linear-gradient(
+        135deg,
+        #eceff1,
+        #f5f5f5
+    );
+    border-top: 7px solid #546e7a;
+}
+
+.final-flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.final-card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.final-card strong {
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* =========================
+   Teaching questions
+========================= */
+
+.question {
+    margin: 15px 0;
+    padding: 18px 20px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    border-left: 5px solid #78909c;
+}
+
+.question strong {
+    color: #37474f;
+}
+
+/* =========================
+   Footer
+========================= */
+
+footer {
+    background: #263238;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+footer p {
+    margin: 5px;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 900px) {
+
+    .timeline-layers,
+    .events {
+        grid-template-columns: 1fr;
+    }
+
+    .stage-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .final-flow {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    header h1 {
+        font-size: 2.3rem;
+    }
+}
+
+@media (max-width: 600px) {
+
+    section {
+        padding: 23px;
+    }
+
+    header {
+        padding: 50px 15px;
+    }
+
+    header h1 {
+        font-size: 1.9rem;
+    }
+
+    .flow {
+        flex-direction: column;
+    }
+
+    .arrow {
+        transform: rotate(90deg);
+    }
+
+    .final-flow {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>《西遊記》故事時間軸</h1>
+
+    <p>
+        從天地神話、孫悟空誕生，到唐僧西天取經與五聖成佛
+    </p>
+
+    <div class="subtitle">
+        教學版｜神話時間 × 唐朝歷史 × 取經故事
+    </div>
+
+</header>
+
+
+<nav>
+
+<ul>
+
+<li><a href="#concept">核心概念</a></li>
+<li><a href="#three">三層時間</a></li>
+<li><a href="#timeline">完整時間軸</a></li>
+<li><a href="#journey">取經旅程</a></li>
+<li><a href="#events">重要事件</a></li>
+<li><a href="#characters">人物結局</a></li>
+<li><a href="#questions">思考題</a></li>
+
+</ul>
+
+</nav>
+
+
+<main>
+
+
+<!-- 核心概念 -->
+
+<section id="concept" class="intro">
+
+<h2>一、先理解：《西遊記》的時間不是單純的一條線</h2>
+
+<p>
+《西遊記》是一部把
+<strong>歷史、佛教、道教、民間神話與小說想像</strong>
+融合在一起的作品。
+</p>
+
+<div class="big-question">
+為什麼孫悟空的故事，會發生在唐僧出生之前？
+</div>
+
+<p>
+因為《西遊記》存在不同層次的時間。
+</p>
+
+<div class="quote">
+孫悟空的大鬧天宮，是「神話時間」；
+唐僧取經，是「唐朝歷史背景」；
+八十一難，則是「小說敘事時間」。
+</div>
+
+<p>
+因此，閱讀《西遊記》時，
+不能把所有事件都當成同一種歷史時間。
+</p>
+
+</section>
+
+
+<!-- 三層時間 -->
+
+<section id="three">
+
+<h2>二、《西遊記》的三層時間</h2>
+
+<p class="timeline-intro">
+把《西遊記》拆成三條時間線，就容易理解整個故事。
+</p>
+
+<div class="timeline-layers">
+
+<div class="layer layer-myth">
+
+<div class="layer-icon">☯</div>
+
+<h3>① 神話時間</h3>
+
+<p>
+天地初開<br>
+花果山仙石<br>
+孫悟空誕生<br>
+大鬧天宮<br>
+五行山
+</p>
+
+<p>
+這條時間線具有神話與宇宙尺度。
+</p>
+
+</div>
+
+
+<div class="layer layer-history">
+
+<div class="layer-icon">📜</div>
+
+<h3>② 唐朝歷史</h3>
+
+<p>
+唐太宗時代<br>
+玄奘西行<br>
+長安<br>
+西域<br>
+天竺
+</p>
+
+<p>
+故事借用了真實的玄奘取經歷史。
+</p>
+
+</div>
+
+
+<div class="layer layer-story">
+
+<div class="layer-icon">📖</div>
+
+<h3>③ 小說敘事時間</h3>
+
+<p>
+唐僧收徒<br>
+八十一難<br>
+西天取經<br>
+取得真經<br>
+功德圓滿
+</p>
+
+<p>
+這是我們閱讀小說時看到的主要故事線。
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- 完整時間軸 -->
+
+<section id="timeline">
+
+<h2>三、《西遊記》完整故事時間軸</h2>
+
+<div class="main-timeline">
+
+
+<div class="timeline-item">
+
+<span class="period">神話時代</span>
+
+<h3>① 天地初開與花果山仙石</h3>
+
+<p>
+天地形成之後，花果山山頂有一塊吸收天地靈氣的仙石。
+</p>
+
+<p>
+仙石孕育出一隻石猴。
+</p>
+
+<strong>這就是孫悟空。</strong>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">孫悟空早年</span>
+
+<h3>② 拜菩提祖師為師</h3>
+
+<p>
+孫悟空為尋求長生之術，遠渡海外，
+最後找到菩提祖師。
+</p>
+
+<p>
+學會：
+</p>
+
+<ul>
+<li>七十二變</li>
+<li>筋斗雲</li>
+<li>各種法術</li>
+</ul>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">花果山時期</span>
+
+<h3>③ 龍宮取金箍棒</h3>
+
+<p>
+孫悟空前往東海龍宮，
+取得如意金箍棒。
+</p>
+
+<p>
+金箍棒從此成為他的標誌性武器。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">地府事件</span>
+
+<h3>④ 大鬧地府</h3>
+
+<p>
+孫悟空闖入地府，
+要求修改生死簿。
+</p>
+
+<p>
+他把自己的名字從生死名冊中刪除，
+也因此正式挑戰天界秩序。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">天庭</span>
+
+<h3>⑤ 第一次招安：弼馬溫</h3>
+
+<p>
+玉皇大帝招安孫悟空，
+任命他擔任弼馬溫。
+</p>
+
+<p>
+孫悟空得知官職低微後，
+憤而返回花果山。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">天庭</span>
+
+<h3>⑥ 自封「齊天大聖」</h3>
+
+<p>
+孫悟空回到花果山，
+自稱：
+</p>
+
+<div class="quote">
+齊天大聖
+</div>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">大鬧天宮</span>
+
+<h3>⑦ 偷吃蟠桃、金丹</h3>
+
+<p>
+孫悟空再次受到天庭招安，
+負責看守蟠桃園。
+</p>
+
+<p>
+結果偷吃蟠桃，
+又闖入兜率宮偷吃太上老君的金丹。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">大鬧天宮</span>
+
+<h3>⑧ 大鬧蟠桃會</h3>
+
+<p>
+孫悟空破壞蟠桃會，
+天庭終於決定全面圍剿。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">大鬧天宮</span>
+
+<h3>⑨ 二郎神與太上老君</h3>
+
+<p>
+二郎神與孫悟空展開激烈戰鬥。
+</p>
+
+<p>
+最後太上老君使用金剛琢，
+協助制服孫悟空。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">大鬧天宮</span>
+
+<h3>⑩ 八卦爐與火眼金睛</h3>
+
+<p>
+孫悟空被投入太上老君的八卦爐。
+</p>
+
+<p>
+原本想把他煉化，
+結果反而使孫悟空得到：
+</p>
+
+<div class="quote">
+火眼金睛
+</div>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">神話高峰</span>
+
+<h3>⑪ 如來佛祖降伏孫悟空</h3>
+
+<p>
+孫悟空一路打到凌霄寶殿。
+</p>
+
+<p>
+最後如來佛祖出手。
+</p>
+
+<p>
+孫悟空以為自己可以憑筋斗雲逃出如來掌心，
+最後才發現：
+</p>
+
+<div class="quote">
+如來掌中，便是一個超越孫悟空想像的世界。
+</div>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">五行山</span>
+
+<h3>⑫ 孫悟空被壓五行山</h3>
+
+<p>
+如來佛祖將孫悟空壓在五行山下。
+</p>
+
+<p>
+從此開始長達五百年的等待。
+</p>
+
+</div>
+
+
+<!-- 唐僧 -->
+
+<div class="timeline-item">
+
+<span class="period">唐朝人間世界</span>
+
+<h3>⑬ 唐僧的身世</h3>
+
+<p>
+陳光蕊高中狀元，
+與殷溫嬌成婚。
+</p>
+
+<p>
+後來陳光蕊遭遇劫難，
+唐僧出生後被送往金山寺。
+</p>
+
+<p>
+唐僧逐漸成為高僧。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">佛教世界</span>
+
+<h3>⑭ 如來決定東土取經</h3>
+
+<p>
+如來佛祖希望將佛法傳到東土。
+</p>
+
+<p>
+觀音菩薩奉命尋找合適的取經人。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">取經準備</span>
+
+<h3>⑮ 觀音組建取經團隊</h3>
+
+<div class="flow">
+
+<div class="flow-item">唐僧</div>
+<div class="arrow">＋</div>
+<div class="flow-item">孫悟空</div>
+<div class="arrow">＋</div>
+<div class="flow-item">豬八戒</div>
+<div class="arrow">＋</div>
+<div class="flow-item">沙僧</div>
+<div class="arrow">＋</div>
+<div class="flow-item">白龍馬</div>
+
+</div>
+
+<p>
+取經團隊正式形成。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">正式取經</span>
+
+<h3>⑯ 唐僧西行</h3>
+
+<p>
+唐僧離開長安，
+開始漫長的西天取經之旅。
+</p>
+
+<p>
+在五行山下救出孫悟空，
+孫悟空正式成為唐僧弟子。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">取經途中</span>
+
+<h3>⑰ 三打白骨精</h3>
+
+<p>
+孫悟空三次識破白骨精。
+</p>
+
+<p>
+唐僧卻誤認孫悟空濫殺無辜，
+將他逐走。
+</p>
+
+<p>
+這是師徒關係的重要轉折點。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">取經途中</span>
+
+<h3>⑱ 女兒國</h3>
+
+<p>
+唐僧師徒進入西梁女國。
+</p>
+
+<p>
+女兒國國王希望唐僧留下，
+但唐僧仍然選擇西行。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">取經途中</span>
+
+<h3>⑲ 火焰山與芭蕉扇</h3>
+
+<p>
+火焰山阻擋西行道路。
+</p>
+
+<p>
+孫悟空必須取得鐵扇公主的芭蕉扇，
+才能撲滅火焰山。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">取經途中</span>
+
+<h3>⑳ 真假美猴王</h3>
+
+<p>
+出現六耳獼猴，
+真假孫悟空難以辨認。
+</p>
+
+<p>
+最後由如來佛祖揭開真相。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">西天</span>
+
+<h3>㉑ 抵達天竺與靈山</h3>
+
+<p>
+經歷漫長旅程後，
+唐僧師徒終於抵達靈山。
+</p>
+
+<p>
+拜見如來佛祖，
+取得佛經。
+</p>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">最後考驗</span>
+
+<h3>㉒ 八十一難圓滿</h3>
+
+<p>
+取得經書並不代表立即結束。
+</p>
+
+<p>
+唐僧師徒還必須完成九九八十一難。
+</p>
+
+<div class="trials-box">
+
+<div class="trials-number">
+81
+</div>
+
+<div class="trials-title">
+九九八十一難
+</div>
+
+</div>
+
+</div>
+
+
+<div class="timeline-item">
+
+<span class="period">大結局</span>
+
+<h3>㉓ 功德圓滿</h3>
+
+<p>
+取經成功，
+五位主要成員各自得到不同果位。
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- 取經旅程 -->
+
+<section id="journey">
+
+<h2>四、唐僧西行取經的主要路線</h2>
+
+<p>
+從故事結構來看，可以把取經旅程概括為：
+</p>
+
+<div class="flow">
+
+<div class="flow-item">長安</div>
+<div class="arrow">→</div>
+<div class="flow-item">五行山</div>
+<div class="arrow">→</div>
+<div class="flow-item">河西走廊</div>
+<div class="arrow">→</div>
+<div class="flow-item">西域</div>
+<div class="arrow">→</div>
+<div class="flow-item">火焰山</div>
+<div class="arrow">→</div>
+<div class="flow-item">天竺</div>
+<div class="arrow">→</div>
+<div class="flow-item">靈山</div>
+
+</div>
+
+<div class="quote">
+注意：這是《西遊記》小說中的故事路線，
+不是玄奘歷史旅行的精確地理路線。
+</div>
+
+</section>
+
+
+<!-- 重要事件 -->
+
+<section id="events">
+
+<h2>五、取經途中最重要的故事事件</h2>
+
+<div class="events">
+
+<div class="event">
+<h3>三打白骨精</h3>
+<p>
+考驗唐僧與孫悟空之間的信任。
+</p>
+</div>
+
+<div class="event">
+<h3>女兒國</h3>
+<p>
+考驗唐僧面對情感與誘惑的能力。
+</p>
+</div>
+
+<div class="event">
+<h3>火焰山</h3>
+<p>
+孫悟空三借芭蕉扇，
+展現智慧與戰鬥能力。
+</p>
+</div>
+
+<div class="event">
+<h3>真假美猴王</h3>
+<p>
+考驗「真假」與自我認同。
+</p>
+</div>
+
+<div class="event">
+<h3>盤絲洞</h3>
+<p>
+師徒面對蜘蛛精等妖怪的誘惑與陷阱。
+</p>
+</div>
+
+<div class="event">
+<h3>獅駝嶺</h3>
+<p>
+面對強大的妖怪勢力，
+需要尋求更高層級的神佛協助。
+</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- 人物最終結局 -->
+
+<section id="characters">
+
+<h2>六、取經完成後：五位成員的最終果位</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>人物</th>
+<th>身分</th>
+<th>最終結果</th>
+<th>象徵意義</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td><strong>唐僧</strong></td>
+<td>取經人</td>
+<td>旃檀功德佛</td>
+<td>完成使命、修成正果</td>
+</tr>
+
+<tr>
+<td><strong>孫悟空</strong></td>
+<td>大聖、取經護法</td>
+<td>鬥戰勝佛</td>
+<td>從反抗走向修行與覺悟</td>
+</tr>
+
+<tr>
+<td><strong>豬八戒</strong></td>
+<td>天蓬元帥轉世</td>
+<td>淨壇使者</td>
+<td>保留凡人性，但完成取經功德</td>
+</tr>
+
+<tr>
+<td><strong>沙悟淨</strong></td>
+<td>捲簾大將轉世</td>
+<td>金身羅漢</td>
+<td>穩定、忠誠、踏實</td>
+</tr>
+
+<tr>
+<td><strong>白龍馬</strong></td>
+<td>西海龍王三太子</td>
+<td>八部天龍馬</td>
+<td>完成護送唐僧的使命</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- 故事結構 -->
+
+<section>
+
+<h2>七、《西遊記》的故事其實是一條「修行時間軸」</h2>
+
+<div class="flow">
+
+<div class="flow-item">
+孫悟空<br>
+<strong>反抗</strong>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+五行山<br>
+<strong>受困</strong>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+取經<br>
+<strong>磨練</strong>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+八十一難<br>
+<strong>考驗</strong>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+西天<br>
+<strong>覺悟</strong>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+成佛<br>
+<strong>圓滿</strong>
+</div>
+
+</div>
+
+<div class="quote">
+《西遊記》的「時間」不只是故事發生的先後，
+更象徵人物從「凡俗」走向「修行與覺悟」的過程。
+</div>
+
+</section>
+
+
+<!-- 三條時間線總結 -->
+
+<section>
+
+<h2>八、三條時間線的總整理</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>時間層次</th>
+<th>主要內容</th>
+<th>代表人物</th>
+<th>代表事件</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td><strong>神話時間</strong></td>
+<td>天地、天庭、神仙、妖怪</td>
+<td>孫悟空、玉皇大帝、如來</td>
+<td>大鬧天宮</td>
+</tr>
+
+<tr>
+<td><strong>歷史時間</strong></td>
+<td>唐朝、玄奘西行</td>
+<td>唐太宗、玄奘</td>
+<td>西域取經</td>
+</tr>
+
+<tr>
+<td><strong>小說時間</strong></td>
+<td>師徒西行、八十一難</td>
+<td>唐僧、孫悟空、豬八戒、沙僧</td>
+<td>西天取經</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- 教學思考題 -->
+
+<section id="questions">
+
+<h2>九、課堂思考題</h2>
+
+<div class="question">
+<strong>問題一：</strong>
+為什麼孫悟空的故事發生在唐僧出生之前？
+</div>
+
+<div class="question">
+<strong>問題二：</strong>
+《西遊記》中的玄奘與歷史上的玄奘，有哪些相同與不同？
+</div>
+
+<div class="question">
+<strong>問題三：</strong>
+為什麼觀音菩薩可以同時出現在神話世界與取經故事中？
+</div>
+
+<div class="question">
+<strong>問題四：</strong>
+「大鬧天宮」與「西天取經」分別代表孫悟空生命中的哪兩個階段？
+</div>
+
+<div class="question">
+<strong>問題五：</strong>
+八十一難只是冒險故事，還是具有「修行」的象徵意義？
+</div>
+
+<div class="question">
+<strong>問題六：</strong>
+如果刪掉「大鬧天宮」，孫悟空還會是我們今天熟悉的孫悟空嗎？
+</div>
+
+</section>
+
+
+<!-- 最終總結 -->
+
+<section class="final">
+
+<h2>十、全書時間軸一句話總結</h2>
+
+<p>
+《西遊記》的故事可以濃縮成：
+</p>
+
+<div class="quote">
+
+<strong>
+仙石誕猴 → 求道學藝 → 大鬧天宮 → 五行山受困
+→ 唐僧出世 → 觀音組隊 → 西天取經
+→ 八十一難 → 靈山取經 → 功德圓滿
+</strong>
+
+</div>
+
+<p>
+但更深層的閱讀方式是：
+</p>
+
+<div class="final-flow">
+
+<div class="final-card">
+<strong>孫悟空</strong>
+反抗
+</div>
+
+<div class="final-card">
+<strong>五行山</strong>
+限制
+</div>
+
+<div class="final-card">
+<strong>取經</strong>
+修行
+</div>
+
+<div class="final-card">
+<strong>八十一難</strong>
+考驗
+</div>
+
+<div class="final-card">
+<strong>成佛</strong>
+覺悟
+</div>
+
+</div>
+
+<p>
+因此，《西遊記》的時間軸不只是：
+<strong>「發生了什麼事」</strong>，
+也可以理解成：
+<strong>「一個人如何經歷磨難、完成修行，最後改變自己」</strong>。
+</p>
+
+</section>
+
+
+</main>
+
+
+<footer>
+
+<p>《西遊記》故事時間軸｜教學版</p>
+<p>神話時間 × 唐朝歷史 × 取經故事</p>
+
+</footer>
+
+</body>
+</html>
