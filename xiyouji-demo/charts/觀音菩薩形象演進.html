@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>從原始佛教到《西遊記》：觀音菩薩形象的演進</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family:
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        "PingFang TC",
+        sans-serif;
+    line-height: 1.8;
+    color: #263238;
+    background: #f5f7f9;
+}
+
+header {
+    background: linear-gradient(135deg, #37474f, #607d8b);
+    color: white;
+    text-align: center;
+    padding: 70px 20px;
+}
+
+header h1 {
+    margin: 0 0 15px;
+    font-size: 2.8rem;
+    letter-spacing: 3px;
+}
+
+header p {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+main {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+section {
+    background: white;
+    margin-bottom: 35px;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+}
+
+h2 {
+    color: #37474f;
+    border-left: 6px solid #78909c;
+    padding-left: 15px;
+    margin-top: 0;
+}
+
+h3 {
+    color: #455a64;
+    margin-top: 30px;
+}
+
+p {
+    margin: 12px 0;
+}
+
+.intro {
+    background: #eceff1;
+    border-left: 7px solid #546e7a;
+}
+
+.quote {
+    margin: 25px 0;
+    padding: 25px;
+    background: #f1f8e9;
+    border-left: 6px solid #7cb342;
+    border-radius: 10px;
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: #33691e;
+}
+
+.evolution {
+    margin: 25px 0;
+    padding: 20px 25px;
+    background: #eceff1;
+    border-left: 6px solid #78909c;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    color: #37474f;
+    text-align: center;
+}
+
+.highlight {
+    font-weight: bold;
+    color: #c62828;
+}
+
+/* 時間軸 */
+
+.timeline {
+    position: relative;
+    margin: 35px 0;
+    padding-left: 45px;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #b0bec5;
+}
+
+.timeline-item {
+    position: relative;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 14px;
+    padding: 22px 25px;
+    margin-bottom: 28px;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -38px;
+    top: 25px;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #546e7a;
+    border: 4px solid white;
+    box-shadow: 0 0 0 2px #78909c;
+}
+
+.timeline-year {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #546e7a;
+}
+
+/* 表格 */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 800px;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background: #455a64;
+    color: white;
+    padding: 14px;
+    text-align: left;
+}
+
+td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+}
+
+tr:nth-child(even) {
+    background: #fafafa;
+}
+
+tr:hover {
+    background: #eceff1;
+}
+
+/* 卡片 */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.card {
+    background: #fafafa;
+    border-radius: 14px;
+    padding: 25px;
+    border-top: 5px solid #78909c;
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+/* 演化階段 */
+
+.stage {
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 12px;
+    background: #f5f5f5;
+}
+
+.stage-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #455a64;
+}
+
+/* 流程圖 */
+
+.flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 35px 0;
+}
+
+.flow-item {
+    min-width: 150px;
+    padding: 15px 18px;
+    text-align: center;
+    font-weight: bold;
+    background: #eceff1;
+    border-radius: 12px;
+    border: 1px solid #cfd8dc;
+}
+
+.arrow {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #607d8b;
+}
+
+/* 對照表 */
+
+.compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.compare-box {
+    padding: 25px;
+    border-radius: 14px;
+    background: #fafafa;
+}
+
+.compare-box h3 {
+    margin-top: 0;
+}
+
+/* 結論 */
+
+.conclusion {
+    background: linear-gradient(
+        135deg,
+        #eceff1,
+        #f5f5f5
+    );
+    border-top: 6px solid #546e7a;
+}
+
+footer {
+    background: #263238;
+    color: white;
+    text-align: center;
+    padding: 35px 20px;
+}
+
+footer p {
+    margin: 5px;
+}
+
+@media (max-width: 768px) {
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    section {
+        padding: 22px;
+    }
+
+    .cards,
+    .compare {
+        grid-template-columns: 1fr;
+    }
+
+    .flow {
+        flex-direction: column;
+    }
+
+    .arrow {
+        transform: rotate(90deg);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>從原始佛教到《西遊記》</h1>
+    <p>觀音菩薩形象的千年演進</p>
+</header>
+
+<main>
+
+<!-- 核心概念 -->
+
+<section class="intro">
+
+<h2>一、核心概念</h2>
+
+<p>
+可以把「從原始佛教到《西遊記》的觀音菩薩」
+理解成一條非常有意思的演化線：
+</p>
+
+<div class="quote">
+佛教思想 → 大乘菩薩 → 中國化 → 民間信仰 → 文學人物
+</div>
+
+<p>
+最重要的是：
+<strong>《西遊記》的觀音，已經不是原始佛教時代的觀音，
+而是經過一千多年佛教傳播與中國文化重新塑造後的觀音。</strong>
+</p>
+
+</section>
+
+
+<!-- 時間軸 -->
+
+<section>
+
+<h2>二、觀音形象的演進時間軸</h2>
+
+<div class="timeline">
+
+<div class="timeline-item">
+<div class="timeline-year">原始佛教時期</div>
+<h3>尚無成熟的觀音信仰</h3>
+<p>
+早期佛教的核心人物是釋迦牟尼佛。
+修行重點在於苦、集、滅、道，以及八正道等解脫之道。
+</p>
+</div>
+
+
+<div class="timeline-item">
+<div class="timeline-year">部派佛教～大乘佛教興起</div>
+<h3>菩薩思想逐漸發展</h3>
+<p>
+菩薩的角色逐漸從追求自身解脫，
+發展為同時幫助其他眾生走向解脫。
+</p>
+</div>
+
+
+<div class="timeline-item">
+<div class="timeline-year">約西元1～2世紀</div>
+<h3>觀世音菩薩逐漸出現</h3>
+<p>
+「聞聲救苦」成為觀音信仰的核心特徵。
+眾生受苦、呼救，觀世音菩薩便能聞聲救苦。
+</p>
+</div>
+
+
+<div class="timeline-item">
+<div class="timeline-year">大乘佛教發展期</div>
+<h3>慈悲救度者</h3>
+<p>
+《法華經》等大乘經典強化觀音的救苦救難形象。
+</p>
+</div>
+
+
+<div class="timeline-item">
+<div class="timeline-year">佛教傳入中國</div>
+<h3>觀音開始中國化</h3>
+<p>
+觀音逐漸與中國文化、道教神仙觀念以及民間信仰融合。
+</p>
+</div>
+
+
+<div class="timeline-item">
+<div class="timeline-year">唐宋時期</div>
+<h3>慈悲、救苦、救難</h3>
+<p>
+觀音信仰深入民間，出現大量靈驗與救難故事。
+</p>
+</div>
+
+
+<div class="timeline-item">
+<div class="timeline-year">宋元明時期</div>
+<h3>女性化趨勢逐漸明顯</h3>
+<p>
+妙善公主等民間傳說促進「女觀音」形象的發展。
+</p>
+</div>
+
+
+<div class="timeline-item">
+<div class="timeline-year">明代《西遊記》</div>
+<h3>取經任務的策劃者與救援者</h3>
+<p>
+觀音具有高度智慧、神通、組織與救援能力。
+</p>
+</div>
+
+
+<div class="timeline-item">
+<div class="timeline-year">現代</div>
+<h3>慈悲與和平的文化象徵</h3>
+<p>
+觀音超越單純宗教角色，
+成為東亞文化中的重要象徵。
+</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- 演化表 -->
+
+<section>
+
+<h2>三、觀音菩薩形象演化表</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+<tr>
+<th>時期</th>
+<th>觀音形象</th>
+<th>主要特色</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>原始佛教</td>
+<td>尚無成熟觀音信仰</td>
+<td>釋迦牟尼、阿羅漢與個人解脫是核心。</td>
+</tr>
+
+<tr>
+<td>大乘佛教興起</td>
+<td>菩薩思想發展</td>
+<td>從個人解脫走向救度眾生。</td>
+</tr>
+
+<tr>
+<td>約西元1～2世紀</td>
+<td>觀世音菩薩逐漸出現</td>
+<td>「聞聲救苦」成為重要特徵。</td>
+</tr>
+
+<tr>
+<td>大乘佛教發展</td>
+<td>慈悲救度者</td>
+<td>《法華經》等經典強化觀音的救苦功能。</td>
+</tr>
+
+<tr>
+<td>中國佛教</td>
+<td>中國化觀音</td>
+<td>與中國文化及民間信仰融合。</td>
+</tr>
+
+<tr>
+<td>唐宋</td>
+<td>慈悲、救苦、救難</td>
+<td>觀音信仰深入民間。</td>
+</tr>
+
+<tr>
+<td>宋元明</td>
+<td>女性化觀音</td>
+<td>妙善公主等傳說促進女性形象。</td>
+</tr>
+
+<tr>
+<td>明代《西遊記》</td>
+<td>智慧型菩薩</td>
+<td>策劃取經、組建團隊、危機救援。</td>
+</tr>
+
+<tr>
+<td>現代</td>
+<td>慈悲與和平象徵</td>
+<td>成為東亞文化的重要符號。</td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+
+</section>
+
+
+<!-- 原始佛教 -->
+
+<section>
+
+<h2>四、原始佛教：其實「沒有觀音」</h2>
+
+<p>
+這是理解觀音演化最重要的一點。
+</p>
+
+<p>
+在原始佛教的早期經典世界裡，
+佛教的核心人物是：
+</p>
+
+<div class="quote">
+釋迦牟尼佛
+</div>
+
+<p>
+修行的主要目標是：
+</p>
+
+<div class="flow">
+
+<div class="flow-item">苦</div>
+<div class="arrow">→</div>
+<div class="flow-item">集</div>
+<div class="arrow">→</div>
+<div class="flow-item">滅</div>
+<div class="arrow">→</div>
+<div class="flow-item">道</div>
+
+</div>
+
+<p>
+這個時期還沒有後來我們熟悉的：
+</p>
+
+<ul>
+<li>觀音菩薩</li>
+<li>文殊菩薩</li>
+<li>普賢菩薩</li>
+<li>地藏菩薩</li>
+</ul>
+
+<p>
+這些具有高度神格化與救度功能的菩薩形象，
+是在大乘佛教發展之後逐漸形成的。
+</p>
+
+<div class="quote">
+原始佛教 → 大乘佛教
+<br><br>
+「自己修行、自己解脫」
+<br>
+逐漸增加
+<br>
+「我不只追求自己的解脫，也要救度其他眾生。」
+</div>
+
+</section>
+
+
+<!-- 觀世音出現 -->
+
+<section>
+
+<h2>五、大乘佛教：觀世音開始出現</h2>
+
+<p>
+到了大乘佛教發展時期，「菩薩」的角色開始大幅提升。
+其中最重要的一位，就是：
+</p>
+
+<div class="quote">
+觀世音菩薩
+</div>
+
+<p>
+「觀世音」這個名稱具有重要意義：
+</p>
+
+<div class="evolution">
+
+<strong>觀世音</strong>
+＝
+觀察世間眾生的聲音
+
+</div>
+
+<p>
+也就是：
+</p>
+
+<div class="quote">
+眾生受苦、呼救，只要稱念觀世音菩薩，
+菩薩便能聞聲救苦。
+</div>
+
+<p>
+因此觀音最核心的性格不是戰鬥，也不是統治，
+而是：
+</p>
+
+<div class="flow">
+
+<div class="flow-item">慈悲</div>
+<div class="arrow">＋</div>
+<div class="flow-item">救苦</div>
+<div class="arrow">＋</div>
+<div class="flow-item">聞聲</div>
+<div class="arrow">＋</div>
+<div class="flow-item">救難</div>
+
+</div>
+
+</section>
+
+
+<!-- 法華經 -->
+
+<section>
+
+<h2>六、《法華經》與觀音的救苦形象</h2>
+
+<p>
+觀音信仰發展的重要經典之一，
+就是《妙法蓮華經》〈觀世音菩薩普門品〉。
+</p>
+
+<p>
+其中觀音具有非常特殊的能力：
+</p>
+
+<div class="quote">
+可以根據眾生的需要，以不同身分出現。
+</div>
+
+<p>
+也就是：
+</p>
+
+<div class="quote">
+「應以何身得度，即現何身。」
+</div>
+
+<p>
+這造成一個非常重要的觀念：
+</p>
+
+<p>
+<strong>
+觀音不是固定的一個「神仙造型」，
+而是可以變化成不同身分來救度眾生的菩薩。
+</strong>
+</p>
+
+<p>
+因此觀音可以化身為：
+</p>
+
+<ul>
+<li>佛</li>
+<li>菩薩</li>
+<li>天人</li>
+<li>國王</li>
+<li>長者</li>
+<li>婦女</li>
+<li>其他適合救度眾生的身分</li>
+</ul>
+
+<p>
+這種「千變萬化、因人施救」的特性，
+後來非常適合被中國小說吸收。
+</p>
+
+</section>
+
+
+<!-- 中國化 -->
+
+<section>
+
+<h2>七、觀音進入中國：開始「中國化」</h2>
+
+<p>
+佛教傳入中國之後，觀音發生了一個非常大的變化。
+</p>
+
+<p>
+印度與早期佛教藝術中的觀音，
+通常呈現男性菩薩形象。
+</p>
+
+<p>
+但進入中國社會後，
+觀音逐漸受到中國文化影響。
+</p>
+
+<div class="flow">
+
+<div class="flow-item">印度觀音</div>
+<div class="arrow">→</div>
+<div class="flow-item">中國觀音</div>
+<div class="arrow">→</div>
+<div class="flow-item">慈悲觀音</div>
+<div class="arrow">→</div>
+<div class="flow-item">女性化觀音</div>
+
+</div>
+
+<p>
+尤其到了唐宋以後，
+觀音越來越具有：
+</p>
+
+<ul>
+<li>溫柔</li>
+<li>慈悲</li>
+<li>母性</li>
+<li>救苦救難</li>
+</ul>
+
+<p>
+的形象。
+</p>
+
+</section>
+
+
+<!-- 女性化 -->
+
+<section>
+
+<h2>八、為什麼觀音最後變成「女性」？</h2>
+
+<p>
+需要注意：
+</p>
+
+<div class="quote">
+「觀音是女性」並不是早期佛教的原始設定。
+</div>
+
+<p>
+中國早期藝術中的觀音仍然常常呈現男性菩薩形象。
+</p>
+
+<p>
+但宋元以後，女性化的觀音逐漸普遍。
+</p>
+
+<p>
+其中非常重要的是中國民間傳說：
+</p>
+
+<div class="quote">
+妙善公主傳說
+</div>
+
+<p>
+故事將觀音描述成具有孝心與慈悲心的公主，
+最後成道成為觀音。
+</p>
+
+<p>
+這使觀音逐漸與中國文化中的：
+</p>
+
+<div class="flow">
+
+<div class="flow-item">孝道</div>
+<div class="flow-item">母愛</div>
+<div class="flow-item">慈悲</div>
+<div class="flow-item">女性</div>
+<div class="flow-item">救苦</div>
+
+</div>
+
+<p>
+產生深度結合。
+</p>
+
+<p>
+因此到了明清時代，
+常見的觀音形象便逐漸成為：
+</p>
+
+<div class="quote">
+白衣、女性、慈祥、手持淨瓶與楊柳枝
+</div>
+
+</section>
+
+
+<!-- 淨瓶楊柳 -->
+
+<section>
+
+<h2>九、觀音手上的「淨瓶」與「楊柳枝」</h2>
+
+<div class="cards">
+
+<div class="card">
+
+<h3>淨瓶</h3>
+
+<p>
+常被賦予清淨、甘露與救度等象徵意義。
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>楊柳枝</h3>
+
+<p>
+常被理解為灑甘露、消災、救苦等象徵。
+</p>
+
+</div>
+
+</div>
+
+<p>
+因此觀音逐漸從：
+</p>
+
+<div class="quote">
+「聽見眾生呼救的菩薩」
+</div>
+
+<p>
+變成：
+</p>
+
+<div class="quote">
+「主動降下甘露、替眾生消災解厄的慈悲神聖存在」
+</div>
+
+</section>
+
+
+<!-- 西遊記 -->
+
+<section>
+
+<h2>十、到了《西遊記》：觀音再次發生巨大變化</h2>
+
+<p>
+《西遊記》的觀音已經不是單純的：
+</p>
+
+<div class="quote">
+慈悲救苦的菩薩
+</div>
+
+<p>
+而變成一位具有：
+</p>
+
+<div class="flow">
+
+<div class="flow-item">管理者</div>
+<div class="flow-item">策劃者</div>
+<div class="flow-item">救援者</div>
+<div class="flow-item">仲裁者</div>
+
+</div>
+
+<p>
+性質的超級菩薩。
+</p>
+
+</section>
+
+
+<!-- 找唐僧 -->
+
+<section>
+
+<h2>十一、觀音的第一個重要功能：尋找取經人</h2>
+
+<p>
+觀音接受如來佛祖的任務，
+尋找適合西天取經的人。
+</p>
+
+<div class="flow">
+
+<div class="flow-item">如來佛祖</div>
+<div class="arrow">→</div>
+<div class="flow-item">觀音</div>
+<div class="arrow">→</div>
+<div class="flow-item">尋找取經人</div>
+<div class="arrow">→</div>
+<div class="flow-item">唐僧</div>
+
+</div>
+
+</section>
+
+
+<!-- 組建團隊 -->
+
+<section>
+
+<h2>十二、觀音的第二個重要功能：組建取經團隊</h2>
+
+<p>
+觀音不只是找到唐僧，
+還逐步安排取經團隊的成員。
+</p>
+
+<div class="flow">
+
+<div class="flow-item">唐僧</div>
+<div class="flow-item">孫悟空</div>
+<div class="flow-item">豬八戒</div>
+<div class="flow-item">沙僧</div>
+<div class="flow-item">白龍馬</div>
+
+</div>
+
+<p>
+因此可以說：
+</p>
+
+<div class="quote">
+觀音其實是「取經團隊的組建者」。
+</div>
+
+</section>
+
+
+<!-- 孫悟空 -->
+
+<section>
+
+<h2>十三、孫悟空與觀音</h2>
+
+<p>
+孫悟空大鬧天宮之後，
+被鎮壓在五行山下。
+</p>
+
+<p>
+到了唐僧取經時期，
+觀音知道孫悟空是最適合保護唐僧的人，
+因此讓他加入取經隊伍。
+</p>
+
+<p>
+這裡的觀音非常像：
+</p>
+
+<div class="quote">
+「人才招募者」＋「專案經理」
+</div>
+
+</section>
+
+
+<!-- 危機處理 -->
+
+<section>
+
+<h2>十四、觀音是《西遊記》的「危機處理中心」</h2>
+
+<p>
+唐僧師徒遇到危險時，
+常常需要尋找更高層級的力量協助。
+</p>
+
+<div class="flow">
+
+<div class="flow-item">遇到危機</div>
+<div class="arrow">→</div>
+<div class="flow-item">孫悟空無法解決</div>
+<div class="arrow">→</div>
+<div class="flow-item">尋找援助</div>
+<div class="arrow">→</div>
+<div class="flow-item">觀音出現</div>
+<div class="arrow">→</div>
+<div class="flow-item">問題解決</div>
+
+</div>
+
+<p>
+因此觀音在《西遊記》中經常扮演：
+</p>
+
+<div class="quote">
+最後的救援者
+</div>
+
+<p>
+她熟悉佛教、道教、天庭、地府、妖怪世界與人間，
+幾乎整個《西遊記》的神魔系統都與她有關聯。
+</p>
+
+</section>
+
+
+<!-- 五層次 -->
+
+<section>
+
+<h2>十五、《西遊記》的觀音到底是什麼形象？</h2>
+
+<div class="stage">
+<div class="stage-title">第一層：佛教的慈悲</div>
+<p>救苦救難。</p>
+</div>
+
+<div class="stage">
+<div class="stage-title">第二層：大乘佛教的菩薩</div>
+<p>以救度眾生為使命。</p>
+</div>
+
+<div class="stage">
+<div class="stage-title">第三層：中國化觀音</div>
+<p>慈母、女性、慈悲、靈驗。</p>
+</div>
+
+<div class="stage">
+<div class="stage-title">第四層：民間信仰</div>
+<p>送子、治病、消災、救難。</p>
+</div>
+
+<div class="stage">
+<div class="stage-title">第五層：《西遊記》</div>
+<p>智慧、神通、策劃、仲裁、救援。</p>
+</div>
+
+</section>
+
+
+<!-- 孫悟空比較 -->
+
+<section>
+
+<h2>十六、最有意思的對比：孫悟空 vs. 觀音</h2>
+
+<div class="compare">
+
+<div class="compare-box">
+
+<h3>孫悟空</h3>
+
+<ul>
+<li>反抗</li>
+<li>衝動</li>
+<li>武力</li>
+<li>打妖怪</li>
+<li>不服管教</li>
+<li>個體英雄</li>
+<li>從野性走向修行</li>
+</ul>
+
+</div>
+
+
+<div class="compare-box">
+
+<h3>觀音</h3>
+
+<ul>
+<li>慈悲</li>
+<li>冷靜</li>
+<li>智慧</li>
+<li>化解問題</li>
+<li>引導眾生</li>
+<li>宏觀救度者</li>
+<li>從慈悲走向智慧</li>
+</ul>
+
+</div>
+
+</div>
+
+<div class="quote">
+孫悟空是《西遊記》的「行動力」，
+觀音則是《西遊記》的「智慧與方向」。
+</div>
+
+</section>
+
+
+<!-- 完整演化流程 -->
+
+<section>
+
+<h2>十七、從原始佛教到《西遊記》的完整演化</h2>
+
+<div class="flow">
+
+<div class="flow-item">
+原始佛教
+<br>
+<small>個人修行、解脫</small>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+大乘佛教
+<br>
+<small>菩薩思想</small>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+觀世音菩薩
+<br>
+<small>聞聲救苦</small>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+《法華經》
+<br>
+<small>普門品</small>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+中國佛教
+<br>
+<small>中國化</small>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+慈悲觀音
+<br>
+<small>救苦救難</small>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+女性化觀音
+<br>
+<small>妙善、白衣觀音</small>
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-item">
+《西遊記》
+<br>
+<small>智慧與救援</small>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- 最終結論 -->
+
+<section class="conclusion">
+
+<h2>十八、結論：觀音是一個「千年文化複合體」</h2>
+
+<p>
+原始佛教的觀音尚未成形；
+大乘佛教賦予觀音「慈悲救度眾生」的核心精神；
+中國文化又將她逐漸塑造成慈祥、女性化、
+救苦救難的菩薩。
+</p>
+
+<p>
+到了《西遊記》，觀音更進一步成為兼具：
+</p>
+
+<div class="flow">
+
+<div class="flow-item">慈悲</div>
+<div class="flow-item">智慧</div>
+<div class="flow-item">神通</div>
+<div class="flow-item">策劃</div>
+<div class="flow-item">仲裁</div>
+<div class="flow-item">救援</div>
+
+</div>
+
+<p>
+因此，《西遊記》的觀音，
+其實是：
+</p>
+
+<div class="quote">
+
+印度佛教觀音<br>
+＋<br>
+大乘菩薩思想<br>
+＋<br>
+中國佛教<br>
+＋<br>
+民間信仰<br>
+＋<br>
+明代神魔小說
+
+</div>
+
+<p>
+共同塑造出的「千年文化複合體」。
+</p>
+
+</section>
+
+</main>
+
+
+<footer>
+
+<p>從原始佛教到《西遊記》</p>
+<p>觀音菩薩形象的千年演進</p>
+
+</footer>
+
+</body>
+</html>
