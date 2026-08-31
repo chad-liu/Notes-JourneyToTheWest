@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>網站製作過程與心得</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 12mm;
+            background-color: #fcfbfa;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", sans-serif;
+            color: #2b2b2b;
+            background-color: #fcfbfa;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            font-size: 10.5pt;
+        }
+
+        /* Top Header Banner */
+        .header-banner {
+            background-color: #5c1d1d;
+            color: #f7e8d0;
+            margin: -15mm -12mm 20px -12mm;
+            padding: 25px 15mm 20px 15mm;
+            border-bottom: 3px solid #8c2a2a;
+        }
+        .header-banner h1 {
+            font-size: 18pt;
+            margin: 0 0 6px 0;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+        .header-banner .subtitle {
+            font-size: 10.5pt;
+            color: #e3c29b;
+            margin: 0;
+        }
+
+        /* Content Card */
+        .content-card {
+            background-color: #ffffff;
+            border: 1px solid #e8e2d8;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            padding: 16px 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .content-card p {
+            margin: 0 0 14px 0;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 8.5pt;
+            color: #8c7b6c;
+            margin-top: 25px;
+            border-top: 1px solid #e8e2d8;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-banner">
+        <h1>網站製作過程與心得</h1>
+        <div class="subtitle">梳理「西遊記知識圖譜」的過程與心得</div>
+    </div>
+
+    <div class="content-card">
+        <p>起心動念只是心中有個疑問：橫三世佛中的釋迦牟尼佛和阿彌陀佛有何不同？兩者在《西遊記》裡的角色定位又是如何？和 AI 開聊後一發不可收拾，乾脆整理出知識圖譜。</p>
+
+        <p>數月前曾發現 cclintw 在 GitHub 上的「紅樓夢知識平台」開放原始碼，做了幾本金庸小說的知識圖譜，現在依樣畫葫蘆套用到《西遊記》上，倒也駕輕就熟。</p>
+
+        <p>然後在網路上下載原著的 epub 電子檔，以及網友整理的人物事蹟資料，這些素材都沒有侵犯著作權的疑慮。</p>
+
+        <p>只要一句話請 Claude Code（Opus 5）參考「紅樓夢知識平台」，加入檔案資料並搜尋維基百科相關條目，整個架構大約跑 40 分鐘就建好了，已包含原著總覽、查詢、視覺化共現圖（D3.js 力導向圖）、人物事蹟和統計。</p>
+
+        <p>其中最花 AI 算力的，是人物、地點、法寶的分類與關聯性。例如小說原文幾乎不用角色全名，「行者」出現 4,326 次，「孫悟空」全名只出現 126 次，還有齊天大聖、孫大聖、孫行者、弼馬溫、美猴王、者行孫、行者孫、大聖、悟空、猴王、石猴、老孫等稱號，AI要判斷為同一個人物。</p>
+
+        <p>AI 生成了數個 JSON 格式資料檔，不但可用於查詢、關係圖和共現圖，也提供原著總覽的標註以連結詞頻資訊，提升了整體閱讀的樂趣。</p>
+
+        <p>另外以 JSON 存放資料，不必動用到資料庫空間，單純用 GitHub Pages 做版本控制和發布即可，網站維護的精力可降到最低。</p>
+
+        <p>接著做行旅圖和圖表資料（含問答整理），除了使用 Claude 外，還搭配免費的 ChatGPT、Gemini 和 Grok。每種 AI 的回應內容品質不同，稍微手動篩選與調配後，再交給 Claude Code 彙整。</p>
+
+        <p>行旅圖使用 Google 地圖呈現，只需由 AI 生成 CSV 檔，再匯入 Google My Maps 即可，目前有兩個圖層：「唐僧師徒行程」和「唐僧八十一難」。因為很多地點是虛構或難以考證，錯誤應該不少，我也懶得加工處理。</p>
+
+        <p>圖表資料中只有一張是 Gemini 生成的點陣圖（妖怪關係圖.png），其他都是 Claude 生成或轉換的 SVG 向量圖形，可節省檔案容量並加快載入速度。或許SVG不像點陣圖那麼漂亮吸睛，但可以讓讀者專注於文字。</p>
+
+        <p>製作知識圖譜，可視為資料的收集和拼湊，內容幾乎都由 AI 生成，沒有任何學術價值。但在大部頭書籍閱讀逐漸式微的今日，這或許可作為輔助的材料，並激發想像的空間。</p>
+
+        <p>我在國小六年級前後，差不多把《西遊記》原著看過三遍，之後就很少接觸了，主要故事梗概大多記得，但很多細節都忘了。藉著這次整理知識圖譜，和 AI 好友一起重溫古典文學，遨遊書中的奇幻世界。</p>
+    </div>
+
+    <div class="footer">
+        網站製作過程與心得
+    </div>
+
+</body>
+</html>
